@@ -3,11 +3,8 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 /*
- * TestServerMovementPlayer is Demo 06's server-authoritative counterpart to
- * Demo 05 and is reused as the player in Demo 07. The owner sends direction
- * intent through an RPC; the server validates it, moves the object, and places
- * it on a lane from OwnerClientId, not Demo 04's compact spawn slot. The client
- * never sends a final position.
+ * This is a modified version of TestServerMovementPlayer which is Demo 06's server-authoritative counterpart to
+ * Demo 05 and is reused as the player in Demo 07. 
  */
 
 public class TestServerMovementPlayer : NetworkBehaviour
@@ -15,7 +12,7 @@ public class TestServerMovementPlayer : NetworkBehaviour
     public float speed = 5f;
     public ulong OwnerClientId => NetworkObject.OwnerClientId;
 
-    const float FirstPlayerLaneY = -1.4f;
+    const float FirstPlayerLaneZ = 0f;
     const float PlayerLaneSpacing = 1.6f;
 
     bool _loggedFirstAcceptedMove;
@@ -38,27 +35,43 @@ public class TestServerMovementPlayer : NetworkBehaviour
     {
         Debug.Log($"[ServerMovement] {name} despawned | ownerClientId={OwnerClientId}");
     }
-
+    void Start()
+    {
+        if (NetworkManager.Singleton != null &&
+            !NetworkManager.Singleton.IsListening)
+        {
+            NetworkManager.Singleton.StartHost();
+        }
+    }
     void Update()
     {
+        if (!IsSpawned) return;
+        /*
         if (IsServer)
             MaintainServerLane();
+        */
 
         if (!IsOwner) return;
         if (Keyboard.current == null) return;
 
-        float direction = 0f;
-        if (Keyboard.current.aKey.isPressed) direction -= 1f;
-        if (Keyboard.current.dKey.isPressed) direction += 1f;
+        float horizontalDirection = 0f;
+        float verticalDirection = 0f;
+        if (Keyboard.current.aKey.isPressed) horizontalDirection -= 1f;
+        if (Keyboard.current.dKey.isPressed) horizontalDirection += 1f;
+        if (Keyboard.current.sKey.isPressed) verticalDirection -= 1f;
+        if (Keyboard.current.wKey.isPressed) verticalDirection += 1f;
 
-        if (Mathf.Approximately(direction, 0f)) return;
+        Vector3 combinedMovement = new Vector3(horizontalDirection, 0, verticalDirection).normalized;
+        if (combinedMovement == Vector3.zero) return;
+        Debug.Log($"Sending movement: {horizontalDirection}");
+        MoveIntentRpc(combinedMovement);
 
-        MoveIntentRpc(direction);
     }
 
     [Rpc(SendTo.Server)]
-    void MoveIntentRpc(float direction, RpcParams rpcParams = default)
+    void MoveIntentRpc(Vector3 direction, RpcParams rpcParams = default)
     {
+        Debug.Log($"Server received movement: {direction}");
         ulong senderClientId = rpcParams.Receive.SenderClientId;
         if (senderClientId != OwnerClientId)
         {
@@ -68,10 +81,10 @@ public class TestServerMovementPlayer : NetworkBehaviour
             return;
         }
 
-        float clampedDirection = Mathf.Clamp(direction, -1f, 1f);
-        if (Mathf.Approximately(clampedDirection, 0f)) return;
+        Vector3 clampedDirection = Vector3.ClampMagnitude(direction, 1f);
+        if (clampedDirection == Vector3.zero) return;
 
-        transform.Translate(Vector3.right * (clampedDirection * speed * Time.deltaTime));
+        transform.Translate(clampedDirection * speed * Time.deltaTime);
         MaintainServerLane();
 
         if (!_loggedFirstAcceptedMove)
@@ -92,15 +105,14 @@ public class TestServerMovementPlayer : NetworkBehaviour
 
     static Vector3 GetLanePosition(ulong ownerClientId)
     {
-        float laneY = FirstPlayerLaneY - (ownerClientId * PlayerLaneSpacing);
-        return new Vector3(0f, laneY, 0f);
+        float laneZ = FirstPlayerLaneZ - (ownerClientId * PlayerLaneSpacing);
+        return new Vector3(0f, 0f, laneZ);
     }
 
     void MaintainServerLane()
     {
         Vector3 position = transform.position;
         position.y = GetLanePosition(OwnerClientId).y;
-        position.z = 0f;
         transform.position = position;
     }
 }
