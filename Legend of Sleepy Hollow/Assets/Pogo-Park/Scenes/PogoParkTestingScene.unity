@@ -322,13 +322,13 @@ MonoBehaviour:
   NetworkConfig:
     ProtocolVersion: 0
     NetworkTransport: {fileID: 483103477}
-    PlayerPrefab: {fileID: 0}
+    PlayerPrefab: {fileID: 5694045065026413945, guid: 8f2fa8429c724bb4d8afcb1242883dfd, type: 3}
     Prefabs:
       NetworkPrefabsLists:
-      - {fileID: 11400000, guid: 5e790356d6e2d2044a403684472022e0, type: 2}
+      - {fileID: 11400000, guid: 14ffbb4c4b9b89a458fbb1cffb4227da, type: 2}
     TickRate: 30
     ClientConnectionBufferTimeout: 10
-    ConnectionApproval: 0
+    ConnectionApproval: 1
     ConnectionData: 
     EnableTimeResync: 0
     TimeResyncInterval: 30
@@ -797,6 +797,79 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &4919303323689782845
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1788761177720622481, guid: 8f2fa8429c724bb4d8afcb1242883dfd, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1788761177720622481, guid: 8f2fa8429c724bb4d8afcb1242883dfd, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1788761177720622481, guid: 8f2fa8429c724bb4d8afcb1242883dfd, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1788761177720622481, guid: 8f2fa8429c724bb4d8afcb1242883dfd, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1788761177720622481, guid: 8f2fa8429c724bb4d8afcb1242883dfd, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1788761177720622481, guid: 8f2fa8429c724bb4d8afcb1242883dfd, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1788761177720622481, guid: 8f2fa8429c724bb4d8afcb1242883dfd, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1788761177720622481, guid: 8f2fa8429c724bb4d8afcb1242883dfd, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1788761177720622481, guid: 8f2fa8429c724bb4d8afcb1242883dfd, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1788761177720622481, guid: 8f2fa8429c724bb4d8afcb1242883dfd, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4544900337782000816, guid: 8f2fa8429c724bb4d8afcb1242883dfd, type: 3}
+      propertyPath: m_InScenePlaced
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4544900337782000816, guid: 8f2fa8429c724bb4d8afcb1242883dfd, type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 3317713612
+      objectReference: {fileID: 0}
+    - target: {fileID: 4544900337782000816, guid: 8f2fa8429c724bb4d8afcb1242883dfd, type: 3}
+      propertyPath: InScenePlacedSourceGlobalObjectIdHash
+      value: 650986541
+      objectReference: {fileID: 0}
+    - target: {fileID: 5694045065026413945, guid: 8f2fa8429c724bb4d8afcb1242883dfd, type: 3}
+      propertyPath: m_Name
+      value: SpringPlayer
+      objectReference: {fileID: 0}
+    - target: {fileID: 5694045065026413945, guid: 8f2fa8429c724bb4d8afcb1242883dfd, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 8f2fa8429c724bb4d8afcb1242883dfd, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -807,3 +880,4 @@ SceneRoots:
   - {fileID: 483103479}
   - {fileID: 1899392097}
   - {fileID: 1980219010}
+  - {fileID: 4919303323689782845}
