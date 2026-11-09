@@ -7,8 +7,9 @@ using UnityEngine.InputSystem;
  * Demo 05 and is reused as the player in Demo 07. 
  */
 
-public class TestServerMovementPlayer : NetworkBehaviour
+public class KitchenMovement : NetworkBehaviour
 {
+    [SerializeField] private GameObject cinemachineCamera;
     public float speed = 5f;
     public ulong OwnerClientId => NetworkObject.OwnerClientId;
 
@@ -25,6 +26,9 @@ public class TestServerMovementPlayer : NetworkBehaviour
             transform.position = GetLanePosition(OwnerClientId);
 
         ApplyOwnerColor();
+
+        if (cinemachineCamera != null)
+            cinemachineCamera.SetActive(IsOwner);
 
         Debug.Log(
             $"[ServerMovement] {name} spawned | ownerClientId={OwnerClientId} | " +
@@ -102,6 +106,8 @@ public class TestServerMovementPlayer : NetworkBehaviour
 
         playerRenderer.material.color = Color.HSVToRGB((OwnerClientId * 0.17f) % 1f, 0.75f, 1f);
     }
+
+
 
     static Vector3 GetLanePosition(ulong ownerClientId)
     {
