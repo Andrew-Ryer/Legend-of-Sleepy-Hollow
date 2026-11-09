@@ -528,9 +528,9 @@ MonoBehaviour:
   Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
-  m_InScenePlaced: 0
+  m_InScenePlaced: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -560,10 +560,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1254635040}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 51f7135e36713d1498b7cca53f7eed24, type: 3}
+  m_Script: {fileID: 11500000, guid: 45ec2600e0b74a7aab415b73a9c2b451, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SessionHud
   _sessionManager: {fileID: 1254635044}
+  _hostButton: {fileID: 0}
+  _clientButton: {fileID: 0}
+  _disconnectButton: {fileID: 0}
+  _statusText: {fileID: 0}
 --- !u!114 &1254635044
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -573,10 +577,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1254635040}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b883fed737696ac48aaf96ece3d367b0, type: 3}
+  m_Script: {fileID: 11500000, guid: 9005d43056725b78da3ea381c8339545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SessionManager
-  ShowTopMostFoldoutHeaderGroup: 1
+  _networkManager: {fileID: 483103478}
+  _transport: {fileID: 483103477}
 --- !u!1 &1664168465
 GameObject:
   m_ObjectHideFlags: 0
