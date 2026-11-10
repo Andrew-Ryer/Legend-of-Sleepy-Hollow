@@ -1,16 +1,31 @@
 using UnityEngine;
 
-public class NewMonoBehaviourScript : MonoBehaviour
+public class Timer : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [SerializeField] float timeLeft = 5;
+    [SerializeField] bool timerIsRunning = true;
+
+    public void StartTimer()
     {
-        
+        timerIsRunning = true;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void StopTimer()
     {
-        
+        timerIsRunning = false;
+    }
+
+    public void Update()
+    {
+        if (timerIsRunning)
+        {
+            timeLeft -= Time.deltaTime;
+            Debug.Log("Time remaining: " + timeLeft);
+        }
+        if (timeLeft <= 0)
+        {
+            Debug.Log("Times Up!");
+            StopTimer();
+        }
     }
 }

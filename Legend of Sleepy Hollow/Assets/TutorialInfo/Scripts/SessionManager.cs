@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class NetworkManager : MonoBehaviour
+public class SessionManager : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
