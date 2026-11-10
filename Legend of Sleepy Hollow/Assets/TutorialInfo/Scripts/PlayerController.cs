@@ -5,50 +5,51 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private Rigidbody rb;
+    [SerializeField] private float speed = 10f;
     // how fast the plane goes
-    [SerializeField] private float moveSpeed = 10f;
+    // [SerializeField] private float moveSpeed = 10f;
     // the rate of altitude change
-    [SerializeField] private float verticalSpeed = 10f;
+    // [SerializeField] private float verticalSpeed = 10f;
     
     // controls if the plane goes up or down
-    float _upDownInput;
-    
-    private void Update()
+    // float _upDownInput;
+
+    void Start()
     {
-        // initialize 
-        _upDownInput = 0f;
-        float _turnInput = 0f;
-        
-        // vertical movement of the plane
-        
+        // plane moves forward by default in the x direction
+        rb = GetComponent<Rigidbody>();
+        rb.linearVelocity = transform.right * speed;
+    }
+    private void FixedUpdate()
+    {
+        // plane faces up or down in the y direction
+        // plane goes up
         if (Keyboard.current.wKey.isPressed)
         {
-            _upDownInput += 1f;
+            rb.linearVelocity += transform.up;
         }
+        // plane goes down
         if (Keyboard.current.sKey.isPressed)
         {
-            _upDownInput -= 1f;
+            rb.linearVelocity -= transform.up;
         }
+        Debug.Log("Altitude: " + rb.position.y);
         
-        // horizontal movement of the plane
+        // plane turns right or left in the z direction
+        // plane goes to the right 
         if (Keyboard.current.dKey.isPressed)
         {
-            _turnInput += 1f;
+            rb.linearVelocity -= transform.forward;
         }
+        // plane goes to the left
         if (Keyboard.current.aKey.isPressed)
         {
-            _turnInput -= 1f;
+            rb.linearVelocity += transform.forward;
         }
         
-        Vector3 verticalMovement = new Vector3(0, verticalSpeed * _upDownInput, 0);
-        Vector3 horizontalMovement = new Vector3(0, 0, _turnInput);
-        
-        // holding down the space will make the plane go faster 
-        // it will be a temporary boost or gradual acceleration until
-        // you are no longer holding space
         /*if (Keyboard.current.spaceKey.isPressed)
         {
-            moveSpeed;
+           
         }*/
     }
 }

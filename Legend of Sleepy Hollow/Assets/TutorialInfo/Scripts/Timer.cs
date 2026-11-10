@@ -20,11 +20,11 @@ public class Timer : MonoBehaviour
         if (timerIsRunning)
         {
             timeLeft -= Time.deltaTime;
-            Debug.Log("Time remaining: " + timeLeft);
+            // Debug.Log("Time remaining: " + timeLeft);
         }
         if (timeLeft <= 0)
         {
-            Debug.Log("Times Up!");
+            // Debug.Log("Times Up!");
             StopTimer();
         }
     }
