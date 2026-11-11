@@ -70,12 +70,12 @@ public class PlaneControllers : MonoBehaviour
             // bank angle
             // rb.angularVelocity -= transform.right;
             rb.angularVelocity -= bankAngle;
+
+            rb.linearVelocity -= transform.forward;
             
             // yaw heading
             // rb.angularVelocity += transform.up;
             rb.angularVelocity += yawHeading;
-
-            rb.linearVelocity -= transform.forward;
         }
         // plane goes to the left
         if (Keyboard.current.aKey.isPressed)
@@ -84,11 +84,11 @@ public class PlaneControllers : MonoBehaviour
             // rb.angularVelocity += transform.right;
             rb.angularVelocity += bankAngle;
             
+            rb.linearVelocity += transform.forward;
+            
             // yaw heading
             // rb.angularVelocity -= transform.up;
             rb.angularVelocity -= yawHeading;
-            
-            rb.linearVelocity += transform.forward;
             
         }
         
