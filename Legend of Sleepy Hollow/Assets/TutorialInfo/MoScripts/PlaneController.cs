@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerController : MonoBehaviour
+public class PlaneControllers : MonoBehaviour
 {
     [SerializeField] private Rigidbody rb;
     [SerializeField] private float speed = 10f;
