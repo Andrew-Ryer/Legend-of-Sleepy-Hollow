@@ -6,6 +6,7 @@ public class ArcadePlayer : NetworkBehaviour
 {
     [Header("DefaultVariables")]
     [SerializeField] private float speedMultiplier = 2f;
+    [SerializeField] private float speedReduction = 2f;
     private float defaultSpeed = 5f;
 
     private InputSystem_Actions inputSystemActions;
@@ -13,6 +14,8 @@ public class ArcadePlayer : NetworkBehaviour
     private Vector2 moveInput;
 
     private bool runHeld = false;
+    private bool sneakHeld = false;
+    private bool flashlightActive = false;
     
     [Header("PlayerProperties")]
     [SerializeField] private float speed;
@@ -20,9 +23,13 @@ public class ArcadePlayer : NetworkBehaviour
     
     [SerializeField] private Camera playerCam;
 
+    [SerializeField] private Light flashlight;
+
     private void Awake()
     {
         inputSystemActions = new InputSystem_Actions();
+
+        flashlight.gameObject.SetActive(false);
     }
 
     private void Update()
@@ -31,8 +38,12 @@ public class ArcadePlayer : NetworkBehaviour
         {
             return;
         }
-
-        if (runHeld)
+        
+        if (sneakHeld)
+        {
+            speed = defaultSpeed / speedReduction;
+        }
+        else if (runHeld)
         {
             speed = defaultSpeed * speedMultiplier;
         }
@@ -40,6 +51,8 @@ public class ArcadePlayer : NetworkBehaviour
         {
             speed = defaultSpeed;
         }
+        
+        flashlight.gameObject.SetActive(flashlightActive);
 
         Vector3 movePosition = transform.right * moveInput.x + transform.forward * moveInput.y;
 
@@ -75,6 +88,11 @@ public class ArcadePlayer : NetworkBehaviour
             inputSystemActions.ArcadePlayer.Run.canceled += OnRun;
 
             inputSystemActions.ArcadePlayer.Interact.performed += OnInteract;
+
+            inputSystemActions.ArcadePlayer.Sneak.performed += OnSneak;
+            inputSystemActions.ArcadePlayer.Sneak.canceled += OnSneak;
+
+            inputSystemActions.ArcadePlayer.Flash.performed += OnFlash;
         }
     }
 
@@ -87,6 +105,11 @@ public class ArcadePlayer : NetworkBehaviour
         inputSystemActions.ArcadePlayer.Run.canceled -= OnRun;
         
         inputSystemActions.ArcadePlayer.Interact.performed -= OnInteract;
+
+        inputSystemActions.ArcadePlayer.Sneak.performed -= OnSneak;
+        inputSystemActions.ArcadePlayer.Sneak.canceled -= OnSneak;
+
+        inputSystemActions.ArcadePlayer.Flash.performed -= OnFlash;
 
         inputSystemActions.Disable();
     }
@@ -118,5 +141,15 @@ public class ArcadePlayer : NetworkBehaviour
                 break;
             }
         }
+    }
+
+    private void OnSneak(InputAction.CallbackContext ctx)
+    {
+        sneakHeld = ctx.ReadValueAsButton();
+    }
+    
+    private void OnFlash(InputAction.CallbackContext ctx)
+    {
+        flashlightActive = !flashlightActive;
     }
 }

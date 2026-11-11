@@ -1108,6 +1108,24 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Sneak"",
+                    ""type"": ""Button"",
+                    ""id"": ""b4f1a22e-56df-4b3f-a513-7895805c8481"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Flash"",
+                    ""type"": ""Button"",
+                    ""id"": ""aa1ccbd4-829b-4c32-8bbe-c53edd881edc"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -1242,6 +1260,28 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""action"": ""Interact"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""05807dcb-8988-4d30-9a56-276de82cd4b4"",
+                    ""path"": ""<Keyboard>/ctrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Sneak"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7dfa31bb-d7a9-4ed0-a738-f4523941e4fb"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Flash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -1337,6 +1377,8 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_ArcadePlayer_Move = m_ArcadePlayer.FindAction("Move", throwIfNotFound: true);
         m_ArcadePlayer_Run = m_ArcadePlayer.FindAction("Run", throwIfNotFound: true);
         m_ArcadePlayer_Interact = m_ArcadePlayer.FindAction("Interact", throwIfNotFound: true);
+        m_ArcadePlayer_Sneak = m_ArcadePlayer.FindAction("Sneak", throwIfNotFound: true);
+        m_ArcadePlayer_Flash = m_ArcadePlayer.FindAction("Flash", throwIfNotFound: true);
     }
 
     ~@InputSystem_Actions()
@@ -1801,6 +1843,8 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private readonly InputAction m_ArcadePlayer_Move;
     private readonly InputAction m_ArcadePlayer_Run;
     private readonly InputAction m_ArcadePlayer_Interact;
+    private readonly InputAction m_ArcadePlayer_Sneak;
+    private readonly InputAction m_ArcadePlayer_Flash;
     /// <summary>
     /// Provides access to input actions defined in input action map "ArcadePlayer".
     /// </summary>
@@ -1824,6 +1868,14 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "ArcadePlayer/Interact".
         /// </summary>
         public InputAction @Interact => m_Wrapper.m_ArcadePlayer_Interact;
+        /// <summary>
+        /// Provides access to the underlying input action "ArcadePlayer/Sneak".
+        /// </summary>
+        public InputAction @Sneak => m_Wrapper.m_ArcadePlayer_Sneak;
+        /// <summary>
+        /// Provides access to the underlying input action "ArcadePlayer/Flash".
+        /// </summary>
+        public InputAction @Flash => m_Wrapper.m_ArcadePlayer_Flash;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1859,6 +1911,12 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Interact.started += instance.OnInteract;
             @Interact.performed += instance.OnInteract;
             @Interact.canceled += instance.OnInteract;
+            @Sneak.started += instance.OnSneak;
+            @Sneak.performed += instance.OnSneak;
+            @Sneak.canceled += instance.OnSneak;
+            @Flash.started += instance.OnFlash;
+            @Flash.performed += instance.OnFlash;
+            @Flash.canceled += instance.OnFlash;
         }
 
         /// <summary>
@@ -1879,6 +1937,12 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Interact.started -= instance.OnInteract;
             @Interact.performed -= instance.OnInteract;
             @Interact.canceled -= instance.OnInteract;
+            @Sneak.started -= instance.OnSneak;
+            @Sneak.performed -= instance.OnSneak;
+            @Sneak.canceled -= instance.OnSneak;
+            @Flash.started -= instance.OnFlash;
+            @Flash.performed -= instance.OnFlash;
+            @Flash.canceled -= instance.OnFlash;
         }
 
         /// <summary>
@@ -2154,5 +2218,19 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnInteract(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Sneak" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSneak(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Flash" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnFlash(InputAction.CallbackContext context);
     }
 }
