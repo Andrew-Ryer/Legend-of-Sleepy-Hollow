@@ -28,8 +28,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 345438479166819506}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.34940743, y: 0.19807433, z: -0.075832605, w: 0.9126503}
-  m_LocalPosition: {x: -0.5649662, y: 4.8247833, z: -2.3747408}
+  m_LocalRotation: {x: 0.13460018, y: 0.85885376, z: -0.28764993, w: 0.4018838}
+  m_LocalPosition: {x: -1.8806654, y: 4.515468, z: 2.831691}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -48,7 +48,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineCamera
   Priority:
-    Enabled: 0
+    Enabled: 1
     m_Value: 0
   OutputChannel: 1
   StandbyUpdate: 2
@@ -112,7 +112,7 @@ MonoBehaviour:
     SplineCurvature: 0.5
   RecenteringTarget: 2
   HorizontalAxis:
-    Value: 24.490232
+    Value: 129.84734
     Center: 0
     Range: {x: -180, y: 180}
     Wrap: 1
@@ -122,7 +122,7 @@ MonoBehaviour:
       Time: 2
     Restrictions: 0
   VerticalAxis:
-    Value: 30.907751
+    Value: 28.31979
     Center: 17.5
     Range: {x: -10, y: 45}
     Wrap: 0
@@ -203,7 +203,7 @@ MonoBehaviour:
       Enabled: 1
       Input:
         InputAction: {fileID: -5630151704836100654, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-        Gain: 7
+        Gain: -7
         CancelDeltaTime: 0
       InputValue: 0
       Driver:
@@ -266,6 +266,7 @@ GameObject:
   - component: {fileID: 6312861284891361272}
   - component: {fileID: 6392859798976053998}
   - component: {fileID: 4722841116849433871}
+  - component: {fileID: 4957791835367226775}
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
@@ -393,6 +394,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CameraLockLook
   ShowTopMostFoldoutHeaderGroup: 1
   cameraTransform: {fileID: 7266225027724528554}
+--- !u!114 &4957791835367226775
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2986326518283731768}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1aa8c054f13083c479dcadea91b6a3e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CameraMouseLock
 --- !u!1 &3967081918937637024
 GameObject:
   m_ObjectHideFlags: 0
