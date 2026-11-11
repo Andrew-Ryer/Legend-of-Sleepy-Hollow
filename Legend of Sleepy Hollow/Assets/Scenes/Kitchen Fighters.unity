@@ -205,6 +205,7 @@ MonoBehaviour:
     NetworkTopology: 0
     UseCMBService: 0
     AutoSpawnPlayerPrefabClientSide: 1
+    NetworkMessageMetrics: 1
     NetworkProfilingMetrics: 1
     OldPrefabList: []
   RunInBackground: 1
@@ -424,13 +425,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1413287921}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.1542334, y: 7.792027e-16, z: -1.2163449e-16, w: 0.9880345}
-  m_LocalPosition: {x: 0.791, y: 3.17, z: -3.398}
+  m_LocalRotation: {x: 0.051851287, y: 0.35924262, z: -0.019995097, w: 0.9315881}
+  m_LocalPosition: {x: -3.9, y: 1.15, z: -4.51}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 6.371, y: 42.176, z: 0}
 --- !u!114 &1413287925
 MonoBehaviour:
   m_ObjectHideFlags: 0
