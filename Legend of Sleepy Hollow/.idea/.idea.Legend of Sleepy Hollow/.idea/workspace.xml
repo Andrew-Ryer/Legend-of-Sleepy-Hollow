@@ -14,8 +14,7 @@
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Legend of Sleepy Hollow/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Legend of Sleepy Hollow/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Pogo-Park/Prefabs/SpringPlayer.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Pogo-Park/Prefabs/SpringPlayer.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Pogo-Park/Scenes/PogoParkTestingScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Pogo-Park/Scenes/PogoParkTestingScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/Packages/com.unity.probuilder/Settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/Packages/com.unity.probuilder/Settings.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Pogo-Park/Scripts/Springs/SpringVisuals.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Pogo-Park/Scripts/Springs/SpringVisuals.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,6 +26,8 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/Assets/Pogo-Park/Scripts/PointsEventScript.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Pogo-Park/Scripts/SpringPlayerSpawnAssignment.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Pogo-Park/Scripts/SpringPlayerSpawnPositionHandler.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.multiplayer.tools@ab0f93c2f1f1/Common/Runtime/Extensions/TaskExtensions.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="McpProjectServerCommands">

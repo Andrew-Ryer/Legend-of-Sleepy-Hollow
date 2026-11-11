@@ -2,9 +2,9 @@
 using UnityEngine;
 
 // Simple script to visualize the compression force and release force of a player's spring
-public class SpringVisualizations : MonoBehaviour
+public class SpringVisuals : MonoBehaviour
 {
-    [SerializeField] SpringPlayerMovementInput _player;
+    [SerializeField] bool _showVisualizations = true;
     [SerializeField] float _compressionArrowScale = 0.5f;
     [SerializeField] float _releaseArrowScale = 0.2f;
     [SerializeField] float _maximumArrowLength = 4f;
@@ -12,35 +12,36 @@ public class SpringVisualizations : MonoBehaviour
     [SerializeField] Color _compressionColor = Color.red;
     [SerializeField] Color _releaseColor = Color.green;
 
-    void Awake()
-    {
-        FindPlayer();
-    }
+    static readonly SpringPlayerMovementInput[] EmptyPlayers = new SpringPlayerMovementInput[0];
 
     void OnDrawGizmos()
     {
-        FindPlayer();
-        if (_player == null)
+        if (!_showVisualizations)
             return;
 
-        Vector3 origin = _player.SpringOriginCollider != null ? _player.SpringOriginCollider.bounds.center : _player.transform.position;
+        SpringPlayerMovementInput[] players = FindObjectsByType<SpringPlayerMovementInput>(FindObjectsSortMode.None);
 
-        if (_player.IsCharging)
-        {
-            Vector3 compression = LimitVector(-_player.transform.up * (_player.CompressionMeters * _compressionArrowScale));
-            DrawArrow(origin, compression, _compressionColor);
-        }
-        else if (_player.LastLaunchSpeed > 0f)
-        {
-            Vector3 release = LimitVector(_player.LastLaunchDirection * (_player.LastLaunchSpeed * _releaseArrowScale));
-            DrawArrow(origin, release, _releaseColor);
-        }
-    }
+        if (players == null || players.Length == 0)
+            players = EmptyPlayers;
 
-    void FindPlayer()
-    {
-        if (_player == null)
-            _player = GetComponentInParent<SpringPlayerMovementInput>();
+        foreach (SpringPlayerMovementInput player in players)
+        {
+            if (player == null || !player.IsSpawned || !player.IsServer)
+                continue;
+
+            Vector3 origin = player.SpringOriginCollider != null ? player.SpringOriginCollider.bounds.center : player.transform.position;
+
+            if (player.IsCharging)
+            {
+                Vector3 compression = LimitVector(-player.transform.up * (player.CompressionMeters * _compressionArrowScale));
+                DrawArrow(origin, compression, _compressionColor);
+            }
+            else if (player.LastLaunchSpeed > 0f)
+            {
+                Vector3 release = LimitVector(player.LastLaunchDirection * (player.LastLaunchSpeed * _releaseArrowScale));
+                DrawArrow(origin, release, _releaseColor);
+            }
+        }
     }
 
     Vector3 LimitVector(Vector3 vector)

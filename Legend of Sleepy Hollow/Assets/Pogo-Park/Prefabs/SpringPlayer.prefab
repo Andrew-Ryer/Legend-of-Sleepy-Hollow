@@ -67,6 +67,7 @@ GameObject:
   - component: {fileID: 6892152824527215131}
   - component: {fileID: 3155059827928239874}
   - component: {fileID: 6289694226753178174}
+  - component: {fileID: 4551746438586953416}
   m_Layer: 0
   m_Name: SpringPlayer
   m_TagString: SpringPlayer
@@ -233,6 +234,21 @@ MonoBehaviour:
   _maximumCompressionMeters: 3
   _minimumChargeSeconds: 0.05
   _minimumGroundNormalDot: 0.5
+--- !u!114 &4551746438586953416
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5694045065026413945}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66d7f0a7433ff874db227facf084bfd7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpringPlayerSpawnAssignment
+  ShowTopMostFoldoutHeaderGroup: 1
+  _spawnPositionHandler: {fileID: 0}
+  _body: {fileID: 6892152824527215131}
 --- !u!1 &7887826625316994843
 GameObject:
   m_ObjectHideFlags: 0
