@@ -367,7 +367,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   _characterController: {fileID: 1629697778741101551}
   _heldItem: {fileID: 7967047956022631167}
-  _camera: {fileID: 8720308436771209457}
+  _camera: {fileID: 7341074763117215381}
   _detectionRadius: 3
   _detectionAngle: 60
   _pickupLayer:
@@ -416,7 +416,7 @@ MonoBehaviour:
   RotationMaxInterpolationTime: 0.1
   ScaleLerpSmoothing: 1
   ScaleMaxInterpolationTime: 0.1
-  AuthorityMode: 0
+  AuthorityMode: 1
   TickSyncChildren: 0
   UseUnreliableDeltas: 0
   SyncPositionX: 1
@@ -457,7 +457,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6794713907817658776
 Transform:
   m_ObjectHideFlags: 0

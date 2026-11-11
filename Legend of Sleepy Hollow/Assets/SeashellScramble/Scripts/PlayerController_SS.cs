@@ -10,7 +10,7 @@ public class PlayerController_SS : NetworkBehaviour
     [Header("Components")]
     [SerializeField] CharacterController _characterController;
     [SerializeField] PlayerHeldItem_SS _heldItem;
-    [SerializeField] Camera _camera;
+    [SerializeField] GameObject _camera;
 
     [Header("Detection")]
     [SerializeField] float _detectionRadius = 3f;
@@ -23,12 +23,24 @@ public class PlayerController_SS : NetworkBehaviour
     [SerializeField] float _upRotateSensitivity = 50f;
     Vector2 _smoothedInput;
     Interactable_SS _closestTarget;
-    bool wasPressed;
+    bool prevPress;
 
 
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
+
+        Debug.Log(
+            $"ownerClientId={OwnerClientId} | " +
+            $"isOwner={IsOwner} | isServer={IsServer} | isClient={IsClient} | isHost={IsHost}");
+
+        if (IsOwner)
+        {
+            _camera.SetActive(true);
+            prevPress = false;
+        }
+            
+            
     }
 
     public override void OnNetworkDespawn()
@@ -50,7 +62,7 @@ public class PlayerController_SS : NetworkBehaviour
 
         //calculates rotation direction and amount based on set sensitivity
         float upRotation = upOffset * -_upRotateSensitivity;
-        float rightRotation = rightOffset * _rightRotateSensitivity;
+        // float rightRotation = rightOffset * _rightRotateSensitivity;
         
         //only camera rotates while the player stays upright 
         _camera.transform.localRotation = Quaternion.Euler(Mathf.Clamp(upRotation, -100, 100), 0f, 0f);
@@ -75,27 +87,17 @@ public class PlayerController_SS : NetworkBehaviour
 
         //detect a target and request interaction on E or left-click.
         if (Mouse.current.leftButton.isPressed)
-        {
-            if (!wasPressed)
-            {
-                wasPressed = true;
-                HandleInteractionPressed();
-            }
-        }
+            HandleInteraction(true);
         else
-        {
-            if (wasPressed)
-            {
-                wasPressed = false;
-                HandleInteractionLetGo();
-            }
-        }            
+            HandleInteraction(false);
+       
     }
 
 
     static Vector2 ReadMovementInput()
     {
         //return WASD input as a two-dimensional vector.
+
         Vector2 input = Vector2.zero;
         if(Keyboard.current.dKey.isPressed) input.x += 1f;
         if(Keyboard.current.aKey.isPressed) input.x -= 1f;
@@ -105,22 +107,16 @@ public class PlayerController_SS : NetworkBehaviour
         return input;
     }
 
-    void HandleInteractionPressed()
+    void HandleInteraction(bool wasPressed)
     {
         if (!IsOwner) return;
 
-        //send the target's NetworkObjectId to the server.
-        if (_closestTarget == null) return;
-        RequestInteractRpc(_closestTarget.NetworkObjectId);
-    }
-
-    void HandleInteractionLetGo()
-    {
-        if (!IsOwner) return;
+        if (prevPress == wasPressed) return;
+        prevPress = wasPressed;
 
         //send the target's NetworkObjectId to the server.
         if (_closestTarget == null) return;
-        RequestInteractRpc(_closestTarget.NetworkObjectId);
+        RequestInteractRpc(_closestTarget.NetworkObjectId, wasPressed);
     }
 
 
@@ -187,11 +183,11 @@ public class PlayerController_SS : NetworkBehaviour
 
 
     [Rpc(SendTo.Server)]
-    void RequestInteractRpc(ulong networkObjectId)
+    void RequestInteractRpc(ulong networkObjectId, bool wasPressed)
     {
         //resolve the NetworkObject id and invoke its server gateway.
         //target may have despawned after the owner selected it.
-        // Debug.Log($"Requesting interact with rpc {networkObjectId}");
+        Debug.Log($"Requesting interact with rpc {networkObjectId}");
         Dictionary<ulong, NetworkObject> spawnedObjectMap = NetworkManager.SpawnManager.SpawnedObjects;
         if (!spawnedObjectMap.TryGetValue(networkObjectId, out NetworkObject spawnedObject))
         {

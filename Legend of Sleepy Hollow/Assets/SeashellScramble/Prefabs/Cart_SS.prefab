@@ -762,7 +762,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93206721d07b2e242aa5480e1041b658, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShellScoring_SS
-  shellPoints: 0
+  ShowTopMostFoldoutHeaderGroup: 1
   totalPoints: 0
 --- !u!114 &9052188297203823781
 MonoBehaviour:

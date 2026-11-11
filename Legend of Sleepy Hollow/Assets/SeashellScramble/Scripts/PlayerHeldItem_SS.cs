@@ -86,7 +86,7 @@ public class PlayerHeldItem_SS : NetworkBehaviour
         if (_heldObjectType.Value == ObjectType_SS.None) return;
 
         if (_heldObjectType.Value != ObjectType_SS.Cart)
-            DropShell(position, _networkObject);
+            DropShell(_networkObject);
 
         if (_heldObjectType.Value == ObjectType_SS.Cart)
         {
@@ -95,7 +95,7 @@ public class PlayerHeldItem_SS : NetworkBehaviour
             
     }
     
-    void DropShell(Vector3 position, NetworkObject child)
+    void DropShell(NetworkObject child)
     {
         // ItemCatalogEntry matchingEntry = _itemCatalog.Find(item => item.type == _heldObjectType.Value);
         // NetworkObject.InstantiateAndSpawn(matchingEntry.prefab.gameObject, NetworkManager, position: position);
