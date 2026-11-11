@@ -23,28 +23,44 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         // plane faces up or down in the y direction
+        // Rotation z changes nose pitch
+        // positive faces up and negative faces down
         // plane goes up
         if (Keyboard.current.wKey.isPressed)
         {
+            // feels faster and more immediate
             rb.linearVelocity += transform.up;
+            // feels less effective and slower
+            // rb.linearVelocity = transform.up;
         }
         // plane goes down
         if (Keyboard.current.sKey.isPressed)
         {
+            // feels faster and more immediate
             rb.linearVelocity -= transform.up;
+            // feels less effective and slower
+            // rb.linearVelocity = -transform.up;
         }
         Debug.Log("Altitude: " + rb.position.y);
         
         // plane turns right or left in the z direction
+        // Rotation x makes the plane bank
+        // Positive is to the left and negative is to the right
         // plane goes to the right 
         if (Keyboard.current.dKey.isPressed)
         {
+            // feels faster and more immediate
             rb.linearVelocity -= transform.forward;
+            // feels less effective and slower
+            // rb.linearVelocity = -transform.forward;
         }
         // plane goes to the left
         if (Keyboard.current.aKey.isPressed)
         {
+            // feels faster and more immediate
             rb.linearVelocity += transform.forward;
+            // feels less effective and slower
+            // rb.linearVelocity = transform.forward;
         }
         
         /*if (Keyboard.current.spaceKey.isPressed)
