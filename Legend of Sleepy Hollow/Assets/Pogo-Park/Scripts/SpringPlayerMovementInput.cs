@@ -3,37 +3,52 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-// Owner input and server-authoritative turning / spring launches for SpringPlayer.
+// Owner input with server-authoritative tilt and spring launches.
 public class SpringPlayerMovementInput : NetworkBehaviour
 {
     [Header("References")]
     [SerializeField] Rigidbody _body;
+    [SerializeField] Collider _springOriginCollider;
 
-    [Header("Turning")]
-    [SerializeField, Min(0f)] float _turnSpeedDegreesPerSecond = 180f;
+    [Header("Tilt")]
+    [SerializeField, Min(0f)] float _turnSpeedDegreesPerSecond = 90f;
+    [SerializeField, Range(0f, 89f)] float _maximumTiltDegrees = 60f;
 
     [Header("Spring charge")]
     [SerializeField] FloatSpring _springSettings = new FloatSpring();
-    [SerializeField, Min(0.05f)] float _secondsToFullCharge = 1f;
-    [SerializeField, Min(0f)] float _maximumCompressionMeters = 0.8f;
-    [SerializeField, Min(0f)] float _minimumChargeSeconds = 0.05f;
 
-    // Server writes this; all clients can read it later to animate a spring visual.
+    [SerializeField, Min(0.05f)] private float _secondsToFullCharge = 0.6f; // 0.6 is a good starting point;
+    [SerializeField, Min(0f)] float _maximumCompressionMeters = 3.0f; // 3.0 is a good starting point
+    [SerializeField, Min(0f)] float _minimumChargeSeconds = 0.05f;
+    [SerializeField, Range(0f, 1f)] float _minimumGroundNormalDot = 0.5f;
+
+    // Written by the server and available for spring visuals on every client.
     readonly NetworkVariable<float> _charge01 = new(0f, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
 
     float _serverTurnInput;
     bool _serverSpringHeld;
     bool _wasSpringHeld;
-    bool _isGrounded;
     float _chargeSeconds;
+    float _tiltDegrees;
+    float _lastSpringOriginGroundContactTime = float.NegativeInfinity;
 
-    // Normalized charge, replicated so a spring visual can use it.
+    // Normalized spring charge, replicated for use by visuals.
     public float Charge01 => _charge01.Value;
+
+    bool IsSpringOriginGrounded =>
+        Time.fixedTime - _lastSpringOriginGroundContactTime <= Time.fixedDeltaTime * 2.5f;
 
     void Awake()
     {
         if (_body == null)
             _body = GetComponent<Rigidbody>();
+
+        if (_springOriginCollider == null)
+        {
+            Transform springOrigin = transform.Find("SpringOrigin");
+            if (springOrigin != null)
+                _springOriginCollider = springOrigin.GetComponent<Collider>();
+        }
 
         if (_body == null)
         {
@@ -42,23 +57,43 @@ public class SpringPlayerMovementInput : NetworkBehaviour
             return;
         }
 
-        // Keep the capsule upright while allowing A/D yaw rotation.
-        _body.constraints |= RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
+        if (_springOriginCollider == null)
+        {
+            Debug.LogWarning(
+                "Add a child named SpringOrigin with a non-trigger collider, then assign it to Spring Origin Collider. " +
+                "Spring charging will stay disabled until that collider is configured.", this);
+        }
+        else if (_springOriginCollider.isTrigger)
+        {
+            Debug.LogWarning("SpringOrigin must use a non-trigger collider for this contact-based ground check.", this);
+        }
+
+        // This is a side-view movement plane: preserve only world X/Y movement and allow the player to tilt around world Z.
+        _body.constraints &= ~RigidbodyConstraints.FreezeRotationZ;
+        _body.constraints |= RigidbodyConstraints.FreezePositionZ
+                           | RigidbodyConstraints.FreezeRotationX
+                           | RigidbodyConstraints.FreezeRotationY;
         _body.interpolation = RigidbodyInterpolation.Interpolate;
     }
 
     void Update()
     {
-        if (!IsSpawned || !IsOwner || Keyboard.current == null)
+        if (!IsSpawned || !IsOwner)
             return;
 
+        Keyboard keyboard = Keyboard.current;
         float turn = 0f;
-        if (Keyboard.current.aKey.isPressed) turn -= 1f;
-        if (Keyboard.current.dKey.isPressed) turn += 1f;
+        bool springHeld = false;
 
-        bool springHeld = Keyboard.current.spaceKey.isPressed;
+        if (keyboard != null)
+        {
+            // D tilts the top of the player to the right, making transform.up point rightward for the launch. A tilts the top to the left.
+            if (keyboard.aKey.isPressed) turn += 1f;
+            if (keyboard.dKey.isPressed) turn -= 1f;
+            springHeld = keyboard.spaceKey.isPressed;
+        }
 
-        // The host already runs the authoritative simulation locally.
+        // The host is already the server, so it can apply its own input directly.
         if (IsServer)
             ReceiveInput(turn, springHeld);
         else
@@ -82,19 +117,27 @@ public class SpringPlayerMovementInput : NetworkBehaviour
         if (!IsSpawned || !IsServer || _body == null)
             return;
 
-        float turnDelta = _serverTurnInput * _turnSpeedDegreesPerSecond * Time.fixedDeltaTime;
-        _body.MoveRotation(_body.rotation * Quaternion.Euler(0f, turnDelta, 0f));
+        float deltaTime = Time.fixedDeltaTime;
+        _tiltDegrees = Mathf.Clamp(_tiltDegrees + _serverTurnInput * _turnSpeedDegreesPerSecond * deltaTime, -_maximumTiltDegrees, _maximumTiltDegrees);
+        _body.MoveRotation(Quaternion.Euler(0f, 0f, _tiltDegrees));
 
-        if (_serverSpringHeld && _isGrounded)
+        bool groundedAtSpringOrigin = _springOriginCollider != null && !_springOriginCollider.isTrigger && IsSpringOriginGrounded;
+
+        if (groundedAtSpringOrigin && _serverSpringHeld)
         {
-            _chargeSeconds = Mathf.Min(_chargeSeconds + Time.fixedDeltaTime, _secondsToFullCharge);
-            _charge01.Value = Mathf.Clamp01(_chargeSeconds / _secondsToFullCharge);
+            float fullChargeTime = Mathf.Max(0.05f, _secondsToFullCharge);
+            _chargeSeconds = Mathf.Min(_chargeSeconds + deltaTime, fullChargeTime);
+            _charge01.Value = Mathf.Clamp01(_chargeSeconds / fullChargeTime);
+        }
+        else if (!groundedAtSpringOrigin)
+        {
+            // Charge only accumulates while the dedicated support collider is actually in contact with a floor-like surface.
+            ResetCharge();
         }
 
-        // A release only launches if the player is still supported by the ground.
         if (_wasSpringHeld && !_serverSpringHeld)
         {
-            if (_isGrounded && _chargeSeconds >= _minimumChargeSeconds)
+            if (groundedAtSpringOrigin && _chargeSeconds >= _minimumChargeSeconds)
                 LaunchFromSpring();
 
             ResetCharge();
@@ -112,8 +155,8 @@ public class SpringPlayerMovementInput : NetworkBehaviour
         if (compression <= 0f)
             return;
 
-        // Start a fresh spring at the compressed position and let its configured
-        // FloatSpring settings determine the upward release velocity.
+        // Compute the release velocity from the existing FloatSpring settings.
+        // This uses its current values; it does not modify/tune those settings.
         FloatSpring releaseSpring = new FloatSpring
         {
             equilibrium = _springSettings.equilibrium,
@@ -134,41 +177,40 @@ public class SpringPlayerMovementInput : NetworkBehaviour
             }
         }
 
-        if (launchSpeed > 0f)
-        {
-            Vector3 velocity = _body.linearVelocity;
-            velocity.y = launchSpeed;
-            _body.linearVelocity = velocity;
-            _isGrounded = false;
-        }
+        if (launchSpeed <= 0f)
+            return;
+
+        // The player's Z tilt steers this launch left or right while retaining
+        // vertical lift. Z velocity is prevented by the Rigidbody constraint.
+        _body.linearVelocity = _body.transform.up * launchSpeed;
+        _lastSpringOriginGroundContactTime = float.NegativeInfinity;
     }
 
     void ResetCharge()
     {
         _chargeSeconds = 0f;
-        _charge01.Value = 0f;
+        if (_charge01.Value != 0f)
+            _charge01.Value = 0f;
     }
 
-    void OnCollisionEnter(Collision collision) => UpdateGroundedState(collision);
-    void OnCollisionStay(Collision collision) => UpdateGroundedState(collision);
+    void OnCollisionEnter(Collision collision) => RecordSpringOriginSupport(collision);
+    void OnCollisionStay(Collision collision) => RecordSpringOriginSupport(collision);
 
-    void OnCollisionExit(Collision collision)
+    void RecordSpringOriginSupport(Collision collision)
     {
-        if (IsServer)
-            _isGrounded = false;
-    }
-
-    void UpdateGroundedState(Collision collision)
-    {
-        if (!IsServer || !IsSpawned)
+        if (!IsServer || !IsSpawned || _springOriginCollider == null || _springOriginCollider.isTrigger)
             return;
 
         for (int i = 0; i < collision.contactCount; i++)
         {
-            // Only surfaces below the player count as support; a side wall does not.
-            if (Vector3.Dot(collision.GetContact(i).normal, Vector3.up) > 0.5f)
+            ContactPoint contact = collision.GetContact(i);
+            if (contact.thisCollider != _springOriginCollider)
+                continue;
+
+            // Reject walls and ceilings; only upward-facing support surfaces count.
+            if (Vector3.Dot(contact.normal, Vector3.up) >= _minimumGroundNormalDot)
             {
-                _isGrounded = true;
+                _lastSpringOriginGroundContactTime = Time.fixedTime;
                 return;
             }
         }
