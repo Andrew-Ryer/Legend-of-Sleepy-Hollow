@@ -69,7 +69,7 @@ GameObject:
   - component: {fileID: 6289694226753178174}
   m_Layer: 0
   m_Name: SpringPlayer
-  m_TagString: Untagged
+  m_TagString: SpringPlayer
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -110,7 +110,7 @@ MonoBehaviour:
   Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
-  m_InScenePlaced: 1
+  m_InScenePlaced: 0
   ActiveSceneSynchronization: 0
   SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
