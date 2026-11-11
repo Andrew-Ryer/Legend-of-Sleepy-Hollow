@@ -12,8 +12,10 @@
   <component name="ChangeListManager">
     <list default="true" id="eb8be328-1ac4-4095-8465-ef6e9dfb5720" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Legend of Sleepy Hollow/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Legend of Sleepy Hollow/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Pogo-Park/Prefabs/SpringPlayer.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Pogo-Park/Prefabs/SpringPlayer.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Pogo-Park/Scenes/PogoParkTestingScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Pogo-Park/Scenes/PogoParkTestingScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Pogo-Park/Scripts/PointsEventScript.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Pogo-Park/Scripts/PointsEventScript.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Pogo-Park/Scripts/SpringPlayerSpawnAssignment.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Pogo-Park/Scripts/SpringPlayerSpawnAssignment.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Pogo-Park/Scripts/SpringPlayerSpawnPositionHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Pogo-Park/Scripts/SpringPlayerSpawnPositionHandler.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Pogo-Park/Scripts/Springs/SpringVisuals.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Pogo-Park/Scripts/Springs/SpringVisuals.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

@@ -27,6 +27,7 @@ public class SpringPlayerMovementInput : NetworkBehaviour
     float _chargeTime;
     float _lastSupportTime = float.NegativeInfinity;
     float _lastLaunchSpeed;
+    float _lastLaunchTime;
     Vector3 _lastLaunchDirection;
 
     public Rigidbody Body => _body;
@@ -36,6 +37,7 @@ public class SpringPlayerMovementInput : NetworkBehaviour
     public float Charge01 => Mathf.Clamp01(_chargeTime / Mathf.Max(0.05f, _secondsToFullCharge));
     public float CompressionMeters => _maximumCompressionMeters * Charge01;
     public float LastLaunchSpeed => _lastLaunchSpeed;
+    public float LastLaunchTime => _lastLaunchTime;
     public Vector3 LastLaunchDirection => _lastLaunchDirection;
 
     bool SpringOriginGrounded => Time.fixedTime - _lastSupportTime <= Time.fixedDeltaTime * 2.5f;
@@ -112,9 +114,7 @@ public class SpringPlayerMovementInput : NetworkBehaviour
 
         if (grounded && _spaceHeld)
         {
-            _chargeTime = Mathf.Min(
-                _chargeTime + Time.fixedDeltaTime,
-                Mathf.Max(0.05f, _secondsToFullCharge));
+            _chargeTime = Mathf.Min(_chargeTime + Time.fixedDeltaTime, Mathf.Max(0.05f, _secondsToFullCharge));
         }
         else if (!grounded)
         {
@@ -170,6 +170,7 @@ public class SpringPlayerMovementInput : NetworkBehaviour
         if (launchSpeed > 0f)
         {
             _lastLaunchDirection = _body.transform.up;
+            _lastLaunchTime = Time.time;
             _body.linearVelocity = _lastLaunchDirection * launchSpeed;
         }
 

@@ -2,9 +2,9 @@ using UnityEngine;
 
 // Temporary script that will eventually trigger points when touched (only glows for now)
 [RequireComponent(typeof(Renderer))]
-public class PointsEventScript : MonoBehaviour
+public class CubeGlowByTag : MonoBehaviour
 {
-    public GameObject triggerObject; // Object to detect collision with
+    public string triggerTag = "SpringPlayer"; // Tag to detect
 
     public Color defaultGlowColor = Color.red;
     public Color triggeredGlowColor = Color.green;
@@ -27,8 +27,8 @@ public class PointsEventScript : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        // Validate triggerObject before comparing via tag
-        if (collision.gameObject.CompareTag("SpringPlayer"))
+        // Check if the colliding object has the trigger tag
+        if (collision.gameObject.CompareTag(triggerTag))
         {
             SetGlow(triggeredGlowColor);
         }
@@ -36,15 +36,15 @@ public class PointsEventScript : MonoBehaviour
 
     void OnCollisionExit(Collision collision)
     {
-        // Reset glow when trigger object stops touching
-        if (triggerObject != null && collision.gameObject == triggerObject)
+        // Reset glow when tagged object stops touching
+        if (collision.gameObject.CompareTag(triggerTag))
         {
             SetGlow(defaultGlowColor);
         }
     }
 
-    // Sets the glow
-    private void SetGlow(Color glowColor)
+    // Sets the cubee's glow
+    void SetGlow(Color glowColor)
     {
         cubeMaterial.SetColor("_EmissionColor", glowColor);
     }

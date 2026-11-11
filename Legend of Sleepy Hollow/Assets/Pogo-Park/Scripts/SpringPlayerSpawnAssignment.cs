@@ -1,32 +1,46 @@
+using System.Collections;
 using Unity.Netcode;
+using Unity.Netcode.Components;
 using UnityEngine;
 
-// Script to work with the spawnPositionHandler 
+// Script to work with the spawnPositionHandler
 public class SpringPlayerSpawnAssignment : NetworkBehaviour
 {
     [SerializeField] Rigidbody _body;
 
     public override void OnNetworkSpawn()
     {
-        if (!IsServer)
-            return;
+        if (IsServer)
+            StartCoroutine(AssignSpawnPosition());
+    }
 
-        SpringPlayerSpawnPositionHandler spawnPositionHandler =
-            FindFirstObjectByType<SpringPlayerSpawnPositionHandler>();
+    IEnumerator AssignSpawnPosition()
+    {
+        SpringPlayerSpawnPositionHandler spawnPositionHandler = FindFirstObjectByType<SpringPlayerSpawnPositionHandler>();
 
         if (spawnPositionHandler == null)
-            return;
+            yield break;
 
         if (!spawnPositionHandler.TryGetSpawnPosition(OwnerClientId, out Vector3 spawnPosition))
         {
             NetworkManager.DisconnectClient(OwnerClientId);
-            return;
+            yield break;
         }
+
+        yield return new WaitForFixedUpdate();
+
+        if (!IsSpawned)
+            yield break;
 
         if (_body == null)
             _body = GetComponent<Rigidbody>();
 
-        if (_body != null)
+        NetworkTransform networkTransform = GetComponent<NetworkTransform>();
+        if (networkTransform != null)
+        {
+            networkTransform.Teleport(spawnPosition, Quaternion.identity, transform.localScale);
+        }
+        else if (_body != null)
         {
             _body.position = spawnPosition;
             _body.rotation = Quaternion.identity;

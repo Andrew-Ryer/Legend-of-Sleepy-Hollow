@@ -536,7 +536,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SpringPlayerSpawnPositionHandler
   _networkManager: {fileID: 483103478}
   _firstSpawnPosition: {x: 0, y: 0, z: 0}
-  _spacing: 10
+  _spacing: 2
 --- !u!4 &1024400582
 Transform:
   m_ObjectHideFlags: 0
@@ -709,7 +709,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26869e66a23914547b74f0f6cc7f34b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpringVisuals
-  _player: {fileID: 6289694226753178174, guid: 8f2fa8429c724bb4d8afcb1242883dfd, type: 3}
+  _showVisualizations: 1
   _compressionArrowScale: 0.5
   _releaseArrowScale: 0.2
   _maximumArrowLength: 4

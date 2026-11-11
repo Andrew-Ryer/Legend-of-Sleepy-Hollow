@@ -1,73 +1,59 @@
-
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 // Simple script to visualize the compression force and release force of a player's spring
+// It's been tweaked so that it searches through the players that exist and gives them the arrow gizmos
 public class SpringVisuals : MonoBehaviour
 {
     [SerializeField] bool _showVisualizations = true;
     [SerializeField] float _compressionArrowScale = 0.5f;
     [SerializeField] float _releaseArrowScale = 0.2f;
-    [SerializeField] float _maximumArrowLength = 4f;
-    [SerializeField] float _arrowHeadLength = 0.25f;
+    [SerializeField, Min(0.01f)] float _releaseDecayRate = 1.5f;
+    [SerializeField, Min(0.1f)] float _arrowThickness = 3f;
     [SerializeField] Color _compressionColor = Color.red;
     [SerializeField] Color _releaseColor = Color.green;
 
-    static readonly SpringPlayerMovementInput[] EmptyPlayers = new SpringPlayerMovementInput[0];
-
     void OnDrawGizmos()
     {
-        if (!_showVisualizations)
+        if (!Application.isPlaying || !_showVisualizations)
             return;
 
         SpringPlayerMovementInput[] players = FindObjectsByType<SpringPlayerMovementInput>(FindObjectsSortMode.None);
-
-        if (players == null || players.Length == 0)
-            players = EmptyPlayers;
 
         foreach (SpringPlayerMovementInput player in players)
         {
             if (player == null || !player.IsSpawned || !player.IsServer)
                 continue;
 
-            Vector3 origin = player.SpringOriginCollider != null ? player.SpringOriginCollider.bounds.center : player.transform.position;
+            Vector3 origin = player.SpringOriginCollider != null
+                ? player.SpringOriginCollider.bounds.center
+                : player.transform.position;
 
             if (player.IsCharging)
             {
-                Vector3 compression = LimitVector(-player.transform.up * (player.CompressionMeters * _compressionArrowScale));
-                DrawArrow(origin, compression, _compressionColor);
+                Vector3 compression = -player.transform.up * (player.CompressionMeters * _compressionArrowScale);
+                DrawVector(origin, compression, _compressionColor);
             }
             else if (player.LastLaunchSpeed > 0f)
             {
-                Vector3 release = LimitVector(player.LastLaunchDirection * (player.LastLaunchSpeed * _releaseArrowScale));
-                DrawArrow(origin, release, _releaseColor);
+                float elapsed = Mathf.Max(0f, Time.time - player.LastLaunchTime);
+                float currentSpeed = player.LastLaunchSpeed * Mathf.Exp(-_releaseDecayRate * elapsed);
+                Vector3 release = player.LastLaunchDirection * (currentSpeed * _releaseArrowScale);
+                DrawVector(origin, release, _releaseColor);
             }
         }
     }
 
-    Vector3 LimitVector(Vector3 vector)
+    void DrawVector(Vector3 origin, Vector3 vector, Color color)
     {
-        return vector.magnitude > _maximumArrowLength ? vector.normalized * _maximumArrowLength : vector;
-    }
-
-    void DrawArrow(Vector3 start, Vector3 vector, Color color)
-    {
-        if (vector.sqrMagnitude < 0.0001f)
-            return;
-
         Gizmos.color = color;
-        Vector3 end = start + vector;
-        Gizmos.DrawLine(start, end);
+        Gizmos.DrawRay(origin, vector);
 
-        Vector3 direction = vector.normalized;
-        Vector3 side = Vector3.Cross(direction, Vector3.forward).normalized;
-        if (side.sqrMagnitude < 0.0001f)
-            side = Vector3.Cross(direction, Vector3.up).normalized;
-
-        float headLength = Mathf.Min(_arrowHeadLength, vector.magnitude * 0.3f);
-        Gizmos.DrawLine(end, end - direction * headLength + side * headLength * 0.5f);
-        Gizmos.DrawLine(end, end - direction * headLength - side * headLength * 0.5f);
+#if UNITY_EDITOR
+        Handles.color = color;
+        Handles.DrawLine(origin, origin + vector, _arrowThickness);
+#endif
     }
 }
-
-
-

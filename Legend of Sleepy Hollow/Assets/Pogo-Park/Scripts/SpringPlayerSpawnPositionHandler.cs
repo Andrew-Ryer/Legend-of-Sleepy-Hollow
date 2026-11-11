@@ -8,7 +8,7 @@ public class SpringPlayerSpawnPositionHandler : MonoBehaviour
 {
     [SerializeField] NetworkManager _networkManager;
     [SerializeField] Vector3 _firstSpawnPosition = Vector3.zero;
-    [SerializeField, Min(0f)] float _spacing = 10f;
+    [SerializeField, Min(0f)] float _spacing = 2f; // 2 should be the default
 
     readonly Dictionary<ulong, SpringPlayerPosition> _clientSlots = new();
     readonly HashSet<SpringPlayerPosition> _occupiedSlots = new();
