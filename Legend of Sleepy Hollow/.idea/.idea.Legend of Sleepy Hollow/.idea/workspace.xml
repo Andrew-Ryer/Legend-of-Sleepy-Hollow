@@ -9,8 +9,10 @@
   <component name="ChangeListManager">
     <list default="true" id="eb8be328-1ac4-4095-8465-ef6e9dfb5720" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Legend of Sleepy Hollow/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Legend of Sleepy Hollow/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Pogo-Park/Prefabs/SpringPlayer.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Pogo-Park/Prefabs/SpringPlayer.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/DefaultNetworkPrefabs.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/DefaultNetworkPrefabs.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Pogo-Park/Scenes/PogoParkTestingScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Pogo-Park/Scenes/PogoParkTestingScene.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Pogo-Park/Scripts/SpringPlayerMovementInput.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Pogo-Park/Scripts/SpringPlayerMovementInput.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/packages-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/packages-lock.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,6 +29,7 @@
     <commands />
     <urls />
   </component>
+  <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 7
 }</component>
@@ -109,13 +112,14 @@
       <workItem from="1794199319459" duration="30000" />
       <workItem from="1794199399150" duration="4000" />
       <workItem from="1794209984637" duration="2577000" />
-      <workItem from="1794355603492" duration="1288000" />
+      <workItem from="1794355603492" duration="3841000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
   <component name="UnityProjectConfiguration" hasMinimizedUI="true" />
   <component name="UnityProjectDiscoverer">
     <option name="hasUnityReference" value="true" />
