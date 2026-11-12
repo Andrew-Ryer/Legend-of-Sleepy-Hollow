@@ -1,5 +1,58 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1595520614739802570
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7278705028743983519}
+  - component: {fileID: 2645691113634898601}
+  m_Layer: 0
+  m_Name: SpringOrigin
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7278705028743983519
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1595520614739802570}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1788761177720622481}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &2645691113634898601
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1595520614739802570}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.9, y: 0.5, z: 0.9}
+  m_Center: {x: 0, y: -0.25, z: 0}
 --- !u!1 &5694045065026413945
 GameObject:
   m_ObjectHideFlags: 0
@@ -14,9 +67,10 @@ GameObject:
   - component: {fileID: 6892152824527215131}
   - component: {fileID: 3155059827928239874}
   - component: {fileID: 6289694226753178174}
+  - component: {fileID: 4551746438586953416}
   m_Layer: 0
   m_Name: SpringPlayer
-  m_TagString: Untagged
+  m_TagString: SpringPlayer
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -35,6 +89,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3053456982296605024}
+  - {fileID: 7278705028743983519}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4544900337782000816
@@ -56,7 +111,7 @@ MonoBehaviour:
   Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
-  m_InScenePlaced: 1
+  m_InScenePlaced: 0
   ActiveSceneSynchronization: 0
   SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
@@ -168,14 +223,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SpringPlayerMovementInput
   ShowTopMostFoldoutHeaderGroup: 1
   _body: {fileID: 6892152824527215131}
-  _turnSpeedDegreesPerSecond: 180
+  _springOriginCollider: {fileID: 2645691113634898601}
+  _risingGravityMultiplier: 1
+  _fallingGravityMultiplier: 2
   _springSettings:
     equilibrium: 0
     frequencyHz: 1
     dampingRatio: 0.1
-  _secondsToFullCharge: 1
-  _maximumCompressionMeters: 0.8
+  _secondsToFullCharge: 0.6
+  _maximumCompressionMeters: 3
   _minimumChargeSeconds: 0.05
+--- !u!114 &4551746438586953416
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5694045065026413945}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66d7f0a7433ff874db227facf084bfd7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpringPlayerSpawnAssignment
+  ShowTopMostFoldoutHeaderGroup: 1
+  _body: {fileID: 6892152824527215131}
 --- !u!1 &7887826625316994843
 GameObject:
   m_ObjectHideFlags: 0
