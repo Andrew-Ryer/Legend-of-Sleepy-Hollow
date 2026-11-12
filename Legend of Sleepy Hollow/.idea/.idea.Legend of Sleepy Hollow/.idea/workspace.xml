@@ -12,10 +12,8 @@
   <component name="ChangeListManager">
     <list default="true" id="eb8be328-1ac4-4095-8465-ef6e9dfb5720" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Legend of Sleepy Hollow/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Legend of Sleepy Hollow/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Pogo-Park/Prefabs/SpringPlayer.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Pogo-Park/Prefabs/SpringPlayer.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Pogo-Park/Scenes/PogoParkTestingScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Pogo-Park/Scenes/PogoParkTestingScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Pogo-Park/Scripts/SpringPlayerMovementInput.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Pogo-Park/Scripts/SpringPlayerMovementInput.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Pogo-Park/Scripts/Springs/SpringVisuals.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Pogo-Park/Scripts/Springs/SpringVisuals.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/MoScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/MoScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TutorialInfo/MoScripts/PlaneController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TutorialInfo/MoScripts/PlaneController.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,9 +24,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/Assets/Pogo-Park/Scripts/PointsEventScript.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Pogo-Park/Scripts/SpringPlayerSpawnAssignment.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Pogo-Park/Scripts/SpringPlayerSpawnPositionHandler.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.burst@973857688024/Runtime/BurstCompiler.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.multiplayer.tools@ab0f93c2f1f1/Common/Runtime/Extensions/TaskExtensions.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="McpProjectServerCommands">
@@ -56,7 +52,7 @@
     &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
     &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
     &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;alan__alvarez__branch&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Mo-branch&quot;,
     &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
@@ -70,7 +66,7 @@
 }</component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
     <configuration name="Start Unity" type="RunUnityExe" factoryName="Unity Executable">
-      <option name="EXE_PATH" value="C:\Program Files\Unity\Hub\Editor\6000.3.6f1\Editor\Unity.exe" />
+      <option name="EXE_PATH" value="/Applications/Unity/Hub/Editor/6000.3.6f1/Unity.app/Contents/MacOS/Unity" />
       <option name="PROGRAM_PARAMETERS" value="-projectPath &quot;C:\CST426\Legend-of-Sleepy-Hollow\Legend of Sleepy Hollow&quot; -debugCodeOptimization" />
       <option name="WORKING_DIRECTORY" value="C:\CST426\Legend-of-Sleepy-Hollow\Legend of Sleepy Hollow" />
       <option name="PASS_PARENT_ENVS" value="1" />
@@ -80,7 +76,7 @@
       <method v="2" />
     </configuration>
     <configuration name="Unit Tests (batch mode)" type="RunUnityExe" factoryName="Unity Executable">
-      <option name="EXE_PATH" value="C:\Program Files\Unity\Hub\Editor\6000.3.6f1\Editor\Unity.exe" />
+      <option name="EXE_PATH" value="/Applications/Unity/Hub/Editor/6000.3.6f1/Unity.app/Contents/MacOS/Unity" />
       <option name="PROGRAM_PARAMETERS" value="-runTests -batchmode -projectPath &quot;C:\CST426\Legend-of-Sleepy-Hollow\Legend of Sleepy Hollow&quot; -testResults Logs/results.xml -logFile Logs/Editor.log -testPlatform EditMode -debugCodeOptimization" />
       <option name="WORKING_DIRECTORY" value="C:\CST426\Legend-of-Sleepy-Hollow\Legend of Sleepy Hollow" />
       <option name="PASS_PARENT_ENVS" value="1" />
@@ -118,10 +114,13 @@
       <workItem from="1794199319459" duration="30000" />
       <workItem from="1794199399150" duration="4000" />
       <workItem from="1794209984637" duration="1835000" />
-      <workItem from="1794440128835" duration="1613000" />
-      <workItem from="1794446399187" duration="18000" />
-      <workItem from="1794446970742" duration="4000" />
-      <workItem from="1794447464079" duration="2000" />
+      <workItem from="1794364317577" duration="573000" />
+      <workItem from="1794365008548" duration="964000" />
+      <workItem from="1794366115432" duration="2897000" />
+      <workItem from="1794369177066" duration="197000" />
+      <workItem from="1794427773695" duration="8432000" />
+      <workItem from="1794436676786" duration="825000" />
+      <workItem from="1794445962789" duration="8623000" />
     </task>
     <servers />
   </component>
