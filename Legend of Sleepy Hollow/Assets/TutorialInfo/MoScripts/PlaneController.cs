@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -11,9 +12,10 @@ public class PlaneControllers : MonoBehaviour
     // the rate of altitude change
     private Vector3 verticalSpeed = new Vector3(0f, 0f, 1f);
     // the bank angle of the plane
-    private Vector3 bankAngle = new Vector3(1f, 0f, 0f);
+    private Vector3 bankRotation = new Vector3(3f, 0f, 0f);
     // the heading of the plane
     private Vector3 yawHeading = new Vector3(0f, 1f, 0f);
+    float savedYVelocity = 0.0f;
 
     void Start()
     {
@@ -39,6 +41,7 @@ public class PlaneControllers : MonoBehaviour
         {
             // feels faster and more immediate
             rb.linearVelocity += transform.up;
+            savedYVelocity = rb.linearVelocity.y;
             // feels less effective and slower
             
             rb.angularVelocity += verticalSpeed;
@@ -51,6 +54,7 @@ public class PlaneControllers : MonoBehaviour
         {
             // feels faster and more immediate
             rb.linearVelocity -= transform.up;
+            savedYVelocity = rb.linearVelocity.y;
             // feels less effective and slower
             // rb.linearVelocity = -transform.up;
             
@@ -69,28 +73,43 @@ public class PlaneControllers : MonoBehaviour
         {
             // bank angle
             // rb.angularVelocity -= transform.right;
-            rb.angularVelocity -= bankAngle;
-
-            rb.linearVelocity -= transform.forward;
+            rb.angularVelocity -= bankRotation;
             
             // yaw heading
             // rb.angularVelocity += transform.up;
             rb.angularVelocity += yawHeading;
+            
+            // rb.linearVelocity -= transform.forward;
+            // rb.linearVelocity = new Vector3(transform.right.x * speed.x, savedYVelocity, transform.right.z * speed.x);
+
+            // Vector3 horizontalVelocity = new Vector3(rb.linearVelocity.x, 0.0f,  rb.linearVelocity.z);
+            // Vector3 targetHorizontalVelocity = new Vector3(transform.right.x * speed.x, 0.0f, transform.right.z * speed.x);
+            // Vector3 horizontal = Vector3.MoveTowards(horizontalVelocity, targetHorizontalVelocity, Time.fixedDeltaTime);
+            // horizontal.y = savedYVelocity;
+            // rb.linearVelocity = horizontal;
+            
         }
         // plane goes to the left
         if (Keyboard.current.aKey.isPressed)
         {
             // bank angle 
             // rb.angularVelocity += transform.right;
-            rb.angularVelocity += bankAngle;
-            
-            rb.linearVelocity += transform.forward;
+            rb.angularVelocity += bankRotation;
             
             // yaw heading
             // rb.angularVelocity -= transform.up;
             rb.angularVelocity -= yawHeading;
             
+            // rb.linearVelocity += transform.forward;
+            // rb.linearVelocity = new Vector3(transform.right.x * speed.x, savedYVelocity, transform.right.z * speed.x);
+            
         }
+        
+        Vector3 horizontalVelocity = new Vector3(rb.linearVelocity.x, 0.0f,  rb.linearVelocity.z);
+        Vector3 targetHorizontalVelocity = new Vector3(transform.right.x * speed.x, 0.0f, transform.right.z * speed.x);
+        Vector3 horizontal = Vector3.MoveTowards(horizontalVelocity, targetHorizontalVelocity, Time.fixedDeltaTime);
+        horizontal.y = savedYVelocity;
+        rb.linearVelocity = horizontal;
         
         // The space button will give the plane
         // temporary boost as long as the space button
