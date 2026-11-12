@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Unity.Netcode;
 
 /*
    A raycast car: one Rigidbody pushed by four hubs, one at each corner.
@@ -19,7 +20,7 @@ using UnityEngine.InputSystem;
    Every force goes in FixedUpdate. Physics moves the car in its own steps, not once per frame, and
    FixedUpdate runs right before each step, so every step gets exactly one push.
 */
-public class Vehicle : MonoBehaviour
+public class Vehicle : NetworkBehaviour
 {
     [Header("Car")]
     [SerializeField] Rigidbody carRigidBody;
@@ -49,11 +50,14 @@ public class Vehicle : MonoBehaviour
     float balanceDamping = 5f;
 
     float _driveInput;
+    float serverDrive;
+    float serverSteer;
 
     public VehicleHubData[] Hubs => hubDataList;
 
     void Update()
     {
+        if (!IsOwner) {  return; }
         _driveInput = 0f;
         if (Keyboard.current.wKey.isPressed) _driveInput += 1f;
         if (Keyboard.current.sKey.isPressed) _driveInput -= 1f;
@@ -62,17 +66,14 @@ public class Vehicle : MonoBehaviour
         if (Keyboard.current.dKey.isPressed) steerInput += 1f;
         if (Keyboard.current.aKey.isPressed) steerInput -= 1f;
         float targetAngle = steerInput * maxSteerAngle;
-        currentAngle = Mathf.MoveTowardsAngle(currentAngle, targetAngle, steerSpeed * Time.deltaTime);
 
-        foreach (VehicleHubData hub in hubDataList)
-        {
-            if (hub.Steers)
-                hub.transform.localRotation = Quaternion.Euler(0f, currentAngle, 0f);
-        }
+        UpdateInputRPC(_driveInput, steerInput);
     }
 
     void FixedUpdate()
     {
+        if (!IsServer) {  return; }
+        Movement(serverSteer);
         foreach (VehicleHubData hub in hubDataList)
         {
             // TODO Part 1, setup: zero all three hub forces, then cast a ray along the hub's down.
@@ -92,7 +93,7 @@ public class Vehicle : MonoBehaviour
             hub.wheelVisual.transform.position = groundHit.point + hub.WheelRadius * hub.transform.up;
 
             // TODO Part 4, drive: push along the hub's forward.
-            hub.DriveForce = hub.transform.forward * (_driveInput * driveForce);
+            hub.DriveForce = hub.transform.forward * (serverDrive * driveForce);
             // TODO Part 5, wheels: find the distance rolled this step from the hub's forward speed.
             // Divide by the wheel circumference for revolutions, then multiply by 360 for degrees and spin the wheel visual.
             float rollingSpeed = Vector3.Dot(hubVelocity, hub.transform.forward);
@@ -113,6 +114,22 @@ public class Vehicle : MonoBehaviour
         Balance();
     }
 
+
+    private void Movement(float steerInput)
+    {
+    
+        float targetAngle = steerInput * maxSteerAngle;
+        currentAngle = Mathf.MoveTowardsAngle(currentAngle, targetAngle, steerSpeed * Time.deltaTime);
+
+        foreach (VehicleHubData hub in hubDataList)
+        {
+            if (hub.Steers)
+                hub.transform.localRotation = Quaternion.Euler(0f, currentAngle, 0f);
+        }
+
+    }
+
+
     private void Balance()
     {
         Transform car = carRigidBody.transform;
@@ -123,6 +140,37 @@ public class Vehicle : MonoBehaviour
         carRigidBody.AddTorque(torque, ForceMode.Acceleration);
 
 
+    }
+
+    [Rpc(SendTo.Server)]
+    private void UpdateInputRPC(float driveInput, float steerInput)
+    {
+        serverDrive = driveInput;
+        serverSteer = steerInput;
+        
+
+    }
+
+    //Saving in case this does not work
+    private void Movement()
+    {
+        if (!IsOwner) { return; }
+        _driveInput = 0f;
+        if (Keyboard.current.wKey.isPressed) _driveInput += 1f;
+        if (Keyboard.current.sKey.isPressed) _driveInput -= 1f;
+
+        float steerInput = 0f;
+        if (Keyboard.current.dKey.isPressed) steerInput += 1f;
+        if (Keyboard.current.aKey.isPressed) steerInput -= 1f;
+        float targetAngle = steerInput * maxSteerAngle;
+
+        currentAngle = Mathf.MoveTowardsAngle(currentAngle, targetAngle, steerSpeed * Time.deltaTime);
+
+        foreach (VehicleHubData hub in hubDataList)
+        {
+            if (hub.Steers)
+                hub.transform.localRotation = Quaternion.Euler(0f, currentAngle, 0f);
+        }
     }
 
     
