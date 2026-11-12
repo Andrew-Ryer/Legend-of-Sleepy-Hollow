@@ -2,15 +2,26 @@ using UnityEngine;
 
 public class StarterBouncePad : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [SerializeField] float bounceForce = 10f;
+
+    private void OnCollisionEnter(Collision collision)
     {
-        
+        Rigidbody rb = collision.gameObject.GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            Vector3 currentVelocity = rb.linearVelocity;
+            currentVelocity.y = 0f;
+            rb.linearVelocity = currentVelocity;
+            rb.AddForce(Vector3.up * bounceForce, ForceMode.Impulse);
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnTriggerEnter(Collider other)
     {
-        
+        SkyboundPlayerController player = other.GetComponent<SkyboundPlayerController>();
+        if (player != null)
+        {
+            player.Bounce( bounceForce );
+        }
     }
 }

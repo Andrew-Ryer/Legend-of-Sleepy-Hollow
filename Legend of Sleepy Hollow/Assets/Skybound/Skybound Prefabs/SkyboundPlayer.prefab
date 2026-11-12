@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 4742771407111509447}
   - component: {fileID: 321632499873362145}
   - component: {fileID: 4931275963107342376}
+  - component: {fileID: 3144722238805394651}
   m_Layer: 0
   m_Name: SkyboundPlayer
   m_TagString: Untagged
@@ -186,6 +187,7 @@ MonoBehaviour:
   _characterController: {fileID: 3754726768183587408}
   _moveAction: {fileID: 11400000, guid: 94e90365ca67aab828febf939aa3e991, type: 2}
   _movementSpeed: 4
+  _rotationSpeed: 10
 --- !u!114 &4931275963107342376
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -232,3 +234,16 @@ MonoBehaviour:
   SwitchTransformSpaceWhenParented: 0
   Interpolate: 1
   SlerpPosition: 0
+--- !u!114 &3144722238805394651
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4858464776034837117}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86767afd7d66bcf40b00266a645acf96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SkyboundPlayerCameraController
+  ShowTopMostFoldoutHeaderGroup: 1
