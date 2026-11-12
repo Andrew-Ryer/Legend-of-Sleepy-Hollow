@@ -104,7 +104,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 650986541
+  GlobalObjectIdHash: 2839139369
   InScenePlacedSourceGlobalObjectIdHash: 0
   m_InScenePlacedDisabledByDefault: 0
   DeferredDespawnTick: 0
@@ -224,8 +224,8 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   _body: {fileID: 6892152824527215131}
   _springOriginCollider: {fileID: 2645691113634898601}
-  _turnSpeedDegreesPerSecond: 180
-  _maximumTiltDegrees: 60
+  _risingGravityMultiplier: 1
+  _fallingGravityMultiplier: 2
   _springSettings:
     equilibrium: 0
     frequencyHz: 1
@@ -233,7 +233,6 @@ MonoBehaviour:
   _secondsToFullCharge: 0.6
   _maximumCompressionMeters: 3
   _minimumChargeSeconds: 0.05
-  _minimumGroundNormalDot: 0.5
 --- !u!114 &4551746438586953416
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -247,7 +246,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpringPlayerSpawnAssignment
   ShowTopMostFoldoutHeaderGroup: 1
-  _spawnPositionHandler: {fileID: 0}
   _body: {fileID: 6892152824527215131}
 --- !u!1 &7887826625316994843
 GameObject:

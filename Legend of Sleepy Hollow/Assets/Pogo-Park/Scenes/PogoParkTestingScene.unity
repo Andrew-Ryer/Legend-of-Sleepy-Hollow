@@ -205,13 +205,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 203921254}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.30070576, y: 0, z: 0, w: 0.953717}
-  m_LocalPosition: {x: 0, y: 5, z: -10}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 5, z: -20}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 35, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &203921258
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -677,7 +677,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f07249b7b63d7841990a9b2da128d7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PointsEventScript
-  triggerObject: {fileID: 5694045065026413945, guid: 8f2fa8429c724bb4d8afcb1242883dfd, type: 3}
+  triggerTag: SpringPlayer
   defaultGlowColor: {r: 1, g: 0, b: 0, a: 1}
   triggeredGlowColor: {r: 0, g: 1, b: 0, a: 1}
 --- !u!1 &1392957451
@@ -712,7 +712,8 @@ MonoBehaviour:
   _showVisualizations: 1
   _compressionArrowScale: 0.5
   _releaseArrowScale: 0.2
-  _maximumArrowLength: 4
+  _releaseDecayRate: 1.5
+  _arrowThickness: 3
   _arrowHeadLength: 0.25
   _compressionColor: {r: 1, g: 0, b: 0, a: 1}
   _releaseColor: {r: 0, g: 1, b: 0, a: 1}
@@ -838,7 +839,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 30, y: 1, z: 30}
+  m_LocalScale: {x: 50, y: 1, z: 30}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}

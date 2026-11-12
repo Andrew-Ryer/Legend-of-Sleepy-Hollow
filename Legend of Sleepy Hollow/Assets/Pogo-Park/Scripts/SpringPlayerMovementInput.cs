@@ -10,15 +10,22 @@ public class SpringPlayerMovementInput : NetworkBehaviour
     [SerializeField] Collider _springOriginCollider;
 
     [Header("Tilt")]
-    [SerializeField] float _turnSpeedDegreesPerSecond = 90f;
-    [SerializeField] float _maximumTiltDegrees = 60f;
+    float _turnSpeedDegreesPerSecond = 180;
+    float _maximumTiltDegrees = 60f;
+    float _uprightRecoverySpeedDegreesPerSecond = 180f;
+    float _uprightRecoveryDistance = 2f;
+
+    [Header("Air Gravity")] // Preferably do not change these for now, they are gravity
+    [SerializeField, Min(1f)] float _risingGravityMultiplier = 1.15f; // Don't go below 1
+    [SerializeField, Min(1f)] float _fallingGravityMultiplier = 2.0f; // Don't go below 1
 
     [Header("Spring")]
+    float _postLaunchGroundPause = 0.5f; // Delay before it starts trying to fix the player upright
     [SerializeField] FloatSpring _springSettings = new FloatSpring();
     [SerializeField, Min(0.05f)] float _secondsToFullCharge = 0.6f; // 0.6 is a good starting point;
     [SerializeField, Min(0f)] float _maximumCompressionMeters = 3.0f; // 3.0 is a good starting point
     [SerializeField] float _minimumChargeSeconds = 0.05f;
-    [SerializeField, Range(0f, 1f)] float _minimumGroundNormalDot = 0.5f;
+    float _minimumGroundNormalDot = 0.5f;
 
     float _turnInput;
     bool _spaceHeld;
@@ -26,6 +33,7 @@ public class SpringPlayerMovementInput : NetworkBehaviour
     float _tilt;
     float _chargeTime;
     float _lastSupportTime = float.NegativeInfinity;
+    float _groundResponsePausedUntil;
     float _lastLaunchSpeed;
     float _lastLaunchTime;
     Vector3 _lastLaunchDirection;
@@ -40,7 +48,8 @@ public class SpringPlayerMovementInput : NetworkBehaviour
     public float LastLaunchTime => _lastLaunchTime;
     public Vector3 LastLaunchDirection => _lastLaunchDirection;
 
-    bool SpringOriginGrounded => Time.fixedTime - _lastSupportTime <= Time.fixedDeltaTime * 2.5f;
+    bool SpringOriginGrounded => Time.fixedTime >= _groundResponsePausedUntil &&
+        Time.fixedTime - _lastSupportTime <= Time.fixedDeltaTime * 2.5f;
 
     void Awake()
     {
@@ -107,16 +116,52 @@ public class SpringPlayerMovementInput : NetworkBehaviour
         if (!IsSpawned || !IsServer)
             return;
 
-        _tilt = Mathf.Clamp(_tilt + _turnInput * _turnSpeedDegreesPerSecond * Time.fixedDeltaTime, -_maximumTiltDegrees, _maximumTiltDegrees);
+        bool grounded = _springOriginCollider != null && !_springOriginCollider.isTrigger && SpringOriginGrounded;
+        float normalizedTilt = Mathf.DeltaAngle(0f, _tilt);
+        bool outsideSpringTilt = Mathf.Abs(normalizedTilt) > _maximumTiltDegrees;
+        bool groundResponsePaused = Time.fixedTime < _groundResponsePausedUntil;
+        bool recovering = !groundResponsePaused && outsideSpringTilt && (grounded || IsNearGround());
+
+        if (!grounded)
+        {
+            float gravityMultiplier = _body.linearVelocity.y > 0f
+                ? _risingGravityMultiplier
+                : _fallingGravityMultiplier;
+            float extraGravityMultiplier = _body.useGravity ? gravityMultiplier - 1f : gravityMultiplier;
+            _body.AddForce(Physics.gravity * extraGravityMultiplier, ForceMode.Acceleration);
+        }
+
+        if (recovering)
+        {
+            float targetTilt = Mathf.Clamp(normalizedTilt, -_maximumTiltDegrees, _maximumTiltDegrees);
+            _tilt = Mathf.MoveTowardsAngle(_tilt, targetTilt, _uprightRecoverySpeedDegreesPerSecond * Time.fixedDeltaTime);
+        }
+        else
+        {
+            _tilt += _turnInput * _turnSpeedDegreesPerSecond * Time.fixedDeltaTime;
+            if (grounded)
+                _tilt = Mathf.Clamp(Mathf.DeltaAngle(0f, _tilt), -_maximumTiltDegrees, _maximumTiltDegrees);
+            else
+                _tilt = Mathf.Repeat(_tilt + 180f, 360f) - 180f;
+        }
+
         _body.MoveRotation(Quaternion.Euler(0f, 0f, _tilt));
 
-        bool grounded = _springOriginCollider != null && !_springOriginCollider.isTrigger && SpringOriginGrounded;
-
-        if (grounded && _spaceHeld)
+        if (grounded)
         {
-            _chargeTime = Mathf.Min(_chargeTime + Time.fixedDeltaTime, Mathf.Max(0.05f, _secondsToFullCharge));
+            _body.linearVelocity = new Vector3(0f, _body.linearVelocity.y, _body.linearVelocity.z);
+            _body.angularVelocity = Vector3.zero;
         }
-        else if (!grounded)
+
+        bool canSpring = grounded && Mathf.Abs(Mathf.DeltaAngle(0f, _tilt)) <= _maximumTiltDegrees + 0.1f;
+
+        if (canSpring && _spaceHeld)
+        {
+            _chargeTime = Mathf.Min(
+                _chargeTime + Time.fixedDeltaTime,
+                Mathf.Max(0.05f, _secondsToFullCharge));
+        }
+        else if (!canSpring)
         {
             // Charge only accumulates while the dedicated support collider is actually in contact with a floor-like surface
             _chargeTime = 0f;
@@ -126,13 +171,33 @@ public class SpringPlayerMovementInput : NetworkBehaviour
         {
             _lastLaunchSpeed = 0f;
             _lastLaunchDirection = Vector3.zero;
-            if (grounded && _chargeTime >= _minimumChargeSeconds)
+            if (canSpring && _chargeTime >= _minimumChargeSeconds)
                 Launch();
 
             _chargeTime = 0f;
         }
 
         _spaceWasHeld = _spaceHeld;
+    }
+
+    bool IsNearGround()
+    {
+        RaycastHit[] hits = Physics.RaycastAll(
+            _body.worldCenterOfMass,
+            Vector3.down,
+            _uprightRecoveryDistance,
+            Physics.DefaultRaycastLayers,
+            QueryTriggerInteraction.Ignore);
+
+        foreach (RaycastHit hit in hits)
+        {
+            if (hit.rigidbody == _body || Vector3.Dot(hit.normal, Vector3.up) < _minimumGroundNormalDot)
+                continue;
+
+            return true;
+        }
+
+        return false;
     }
 
     void Launch()
@@ -172,6 +237,7 @@ public class SpringPlayerMovementInput : NetworkBehaviour
             _lastLaunchDirection = _body.transform.up;
             _lastLaunchTime = Time.time;
             _body.linearVelocity = _lastLaunchDirection * launchSpeed;
+            _groundResponsePausedUntil = Time.fixedTime + _postLaunchGroundPause;
         }
 
         _lastSupportTime = float.NegativeInfinity;

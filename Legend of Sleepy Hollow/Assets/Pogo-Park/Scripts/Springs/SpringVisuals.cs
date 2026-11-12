@@ -10,8 +10,9 @@ public class SpringVisuals : MonoBehaviour
     [SerializeField] bool _showVisualizations = true;
     [SerializeField] float _compressionArrowScale = 0.5f;
     [SerializeField] float _releaseArrowScale = 0.2f;
-    [SerializeField, Min(0.01f)] float _releaseDecayRate = 1.5f;
+    [SerializeField, Min(0.01f)] float _releaseDecayRate = 0.5f;
     [SerializeField, Min(0.1f)] float _arrowThickness = 3f;
+    [SerializeField, Min(0.01f)] float _arrowHeadLength = 0.25f;
     [SerializeField] Color _compressionColor = Color.red;
     [SerializeField] Color _releaseColor = Color.green;
 
@@ -48,12 +49,21 @@ public class SpringVisuals : MonoBehaviour
 
     void DrawVector(Vector3 origin, Vector3 vector, Color color)
     {
+        Vector3 tip = origin + vector;
+        Vector3 back = -vector.normalized * _arrowHeadLength;
+        Vector3 leftWing = Quaternion.AngleAxis(30f, Vector3.forward) * back;
+        Vector3 rightWing = Quaternion.AngleAxis(-30f, Vector3.forward) * back;
+
         Gizmos.color = color;
-        Gizmos.DrawRay(origin, vector);
+        Gizmos.DrawLine(origin, tip);
+        Gizmos.DrawLine(tip, tip + leftWing);
+        Gizmos.DrawLine(tip, tip + rightWing);
 
 #if UNITY_EDITOR
         Handles.color = color;
-        Handles.DrawLine(origin, origin + vector, _arrowThickness);
+        Handles.DrawLine(origin, tip, _arrowThickness);
+        Handles.DrawLine(tip, tip + leftWing, _arrowThickness);
+        Handles.DrawLine(tip, tip + rightWing, _arrowThickness);
 #endif
     }
 }
