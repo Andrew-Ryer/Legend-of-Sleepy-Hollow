@@ -10,6 +10,7 @@ using UnityEngine.InputSystem;
 public class KitchenMovement : NetworkBehaviour
 {
     [SerializeField] private GameObject cinemachineCamera;
+    [SerializeField] private Transform cameraTransform;
     public float speed = 5f;
     public ulong OwnerClientId => NetworkObject.OwnerClientId;
 
@@ -65,7 +66,17 @@ public class KitchenMovement : NetworkBehaviour
         if (Keyboard.current.sKey.isPressed) verticalDirection -= 1f;
         if (Keyboard.current.wKey.isPressed) verticalDirection += 1f;
 
-        Vector3 combinedMovement = new Vector3(horizontalDirection, 0, verticalDirection).normalized;
+        Vector3 forward = cameraTransform.forward;
+        Vector3 right = cameraTransform.right;
+
+        forward.y = 0f;
+        right.y = 0f;
+
+        forward.Normalize();
+        right.Normalize();
+
+        //Vector3 combinedMovement = new Vector3(horizontalDirection, 0, verticalDirection).normalized;
+        Vector3 combinedMovement = (forward * verticalDirection + right * horizontalDirection).normalized;
         if (combinedMovement == Vector3.zero) return;
         Debug.Log($"Sending movement: {horizontalDirection}");
         MoveIntentRpc(combinedMovement);
@@ -88,7 +99,7 @@ public class KitchenMovement : NetworkBehaviour
         Vector3 clampedDirection = Vector3.ClampMagnitude(direction, 1f);
         if (clampedDirection == Vector3.zero) return;
 
-        transform.Translate(clampedDirection * speed * Time.deltaTime);
+        transform.Translate(clampedDirection * speed * Time.deltaTime, Space.World);
         MaintainServerLane();
 
         if (!_loggedFirstAcceptedMove)
