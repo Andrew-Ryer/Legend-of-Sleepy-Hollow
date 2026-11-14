@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 using Unity.Netcode;
 using UnityEngine;
@@ -6,39 +7,56 @@ using UnityEngine;
 // Script to handle which player is closest to a finishPoint from the startingPoint
 public class RaceProgressTracker : MonoBehaviour
 {
-    [SerializeField] Transform _startingPoint;
+    [SerializeField] Transform _spawnPoint;
     [SerializeField] Transform _finishPoint;
+    [SerializeField] Timer _timer;
 
     const float PrintIntervalSeconds = 1f;
     float _nextPrintTime;
+    bool _raceFinished;
+
+    readonly Dictionary<ulong, PlayerProgress> _players = new();
+    readonly Dictionary<ulong, float> _finishTimes = new();
 
     struct PlayerProgress
     {
+        public ulong ClientId;
         public string PlayerName;
         public float Progress;
     }
 
-    void Update()
+    void Awake()
     {
-        if (Time.time < _nextPrintTime)
-            return;
-
-        _nextPrintTime = Time.time + PrintIntervalSeconds;
-        PrintLeaderboard();
+        if (_timer == null)
+            _timer = FindFirstObjectByType<Timer>();
     }
 
-    void PrintLeaderboard()
+    void OnEnable()
     {
-        NetworkManager networkManager = NetworkManager.Singleton;
-        if (_startingPoint == null || _finishPoint == null || networkManager == null || !networkManager.IsServer)
+        if (_timer != null)
+            _timer.TimerExpired += HandleTimerExpired;
+    }
+
+    void OnDisable()
+    {
+        if (_timer != null)
+            _timer.TimerExpired -= HandleTimerExpired;
+    }
+
+    void Update()
+    {
+        if (_raceFinished || _spawnPoint == null || _finishPoint == null || _timer == null)
             return;
 
-        float startX = _startingPoint.position.x;
+        NetworkManager networkManager = NetworkManager.Singleton;
+        if (networkManager == null || !networkManager.IsListening)
+            return;
+
+        float startX = _spawnPoint.position.x;
         float finishX = _finishPoint.position.x;
         if (Mathf.Approximately(startX, finishX))
             return;
 
-        List<PlayerProgress> players = new List<PlayerProgress>();
         foreach (NetworkObject networkObject in networkManager.SpawnManager.SpawnedObjectsList)
         {
             if (networkObject == null || !networkObject.IsPlayerObject ||
@@ -46,17 +64,67 @@ public class RaceProgressTracker : MonoBehaviour
                 continue;
 
             float progress = Mathf.InverseLerp(startX, finishX, player.transform.position.x) * 100f;
-            players.Add(new PlayerProgress
+            ulong clientId = networkObject.OwnerClientId;
+            _players[clientId] = new PlayerProgress
             {
-                PlayerName = $"Player {networkObject.OwnerClientId + 1}",
+                ClientId = clientId,
+                PlayerName = $"Player {clientId + 1}",
                 Progress = progress
-            });
+            };
+
+            if (progress >= 100f && !_finishTimes.ContainsKey(clientId))
+                _finishTimes[clientId] = _timer.ElapsedTime;
         }
 
-        if (players.Count == 0)
+        if (_players.Count == 0)
             return;
 
-        players.Sort((a, b) => b.Progress.CompareTo(a.Progress));
+        if (_finishTimes.Count >= _players.Count)
+        {
+            FinishRace(true, networkManager.IsServer);
+            return;
+        }
+
+        if (networkManager.IsServer && Time.time >= _nextPrintTime)
+        {
+            _nextPrintTime = Time.time + PrintIntervalSeconds;
+            Debug.Log(BuildLiveLeaderboard());
+        }
+    }
+
+    void HandleTimerExpired()
+    {
+        NetworkManager networkManager = NetworkManager.Singleton;
+        FinishRace(false, networkManager == null || networkManager.IsServer);
+    }
+
+    void FinishRace(bool allPlayersFinished, bool shouldLog)
+    {
+        if (_raceFinished)
+            return;
+
+        _raceFinished = true;
+        _timer.StopTimer();
+
+        if (!shouldLog)
+            return;
+
+        StringBuilder message = new StringBuilder();
+        if (allPlayersFinished)
+            message.AppendLine("All players reached the end!");
+
+        message.Append(BuildFinalResults());
+        Debug.Log(message.ToString());
+    }
+
+    string BuildLiveLeaderboard()
+    {
+        List<PlayerProgress> players = new List<PlayerProgress>(_players.Values);
+        players.Sort((a, b) =>
+        {
+            int progressOrder = b.Progress.CompareTo(a.Progress);
+            return progressOrder != 0 ? progressOrder : a.ClientId.CompareTo(b.ClientId);
+        });
 
         StringBuilder message = new StringBuilder();
         for (int i = 0; i < players.Count; i++)
@@ -70,7 +138,44 @@ public class RaceProgressTracker : MonoBehaviour
                 .Append(Mathf.RoundToInt(players[i].Progress)).Append(" units)");
         }
 
-        Debug.Log(message.ToString());
+        return message.ToString();
+    }
+
+    string BuildFinalResults()
+    {
+        List<PlayerProgress> players = new List<PlayerProgress>(_players.Values);
+        players.Sort((a, b) =>
+        {
+            bool aFinished = _finishTimes.TryGetValue(a.ClientId, out float aTime);
+            bool bFinished = _finishTimes.TryGetValue(b.ClientId, out float bTime);
+
+            if (aFinished && bFinished)
+                return aTime.CompareTo(bTime);
+            if (aFinished)
+                return -1;
+            if (bFinished)
+                return 1;
+
+            int progressOrder = b.Progress.CompareTo(a.Progress);
+            return progressOrder != 0 ? progressOrder : a.ClientId.CompareTo(b.ClientId);
+        });
+
+        StringBuilder message = new StringBuilder();
+        for (int i = 0; i < players.Count; i++)
+        {
+            int place = i + 1;
+            message.Append(place).Append(GetPlaceSuffix(place)).Append(" Place: ")
+                .Append(players[i].PlayerName).Append(" (");
+
+            if (_finishTimes.TryGetValue(players[i].ClientId, out float finishTime))
+                message.Append(finishTime.ToString("F3", CultureInfo.InvariantCulture)).Append('s');
+            else
+                message.Append("n/a");
+
+            message.AppendLine(")");
+        }
+
+        return message.ToString();
     }
 
     static string GetPlaceSuffix(int place)

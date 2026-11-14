@@ -266,6 +266,7 @@ GameObject:
   m_Component:
   - component: {fileID: 314746345}
   - component: {fileID: 314746344}
+  - component: {fileID: 314746346}
   m_Layer: 0
   m_Name: RaceProgressHandler
   m_TagString: Untagged
@@ -285,8 +286,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf4c5823ede615d40b6f1af183443564, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RaceProgressHandler
-  _startingPoint: {fileID: 2064335762}
+  _spawnPoint: {fileID: 2064335762}
   _finishPoint: {fileID: 1333523892}
+  _timer: {fileID: 314746346}
 --- !u!4 &314746345
 Transform:
   m_ObjectHideFlags: 0
@@ -302,6 +304,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &314746346
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 314746343}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 352edc7ce1e28433db3ac9e3cab661fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Timer
+  timeLeft: 60
+  timerIsRunning: 1
+  endGameWhenTimeRunsOut: 1
 --- !u!1 &483103476
 GameObject:
   m_ObjectHideFlags: 0

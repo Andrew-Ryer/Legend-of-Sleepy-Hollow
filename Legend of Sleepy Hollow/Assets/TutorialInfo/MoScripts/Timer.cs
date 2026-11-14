@@ -1,12 +1,39 @@
+using System;
+using Unity.Netcode;
 using UnityEngine;
 
+// Updated to now end the game by setting deltaTime to 0 if that feature is enabled
 public class Timer : MonoBehaviour
 {
-    [SerializeField] float timeLeft = 5;
+    [SerializeField, Min(0f)] float timeLeft = 60f;
     [SerializeField] bool timerIsRunning = true;
+    [SerializeField] bool endGameWhenTimeRunsOut;
+
+    float _startingTime;
+    float _elapsedTime;
+    int _lastLoggedSecond = -1;
+    bool _hasExpired;
+
+    public float TimeLeft => Mathf.Max(0f, timeLeft);
+    public float ElapsedTime => _elapsedTime;
+    public bool IsRunning => timerIsRunning;
+    public bool HasExpired => _hasExpired;
+    public event Action TimerExpired;
+
+    void Awake()
+    {
+        _startingTime = Mathf.Max(0f, timeLeft);
+    }
 
     public void StartTimer()
     {
+        if (_hasExpired && endGameWhenTimeRunsOut)
+            Time.timeScale = 1f;
+
+        timeLeft = _startingTime;
+        _elapsedTime = 0f;
+        _lastLoggedSecond = -1;
+        _hasExpired = false;
         timerIsRunning = true;
     }
 
@@ -15,17 +42,41 @@ public class Timer : MonoBehaviour
         timerIsRunning = false;
     }
 
-    public void Update()
+    void Update()
     {
-        if (timerIsRunning)
+        if (!timerIsRunning)
+            return;
+
+        float deltaTime = Time.deltaTime;
+        timeLeft = Mathf.Max(0f, timeLeft - deltaTime);
+        _elapsedTime += deltaTime;
+
+        int remainingSeconds = Mathf.CeilToInt(timeLeft);
+        if (remainingSeconds != _lastLoggedSecond)
         {
-            timeLeft -= Time.deltaTime;
-            Debug.Log("Time remaining: " + timeLeft);
+            _lastLoggedSecond = remainingSeconds;
+            if (ShouldLog())
+                Debug.Log($"Time remaining: {remainingSeconds}");
         }
-        if (timeLeft <= 0)
+
+        if (timeLeft > 0f || _hasExpired)
+            return;
+
+        _hasExpired = true;
+        timerIsRunning = false;
+        TimerExpired?.Invoke();
+
+        if (endGameWhenTimeRunsOut)
         {
-            Debug.Log("Times Up!");
-            StopTimer();
+            if (ShouldLog())
+                Debug.Log("Game Over!");
+            Time.timeScale = 0f;
         }
+    }
+
+    bool ShouldLog()
+    {
+        NetworkManager networkManager = NetworkManager.Singleton;
+        return networkManager == null || networkManager.IsServer;
     }
 }
