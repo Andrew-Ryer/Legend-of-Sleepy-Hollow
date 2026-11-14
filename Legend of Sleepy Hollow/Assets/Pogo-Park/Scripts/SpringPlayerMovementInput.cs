@@ -10,20 +10,20 @@ public class SpringPlayerMovementInput : NetworkBehaviour
     [SerializeField] Collider _springOriginCollider;
 
     [Header("Tilt")]
-    float _turnSpeedDegreesPerSecond = 180;
+    [SerializeField] float _turnSpeedDegreesPerSecond = 270; // 270 is the default
     float _maximumTiltDegrees = 60f;
     float _uprightRecoverySpeedDegreesPerSecond = 180f;
     float _uprightRecoveryDistance = 2f;
 
     [Header("Air Gravity")] // Preferably do not change these for now, they are gravity
-    [SerializeField, Min(1f)] float _risingGravityMultiplier = 1.15f; // Don't go below 1
-    [SerializeField, Min(1f)] float _fallingGravityMultiplier = 2.0f; // Don't go below 1
+    [SerializeField, Min(1f)] float _risingGravityMultiplier = 3.0f; // 3.0 is the default
+    [SerializeField, Min(1f)] float _fallingGravityMultiplier = 5.0f; // 5.0 is the default
 
     [Header("Spring")]
     float _postLaunchGroundPause = 0.5f; // Delay before it starts trying to fix the player upright
     [SerializeField] FloatSpring _springSettings = new FloatSpring();
     [SerializeField, Min(0.05f)] float _secondsToFullCharge = 0.6f; // 0.6 is a good starting point;
-    [SerializeField, Min(0f)] float _maximumCompressionMeters = 3.0f; // 3.0 is a good starting point
+    [SerializeField, Min(0f)] float _maximumCompressionMeters = 5.0f; // 5.0 is the default
     [SerializeField] float _minimumChargeSeconds = 0.05f;
     float _minimumGroundNormalDot = 0.5f;
 
