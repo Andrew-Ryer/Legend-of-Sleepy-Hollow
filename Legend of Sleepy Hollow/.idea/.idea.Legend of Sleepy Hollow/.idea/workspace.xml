@@ -11,9 +11,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="eb8be328-1ac4-4095-8465-ef6e9dfb5720" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Legend of Sleepy Hollow/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Legend of Sleepy Hollow/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Pogo-Park/Scenes/PogoParkTestingScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Pogo-Park/Scenes/PogoParkTestingScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Pogo-Park/Scripts/RaceProgressHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Pogo-Park/Scripts/RaceProgressHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/TutorialInfo/MoScripts/Timer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TutorialInfo/MoScripts/Timer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Pogo-Park/Scripts.zip.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Pogo-Park/Scripts/RaceProgressHandler.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Pogo-Park/Scripts/RaceProgressHandler.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Pogo-Park/Scripts/SpringPlayerMovementInput.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Pogo-Park/Scripts/SpringPlayerMovementInput.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -127,6 +130,9 @@
       <workItem from="1794693228229" duration="314000" />
       <workItem from="1794710396804" duration="31000" />
       <workItem from="1794710665801" duration="3000" />
+      <workItem from="1794713247099" duration="2000" />
+      <workItem from="1794714233422" duration="6000" />
+      <workItem from="1794721056146" duration="76000" />
     </task>
     <servers />
   </component>

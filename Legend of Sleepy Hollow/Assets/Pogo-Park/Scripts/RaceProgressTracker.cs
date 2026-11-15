@@ -67,31 +67,25 @@ public class RaceProgressTracker : MonoBehaviour
                 !networkObject.TryGetComponent(out SpringPlayerMovementInput player))
                 continue;
 
-            float progress = Mathf.InverseLerp(startX, finishX, player.transform.position.x) * 100f;
             ulong clientId = networkObject.OwnerClientId;
+            float progress = player.HasFinished
+                ? 100f
+                : Mathf.Min(99f, Mathf.InverseLerp(startX, finishX, player.transform.position.x) * 100f);
+
             _players[clientId] = new PlayerProgress
             {
                 ClientId = clientId,
                 PlayerName = $"Player {clientId + 1}",
                 Progress = progress
             };
-
-            if (progress >= 100f && !_finishTimes.ContainsKey(clientId))
-                _finishTimes[clientId] = _timer.ElapsedTime;
         }
 
-        _rankedPlayers.Clear();
-        _rankedPlayers.AddRange(_players.Values);
-        _rankedPlayers.Sort((a, b) =>
-        {
-            int progressOrder = b.Progress.CompareTo(a.Progress);
-            return progressOrder != 0 ? progressOrder : a.ClientId.CompareTo(b.ClientId);
-        });
+        RefreshRankedPlayers();
 
         if (_rankedPlayers.Count == 0)
             return;
 
-        if (_finishTimes.Count >= _rankedPlayers.Count)
+        if (AllPlayersFinished())
         {
             FinishRace(true, networkManager.IsServer);
             return;
@@ -102,6 +96,55 @@ public class RaceProgressTracker : MonoBehaviour
             _nextPrintTime = Time.time + PrintIntervalSeconds;
             Debug.Log(BuildLiveLeaderboard());
         }
+    }
+
+    public void RegisterPlayerFinished(SpringPlayerMovementInput player)
+    {
+        NetworkManager networkManager = NetworkManager.Singleton;
+        if (_raceFinished || _timer == null || !_timer.GameplayStarted ||
+            networkManager == null || !networkManager.IsServer || player == null)
+            return;
+
+        NetworkObject networkObject = player.GetComponent<NetworkObject>();
+        if (networkObject == null || !player.MarkFinished())
+            return;
+
+        ulong clientId = networkObject.OwnerClientId;
+        PlayerProgress finishedPlayer = new PlayerProgress
+        {
+            ClientId = clientId,
+            PlayerName = $"Player {clientId + 1}",
+            Progress = 100f
+        };
+
+        _players[clientId] = finishedPlayer;
+        _finishTimes[clientId] = _timer.ElapsedTime;
+        RefreshRankedPlayers();
+    }
+
+    void RefreshRankedPlayers()
+    {
+        _rankedPlayers.Clear();
+        _rankedPlayers.AddRange(_players.Values);
+        _rankedPlayers.Sort((a, b) =>
+        {
+            int progressOrder = b.Progress.CompareTo(a.Progress);
+            return progressOrder != 0 ? progressOrder : a.ClientId.CompareTo(b.ClientId);
+        });
+    }
+
+    bool AllPlayersFinished()
+    {
+        if (_rankedPlayers.Count == 0)
+            return false;
+
+        foreach (PlayerProgress player in _rankedPlayers)
+        {
+            if (player.Progress < 100f)
+                return false;
+        }
+
+        return true;
     }
 
     void HandleTimerExpired()

@@ -4,28 +4,36 @@ using TMPro;
 using UnityEngine;
 
 // Updated to now end the game by setting deltaTime to 0 if that feature is enabled
+// As well as featuring an optional countdown that only affects the players in PogoPark
 public class Timer : MonoBehaviour
 {
     [SerializeField, Min(0f)] float timeLeft = 60f;
     [SerializeField] bool timerIsRunning = true;
     [SerializeField] bool endGameWhenTimeRunsOut;
+    [SerializeField] bool countdownTimer;
+    [SerializeField, Min(0f)] float countdownTime = 3f;
     [SerializeField] TMP_Text timerText;
 
     float _startingTime;
+    float _countdownRemaining;
     float _elapsedTime;
     int _lastLoggedSecond = -1;
     int _lastDisplayedSecond = -1;
+    bool _isCountingDown;
     bool _hasExpired;
 
     public float TimeLeft => Mathf.Max(0f, timeLeft);
     public float ElapsedTime => _elapsedTime;
     public bool IsRunning => timerIsRunning;
     public bool HasExpired => _hasExpired;
+    public bool GameplayStarted => timerIsRunning && !_isCountingDown && !_hasExpired;
     public event Action TimerExpired;
 
     void Awake()
     {
         _startingTime = Mathf.Max(0f, timeLeft);
+        if (timerIsRunning)
+            BeginCountdownOrRun();
         UpdateTimerText();
     }
 
@@ -38,17 +46,37 @@ public class Timer : MonoBehaviour
         _elapsedTime = 0f;
         _lastLoggedSecond = -1;
         _hasExpired = false;
-        timerIsRunning = true;
+        BeginCountdownOrRun();
         UpdateTimerText();
     }
 
     public void StopTimer()
     {
+        _isCountingDown = false;
         timerIsRunning = false;
+        UpdateTimerText();
     }
 
     void Update()
     {
+        if (_isCountingDown)
+        {
+            _countdownRemaining = Mathf.Max(0f, _countdownRemaining - Time.deltaTime);
+            UpdateTimerText();
+
+            if (_countdownRemaining <= 0f)
+            {
+                _isCountingDown = false;
+                timerIsRunning = true;
+                _elapsedTime = 0f;
+                _lastLoggedSecond = -1;
+                _lastDisplayedSecond = -1;
+                UpdateTimerText();
+            }
+
+            return;
+        }
+
         if (!timerIsRunning)
             return;
 
@@ -91,11 +119,31 @@ public class Timer : MonoBehaviour
         if (timerText == null)
             return;
 
-        int displayedSeconds = Mathf.CeilToInt(Mathf.Max(0f, timeLeft));
+        int displayedSeconds = _isCountingDown
+            ? Mathf.CeilToInt(_countdownRemaining)
+            : Mathf.CeilToInt(Mathf.Max(0f, timeLeft));
         if (displayedSeconds == _lastDisplayedSecond)
             return;
 
         _lastDisplayedSecond = displayedSeconds;
-        timerText.text = $"Time\n{displayedSeconds / 60}:{displayedSeconds % 60:00}";
+        timerText.text = _isCountingDown
+            ? $"Starting in\n{displayedSeconds}"
+            : $"Time\n{displayedSeconds / 60}:{displayedSeconds % 60:00}";
+    }
+
+    void BeginCountdownOrRun()
+    {
+        if (countdownTimer && countdownTime > 0f)
+        {
+            _isCountingDown = true;
+            timerIsRunning = false;
+            _countdownRemaining = countdownTime;
+            _lastDisplayedSecond = -1;
+        }
+        else
+        {
+            _isCountingDown = false;
+            timerIsRunning = true;
+        }
     }
 }

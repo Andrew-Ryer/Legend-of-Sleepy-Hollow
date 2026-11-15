@@ -8,6 +8,7 @@ public class SpringPlayerMovementInput : NetworkBehaviour
 {
     [SerializeField] Rigidbody _body;
     [SerializeField] Collider _springOriginCollider;
+    Timer _timer;
 
     [Header("Tilt")]
     [SerializeField] float _turnSpeedDegreesPerSecond = 270; // 270 is the default
@@ -37,9 +38,14 @@ public class SpringPlayerMovementInput : NetworkBehaviour
     float _lastLaunchSpeed;
     float _lastLaunchTime;
     Vector3 _lastLaunchDirection;
+    NetworkVariable<bool> _hasFinished = new NetworkVariable<bool>(
+        false,
+        NetworkVariableReadPermission.Everyone,
+        NetworkVariableWritePermission.Server);
 
     public Rigidbody Body => _body;
     public Collider SpringOriginCollider => _springOriginCollider;
+    public bool HasFinished => _hasFinished.Value;
     public bool IsSpringOriginGrounded => _springOriginCollider != null && !_springOriginCollider.isTrigger && SpringOriginGrounded;
     public bool IsCharging => _spaceHeld && IsSpringOriginGrounded && _chargeTime > 0f;
     public float Charge01 => Mathf.Clamp01(_chargeTime / Mathf.Max(0.05f, _secondsToFullCharge));
@@ -47,6 +53,21 @@ public class SpringPlayerMovementInput : NetworkBehaviour
     public float LastLaunchSpeed => _lastLaunchSpeed;
     public float LastLaunchTime => _lastLaunchTime;
     public Vector3 LastLaunchDirection => _lastLaunchDirection;
+
+    public bool MarkFinished()
+    {
+        if (!IsServer || !IsSpawned || _hasFinished.Value)
+            return false;
+
+        _hasFinished.Value = true;
+        _turnInput = 0f;
+        _spaceHeld = false;
+        _spaceWasHeld = false;
+        _chargeTime = 0f;
+        _body.linearVelocity = Vector3.zero;
+        _body.angularVelocity = Vector3.zero;
+        return true;
+    }
 
     bool SpringOriginGrounded => Time.fixedTime >= _groundResponsePausedUntil &&
         Time.fixedTime - _lastSupportTime <= Time.fixedDeltaTime * 2.5f;
@@ -70,6 +91,8 @@ public class SpringPlayerMovementInput : NetworkBehaviour
                 _springOriginCollider = origin.GetComponent<Collider>();
         }
 
+        _timer = FindFirstObjectByType<Timer>();
+
         // This is a side-view movement plane: preserve only world X/Y movement and allow the player to tilt around world Z
         _body.constraints &= ~RigidbodyConstraints.FreezeRotationZ;
         _body.constraints |= RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY;
@@ -77,7 +100,7 @@ public class SpringPlayerMovementInput : NetworkBehaviour
 
     void Update()
     {
-        if (!IsSpawned || !IsOwner)
+        if (!IsSpawned || !IsOwner || HasFinished || IsWaitingForStart)
             return;
 
         Keyboard keys = Keyboard.current;
@@ -115,6 +138,33 @@ public class SpringPlayerMovementInput : NetworkBehaviour
     {
         if (!IsSpawned || !IsServer)
             return;
+
+        if (HasFinished)
+        {
+            _turnInput = 0f;
+            _spaceHeld = false;
+            _spaceWasHeld = false;
+            _chargeTime = 0f;
+            _tilt = Mathf.MoveTowardsAngle(
+                _tilt,
+                0f,
+                _uprightRecoverySpeedDegreesPerSecond * Time.fixedDeltaTime);
+            _body.MoveRotation(Quaternion.Euler(0f, 0f, _tilt));
+            _body.linearVelocity = Vector3.zero;
+            _body.angularVelocity = Vector3.zero;
+            return;
+        }
+
+        if (IsWaitingForStart)
+        {
+            _turnInput = 0f;
+            _spaceHeld = false;
+            _spaceWasHeld = false;
+            _chargeTime = 0f;
+            _body.linearVelocity = Vector3.zero;
+            _body.angularVelocity = Vector3.zero;
+            return;
+        }
 
         bool grounded = _springOriginCollider != null && !_springOriginCollider.isTrigger && SpringOriginGrounded;
         float normalizedTilt = Mathf.DeltaAngle(0f, _tilt);
@@ -179,6 +229,8 @@ public class SpringPlayerMovementInput : NetworkBehaviour
 
         _spaceWasHeld = _spaceHeld;
     }
+
+    bool IsWaitingForStart => _timer != null && !_timer.GameplayStarted;
 
     bool IsNearGround()
     {
