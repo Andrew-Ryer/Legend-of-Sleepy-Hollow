@@ -36,10 +36,12 @@ public class CameraLockLook : NetworkBehaviour
 
         targetRotation = Quaternion.LookRotation(direction);
         
+        /*
         if (IsServer)
         {
             transform.rotation = targetRotation;
         }
+        */
         RequestRotationServerRpc(targetRotation);
         /*
         else
@@ -54,12 +56,12 @@ public class CameraLockLook : NetworkBehaviour
     {
         if (!IsServer || rb == null) return;
 
-        rb.MoveRotation(targetRotation);
+        rb.MoveRotation(targetRotation.normalized);
     }
 
     [ServerRpc]
     private void RequestRotationServerRpc(Quaternion rotation)
     {
-        rb.rotation = rotation;
+        targetRotation = rotation.normalized;
     }
 }
