@@ -5,6 +5,7 @@ using Unity.Netcode;
 using UnityEngine;
 
 // Script to handle which player is closest to a finishPoint from the startingPoint
+// Updated to work with the leaderboard UI to track player positions
 public class RaceProgressTracker : MonoBehaviour
 {
     [SerializeField] Transform _spawnPoint;
@@ -17,13 +18,16 @@ public class RaceProgressTracker : MonoBehaviour
 
     readonly Dictionary<ulong, PlayerProgress> _players = new();
     readonly Dictionary<ulong, float> _finishTimes = new();
+    readonly List<PlayerProgress> _rankedPlayers = new();
 
-    struct PlayerProgress
+    public struct PlayerProgress
     {
         public ulong ClientId;
         public string PlayerName;
         public float Progress;
     }
+
+    public IReadOnlyList<PlayerProgress> RankedPlayers => _rankedPlayers;
 
     void Awake()
     {
@@ -76,10 +80,18 @@ public class RaceProgressTracker : MonoBehaviour
                 _finishTimes[clientId] = _timer.ElapsedTime;
         }
 
-        if (_players.Count == 0)
+        _rankedPlayers.Clear();
+        _rankedPlayers.AddRange(_players.Values);
+        _rankedPlayers.Sort((a, b) =>
+        {
+            int progressOrder = b.Progress.CompareTo(a.Progress);
+            return progressOrder != 0 ? progressOrder : a.ClientId.CompareTo(b.ClientId);
+        });
+
+        if (_rankedPlayers.Count == 0)
             return;
 
-        if (_finishTimes.Count >= _players.Count)
+        if (_finishTimes.Count >= _rankedPlayers.Count)
         {
             FinishRace(true, networkManager.IsServer);
             return;
@@ -119,23 +131,16 @@ public class RaceProgressTracker : MonoBehaviour
 
     string BuildLiveLeaderboard()
     {
-        List<PlayerProgress> players = new List<PlayerProgress>(_players.Values);
-        players.Sort((a, b) =>
-        {
-            int progressOrder = b.Progress.CompareTo(a.Progress);
-            return progressOrder != 0 ? progressOrder : a.ClientId.CompareTo(b.ClientId);
-        });
-
         StringBuilder message = new StringBuilder();
-        for (int i = 0; i < players.Count; i++)
+        for (int i = 0; i < _rankedPlayers.Count; i++)
         {
             if (i > 0)
                 message.Append(" - ");
 
             int place = i + 1;
             message.Append(place).Append(GetPlaceSuffix(place)).Append(" Place: ")
-                .Append(players[i].PlayerName).Append(" (")
-                .Append(Mathf.RoundToInt(players[i].Progress)).Append(" units)");
+                .Append(_rankedPlayers[i].PlayerName).Append(" (")
+                .Append(Mathf.RoundToInt(_rankedPlayers[i].Progress)).Append(" units)");
         }
 
         return message.ToString();
