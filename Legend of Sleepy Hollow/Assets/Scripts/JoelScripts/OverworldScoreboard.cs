@@ -1,24 +1,29 @@
+using TMPro;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 /*
- * OverworldScoreboard is the box in the top-left corner. Collapsed it is a
- * small square; hold Tab to expand the full scores, release to shrink back.
+ * OverworldScoreboard is the chip in the top-left corner. Collapsed it shows
+ * each team's total plus your name and points; hold Tab to open the full
+ * two-column scoreboard, release to close it.
  */
 
 public class OverworldScoreboard : ScoreboardUi
 {
     [SerializeField] GameObject _expandedContent;
+    [SerializeField] GameObject _chipContent;
+    [SerializeField] Image _panelImage;
 
-    static readonly Vector2 ExpandedSize = new(684, 420);
-
-    RectTransform _rect;
-    Vector2 _collapsedSize;
+    [SerializeField] TMP_Text _chipMortal;
+    [SerializeField] TMP_Text _chipGhost;
+    [SerializeField] TMP_Text _chipMe;
 
     void Awake()
     {
-        _rect = (RectTransform)transform;
-        _collapsedSize = _rect.sizeDelta;
+        _chipContent.SetActive(true);
+        _expandedContent.SetActive(false);
     }
 
     protected void OnEnable()
@@ -42,7 +47,25 @@ public class OverworldScoreboard : ScoreboardUi
         if (_expandedContent.activeSelf == open) return;
 
         _expandedContent.SetActive(open);
-        _rect.sizeDelta = open ? ExpandedSize : _collapsedSize;
-        if (open) Refresh();
+        _chipContent.SetActive(!open);
+        _panelImage.enabled = !open;
+        Refresh();
+    }
+
+    protected override void OnRefreshed(PlayerRoster roster)
+    {
+        int mortalTotal = 0, ghostTotal = 0;
+        foreach (PlayerRosterEntry entry in roster.Snapshot())
+        {
+            if (entry.ClientId == PlayerRoster.UnclaimedClientId) continue;
+            if (entry.Team == GameTeam.Mortal) mortalTotal += entry.Points;
+            else ghostTotal += entry.Points;
+        }
+
+        _chipMortal.text = $"Mortals: {mortalTotal}";
+        _chipGhost.text = $"Ghosts: {ghostTotal}";
+
+        PlayerRosterEntry? me = roster.FindByClientId(NetworkManager.Singleton.LocalClientId);
+        _chipMe.text = me.HasValue ? $"{me.Value.Username}: {me.Value.Points}" : "You: 0";
     }
 }

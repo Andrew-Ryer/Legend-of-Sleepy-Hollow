@@ -40,8 +40,11 @@ PlayerRoster.PlayerRosterUpdated -= MyRefresh;   // in OnDisable
 
 - Drag `Assets/Overworld/Prefabs/MinigameScoreboardCanvas.prefab` into your
   minigame scene: it appears and updates itself, zero code.
-- Overworld scoreboard: small square top-left; **hold Tab** to see all scores,
-  release to close.
+- Overworld scoreboard: a small chip top-left always shows each team's total
+  plus your own `name: points`. **Hold Tab** to open the full-screen board —
+  two columns split by a divider, every claimed player listed per team
+  (name left, points right) and `Total: N` at the bottom of each column.
+  Release Tab to close. Unclaimed seats never appear anywhere.
 - Nameplates float over every `Player.prefab` already; don't add your own.
 
 ## Files (all in `Assets/Scripts/JoelScripts/`)
