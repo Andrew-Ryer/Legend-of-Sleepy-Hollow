@@ -8,28 +8,36 @@ using UnityEngine;
  * spawns. Purely local and presentational, so this is a plain MonoBehaviour.
  */
 
+
+
 public class CameraFollow : NetworkBehaviour
 {
     private Camera camera;
-    Vector3 offsetFromPlane;
-    Vector3 originPosition;
+    Vector3 planePosition;
+    Vector3 cameraPosition;
+
+    /*private void Update()
+    {
+        Debug.Log("Camera: " + camera.transform.position);
+        Debug.Log("Plane: " + transform.position);
+    }*/
 
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
         if (IsOwner == false)
             return;
+        
         camera = Camera.main;
-        originPosition = camera.transform.position;
-        offsetFromPlane = transform.position - camera.transform.position;
     }
 
     public override void OnNetworkDespawn()
     {
         if (IsOwner && camera != null)
         {
-            camera.transform.position = originPosition;
+            // camera.transform.position = originPosition;
         }
+        
         base.OnNetworkDespawn();
     }
 
@@ -37,7 +45,22 @@ public class CameraFollow : NetworkBehaviour
     {
         if (IsOwner && camera != null)
         {
-            camera.transform.position = transform.position + offsetFromPlane;
+            planePosition = transform.position;
+            cameraPosition = planePosition - transform.right * 5f + transform.up * 1f; 
+            camera.transform.position = cameraPosition;
         }
     }
 }
+
+// [SerializeField] Vector3 offset;
+//
+// public Transform Target { get; set; }
+//
+// void LateUpdate()
+// {
+//     if (Target == null) return;
+//     
+//     transform.position = Target.position + offset;
+//     // Debug.Log(transform.position);
+//     // Debug.Log("Target: " + Target);
+// }
