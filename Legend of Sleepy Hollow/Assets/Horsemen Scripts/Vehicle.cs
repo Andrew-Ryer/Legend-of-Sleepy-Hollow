@@ -48,12 +48,19 @@ public class Vehicle : NetworkBehaviour
     [Header("Balance")]
     float balanceStrength = 10f;
     float balanceDamping = 5f;
+    [Header("State")]
+    public bool isDead = false;
 
     float _driveInput;
     float serverDrive;
     float serverSteer;
 
     public VehicleHubData[] Hubs => hubDataList;
+
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
+    }
 
     void Update()
     {
@@ -119,7 +126,7 @@ public class Vehicle : NetworkBehaviour
     {
     
         float targetAngle = steerInput * maxSteerAngle;
-        currentAngle = Mathf.MoveTowardsAngle(currentAngle, targetAngle, steerSpeed * Time.deltaTime);
+        currentAngle = Mathf.MoveTowardsAngle(currentAngle, targetAngle, steerSpeed * Time.fixedDeltaTime);
 
         foreach (VehicleHubData hub in hubDataList)
         {
@@ -171,6 +178,12 @@ public class Vehicle : NetworkBehaviour
             if (hub.Steers)
                 hub.transform.localRotation = Quaternion.Euler(0f, currentAngle, 0f);
         }
+    }
+
+   public ulong GetuID()
+    {
+        ulong clientID = NetworkManager.Singleton.LocalClientId;
+        return clientID;
     }
 
     
