@@ -9,6 +9,7 @@ using UnityEngine.InputSystem;
 
 public class KitchenMovement : NetworkBehaviour
 {
+    [SerializeField] WaterGun_KF waterGun;
     [SerializeField] private GameObject cinemachineCamera;
     [SerializeField] private Transform cameraTransform;
     public float speed = 5f;
@@ -65,6 +66,7 @@ public class KitchenMovement : NetworkBehaviour
         if (Keyboard.current.dKey.isPressed) horizontalDirection += 1f;
         if (Keyboard.current.sKey.isPressed) verticalDirection -= 1f;
         if (Keyboard.current.wKey.isPressed) verticalDirection += 1f;
+        HandleShoot();
 
         Vector3 forward = cameraTransform.forward;
         Vector3 right = cameraTransform.right;
@@ -131,5 +133,14 @@ public class KitchenMovement : NetworkBehaviour
         Vector3 position = transform.position;
         position.y = GetLanePosition(OwnerClientId).y;
         transform.position = position;
+    }
+
+    //Alyssa contribution
+    void HandleShoot()
+    {
+        if(Keyboard.current.eKey.isPressed) 
+            waterGun.Shoot();
+        else 
+            waterGun.StopShoot();
     }
 }
