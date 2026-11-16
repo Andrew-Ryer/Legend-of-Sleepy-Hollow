@@ -12,9 +12,8 @@ GameObject:
   - component: {fileID: 9148905592800656025}
   - component: {fileID: 3817496660049668690}
   - component: {fileID: 4916661347317687326}
-  - component: {fileID: 8653950918356333929}
   - component: {fileID: 7423137250212703317}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: FreeLook Camera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29,8 +28,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 345438479166819506}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.14690311, y: 0.8245259, z: -0.24903962, w: -0.48637012}
-  m_LocalPosition: {x: 3.9517884, y: 4.2905903, z: 2.3489456}
+  m_LocalRotation: {x: 0.13460018, y: 0.85885376, z: -0.28764993, w: 0.4018838}
+  m_LocalPosition: {x: -1.8806654, y: 4.515468, z: 2.831691}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -49,7 +48,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineCamera
   Priority:
-    Enabled: 0
+    Enabled: 1
     m_Value: 0
   OutputChannel: 1
   StandbyUpdate: 2
@@ -113,7 +112,7 @@ MonoBehaviour:
     SplineCurvature: 0.5
   RecenteringTarget: 2
   HorizontalAxis:
-    Value: -118.929115
+    Value: 129.84734
     Center: 0
     Range: {x: -180, y: 180}
     Wrap: 1
@@ -123,7 +122,7 @@ MonoBehaviour:
       Time: 2
     Restrictions: 0
   VerticalAxis:
-    Value: 26.509155
+    Value: 28.31979
     Center: 17.5
     Range: {x: -10, y: 45}
     Wrap: 0
@@ -171,23 +170,6 @@ MonoBehaviour:
     Time: 0
     Smoothing: 0
     IgnoreY: 0
---- !u!114 &8653950918356333929
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 345438479166819506}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a076c17fe76165e4f8ed21498b877bf9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineFreeLookModifier
-  Easing: 0
-  Modifiers: []
-  references:
-    version: 2
-    RefIds: []
 --- !u!114 &7423137250212703317
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -221,7 +203,7 @@ MonoBehaviour:
       Enabled: 1
       Input:
         InputAction: {fileID: -5630151704836100654, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-        Gain: 7
+        Gain: -7
         CancelDeltaTime: 0
       InputValue: 0
       Driver:
@@ -249,7 +231,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3775516007834782132}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: shoulder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -284,7 +266,8 @@ GameObject:
   - component: {fileID: 6312861284891361272}
   - component: {fileID: 6392859798976053998}
   - component: {fileID: 4722841116849433871}
-  m_Layer: 0
+  - component: {fileID: 4957791835367226775}
+  m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -321,7 +304,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 3272804065
+  GlobalObjectIdHash: 4096318721
   InScenePlacedSourceGlobalObjectIdHash: 0
   m_InScenePlacedDisabledByDefault: 0
   DeferredDespawnTick: 0
@@ -368,7 +351,7 @@ MonoBehaviour:
   SyncPositionZ: 1
   SyncRotAngleX: 0
   SyncRotAngleY: 1
-  SyncRotAngleZ: 1
+  SyncRotAngleZ: 0
   SyncScaleX: 0
   SyncScaleY: 0
   SyncScaleZ: 0
@@ -411,6 +394,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CameraLockLook
   ShowTopMostFoldoutHeaderGroup: 1
   cameraTransform: {fileID: 7266225027724528554}
+--- !u!114 &4957791835367226775
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2986326518283731768}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1aa8c054f13083c479dcadea91b6a3e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CameraMouseLock
 --- !u!1 &3967081918937637024
 GameObject:
   m_ObjectHideFlags: 0
@@ -420,7 +415,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7197217323196286879}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: CameraTarget
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -454,7 +449,7 @@ GameObject:
   - component: {fileID: 4982206843569512585}
   - component: {fileID: 8432983582633079148}
   - component: {fileID: 1161300530493903183}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -568,7 +563,7 @@ GameObject:
   - component: {fileID: 4969439621992803111}
   - component: {fileID: 100308781849862263}
   - component: {fileID: 5620103387212196874}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Capsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
