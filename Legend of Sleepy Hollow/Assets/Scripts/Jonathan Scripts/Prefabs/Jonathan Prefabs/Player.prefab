@@ -140,7 +140,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 345438479166819506}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.13506396, y: -0.57769096, z: -0.09764634, w: 0.7990595}
+  m_LocalRotation: {x: -0.13506399, y: -0.577691, z: -0.09764634, w: 0.7990595}
   m_LocalPosition: {x: 3.16499, y: 1.02, z: -0.18169188}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -362,13 +362,13 @@ Transform:
   m_GameObject: {fileID: 2243102343931093780}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.52078, y: 1.28809, z: 0.28337}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0.68, y: 0.28809, z: 0.40481424}
+  m_LocalScale: {x: 1.4285713, y: 1, z: 1.4285713}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8349681159164886967}
   - {fileID: 3509898889551028364}
-  m_Father: {fileID: 5682579640196333854}
+  m_Father: {fileID: 3739590873053689720}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5655738713926365127
 MonoBehaviour:
@@ -5260,7 +5260,6 @@ Transform:
   - {fileID: 7266225027724528554}
   - {fileID: 3739590873053689720}
   - {fileID: 7197217323196286879}
-  - {fileID: 4670595974955986779}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1733971873958311490
@@ -5275,7 +5274,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 4096318721
+  GlobalObjectIdHash: 3272804065
   InScenePlacedSourceGlobalObjectIdHash: 0
   m_InScenePlacedDisabledByDefault: 0
   DeferredDespawnTick: 0
@@ -5351,6 +5350,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   waterGun: {fileID: 5655738713926365127}
   cinemachineCamera: {fileID: 345438479166819506}
+  cameraTransform: {fileID: 7266225027724528554}
   speed: 5
 --- !u!114 &4722841116849433871
 MonoBehaviour:
@@ -5555,6 +5555,7 @@ Transform:
   m_LocalScale: {x: 0.7, y: 1, z: 0.7}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 4670595974955986779}
   - {fileID: 3775516007834782132}
   - {fileID: 3453656214155161831}
   m_Father: {fileID: 5682579640196333854}

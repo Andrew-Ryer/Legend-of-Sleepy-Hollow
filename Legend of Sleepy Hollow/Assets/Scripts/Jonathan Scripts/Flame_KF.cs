@@ -9,6 +9,7 @@ public class Flame_KF : InteractFire_KF
     
     public override bool CanExtinguish(ObjectType_KF _objectType)
     {
+        Debug.Log("Hit");
         return true;
     }
     

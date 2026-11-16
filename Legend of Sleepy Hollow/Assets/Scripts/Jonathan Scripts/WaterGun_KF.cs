@@ -28,8 +28,22 @@ public class WaterGun_KF : NetworkBehaviour
         //makes sure only owner can shoot
         if (!IsOwner) return;
         Debug.Log("shoot");
-        
+
         if (_closestTarget == null) return;
+
+        if (!_closestTarget.CanExtinguish(ObjectType_KF.Flame))
+            return;
+
+        ExtinguishFireRpc(_closestTarget.NetworkObject);
+    }
+
+    [Rpc(SendTo.Server)]
+    void ExtinguishFireRpc(NetworkObjectReference fireReference)
+    {
+        if (!fireReference.TryGet(out NetworkObject fire))
+            return;
+
+        fire.Despawn();
     }
 
 

@@ -80,7 +80,7 @@ public class KitchenMovement : NetworkBehaviour
         //Vector3 combinedMovement = new Vector3(horizontalDirection, 0, verticalDirection).normalized;
         Vector3 combinedMovement = (forward * verticalDirection + right * horizontalDirection).normalized;
         if (combinedMovement == Vector3.zero) return;
-        Debug.Log($"Sending movement: {horizontalDirection}");
+        //Debug.Log($"Sending movement: {horizontalDirection}");
         MoveIntentRpc(combinedMovement);
 
     }
@@ -88,7 +88,7 @@ public class KitchenMovement : NetworkBehaviour
     [Rpc(SendTo.Server)]
     void MoveIntentRpc(Vector3 direction, RpcParams rpcParams = default)
     {
-        Debug.Log($"Server received movement: {direction}");
+        //Debug.Log($"Server received movement: {direction}");
         ulong senderClientId = rpcParams.Receive.SenderClientId;
         if (senderClientId != OwnerClientId)
         {
