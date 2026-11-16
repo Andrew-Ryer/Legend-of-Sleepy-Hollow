@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 /*
  * ScoreboardUi fills two team columns from the replicated roster: one row per
@@ -54,6 +55,8 @@ public abstract class ScoreboardUi : MonoBehaviour
 
         foreach (PlayerRosterEntry entry in roster.Snapshot())
         {
+            if (entry.ClientId == PlayerRoster.UnclaimedClientId) continue;
+
             bool mortal = entry.Team == GameTeam.Mortal;
             ScoreboardRow row = Instantiate(_rowPrefab, (mortal ? _mortalColumn : _ghostColumn).transform);
             row.SetContent(entry.Username, entry.Points);
@@ -75,6 +78,8 @@ public abstract class ScoreboardUi : MonoBehaviour
         _ghostTitle.text = $"Ghosts ({ghostCount})";
         _mortalTotal.text = $"Total: {mortalTotal}";
         _ghostTotal.text = $"Total: {ghostTotal}";
+
+        LayoutRebuilder.ForceRebuildLayoutImmediate(_mortalColumn.transform.parent as RectTransform);
 
         OnRefreshed(roster);
     }
