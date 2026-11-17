@@ -32,21 +32,23 @@ public class WaterGun_KF : NetworkBehaviour
         //makes sure only owner can shoot
         if (!IsOwner) return;
         //Debug.Log("shoot");
+        isShooting = true;
+
+        if (!waterParticles.isPlaying) waterParticles.Play();
 
         if (_closestTarget == null) return;
 
-        if (!_closestTarget.CanExtinguish(ObjectType_KF.Flame))
-            return;
+        if (!_closestTarget.CanExtinguish(ObjectType_KF.Flame)) return;
 
         if (!_closestTarget.NetworkObject.IsSpawned)
         {
             _closestTarget = null;
-            StopShoot();
+            //StopShoot();
             return;
         }
         ExtinguishFireRpc(_closestTarget.NetworkObject);
         _closestTarget = null;
-        StopShoot();
+        //StopShoot();
     }
 
     [Rpc(SendTo.Server)]
@@ -63,6 +65,7 @@ public class WaterGun_KF : NetworkBehaviour
 
     public void StopShoot()
     {
+        isShooting = false;
         //stops water particles from playing 
         if (waterParticles.isPlaying)
             waterParticles.Stop();
@@ -104,10 +107,10 @@ public class WaterGun_KF : NetworkBehaviour
             {
                 closestFlame = flame;
                 closestDistanceSqr = distanceSqr;
-
+                /*
                 if (!waterParticles.isPlaying)
                     waterParticles.Play();
-
+                */
                 // Debug.Log("flame within distance");
             }
         }
@@ -119,7 +122,7 @@ public class WaterGun_KF : NetworkBehaviour
     {
         //clears selection and stops water particles
         _closestTarget =  null;
-        StopShoot();
+        //StopShoot();
     }
 
 }
