@@ -1,9 +1,11 @@
+using TMPro;
 using UnityEngine;
 
 public class Timer : MonoBehaviour
 {
     [SerializeField] float timeLeft = 5;
     [SerializeField] bool timerIsRunning = true;
+    
 
     public void StartTimer()
     {

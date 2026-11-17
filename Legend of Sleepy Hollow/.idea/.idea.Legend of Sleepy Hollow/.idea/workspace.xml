@@ -13,7 +13,11 @@
     <list default="true" id="eb8be328-1ac4-4095-8465-ef6e9dfb5720" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Legend of Sleepy Hollow/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Legend of Sleepy Hollow/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/RacingInTheSkies/MoPrefabs/Plane_Networked.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/RacingInTheSkies/MoPrefabs/Plane_Networked.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RacingInTheSkies/MoScripts/CameraFollow.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/RacingInTheSkies/MoScripts/CameraFollow.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/RacingInTheSkies/MoScripts/PlaneController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/RacingInTheSkies/MoScripts/PlaneController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RacingInTheSkies/MoScripts/RacingGameManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/RacingInTheSkies/MoScripts/RacingGameManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RacingInTheSkies/MoScripts/Timer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/RacingInTheSkies/MoScripts/Timer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/MoScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/MoScene.unity" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -132,6 +136,8 @@
       <workItem from="1794885276071" duration="1371000" />
       <workItem from="1794887152989" duration="59000" />
       <workItem from="1794887333889" duration="505000" />
+      <workItem from="1794948075615" duration="3162000" />
+      <workItem from="1794951318784" duration="480000" />
     </task>
     <servers />
   </component>

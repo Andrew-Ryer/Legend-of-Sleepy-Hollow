@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 
 public class PlaneControllers : NetworkBehaviour
 {
+    // [SerializeField] Timer timer;
     [SerializeField] private Rigidbody rb;
     // [SerializeField] private NetworkRigidbody rb;
     [SerializeField] private Vector3 speed = new Vector3(10f, 0f, 0f);
@@ -23,10 +24,26 @@ public class PlaneControllers : NetworkBehaviour
     void Start()
     {
         if (!IsOwner) return;
-        // plane moves forward by default in the x direction
+        
         rb = GetComponent<Rigidbody>();
-        // rb = GetComponent<NetworkRigidbody>();
-        rb.linearVelocity = speed;
+        rb.angularVelocity = new Vector3(0f, 0f, 0f);
+        // rb.linearVelocity = speed;
+
+        /*float currTime = timer.UpdateTimer();
+
+        if (currTime <= 0)
+        {
+            Debug.Log("Game Starts!");
+            // plane moves forward by default in the x direction
+            // rb = GetComponent<NetworkRigidbody>();
+            rb.linearVelocity = speed;
+        }
+        else
+        {
+            Debug.Log("Current Time: " + (int) currTime);
+        }*/
+
+
     }
     private void FixedUpdate()
     {
@@ -44,102 +61,112 @@ public class PlaneControllers : NetworkBehaviour
         // Rotation z changes nose pitch
         // positive faces up and negative faces down
         // plane goes up
-        if (Keyboard.current.wKey.isPressed)
+        if (rb.linearVelocity.x > 0)
         {
-            // feels faster and more immediate
-            rb.linearVelocity += transform.up;
-            savedYVelocity = rb.linearVelocity.y;
-            // feels less effective and slower
+            Debug.Log("Going!");
             
-            rb.angularVelocity += verticalSpeed;
-            // goes up and up without stopping
-            // rb.angularVelocity = verticalSpeed;
-        }
+            if (Keyboard.current.wKey.isPressed)
+            {
+                // feels faster and more immediate
+                rb.linearVelocity += transform.up;
+                savedYVelocity = rb.linearVelocity.y;
+                // feels less effective and slower
+            
+                rb.angularVelocity += verticalSpeed;
+                // goes up and up without stopping
+                // rb.angularVelocity = verticalSpeed;
+            }
         
-        // plane goes down
-        if (Keyboard.current.sKey.isPressed)
-        {
-            // feels faster and more immediate
-            rb.linearVelocity -= transform.up;
-            savedYVelocity = rb.linearVelocity.y;
-            // feels less effective and slower
-            // rb.linearVelocity = -transform.up;
+            // plane goes down
+            if (Keyboard.current.sKey.isPressed)
+            {
+                // feels faster and more immediate
+                rb.linearVelocity -= transform.up;
+                savedYVelocity = rb.linearVelocity.y;
+                // feels less effective and slower
+                // rb.linearVelocity = -transform.up;
             
-            rb.angularVelocity -= verticalSpeed;
-            // goes down and down without stopping
-            // rb.angularVelocity = -verticalSpeed;
-        }
+                rb.angularVelocity -= verticalSpeed;
+                // goes down and down without stopping
+                // rb.angularVelocity = -verticalSpeed;
+            }
         
-        // plane turns right or left in the z direction
-        // Rotation x makes the plane bank
-        // Positive is to the left and negative is to the right
-        // plane goes to the right 
-        // the change of the heading is
-        // positive y to the right and negative to the left
-        if (Keyboard.current.dKey.isPressed)
-        {
-            // bank angle
-            // rb.angularVelocity -= transform.right;
-            rb.angularVelocity -= bankRotation;
+            // plane turns right or left in the z direction
+            // Rotation x makes the plane bank
+            // Positive is to the left and negative is to the right
+            // plane goes to the right 
+            // the change of the heading is
+            // positive y to the right and negative to the left
+            if (Keyboard.current.dKey.isPressed)
+            {
+                // bank angle
+                // rb.angularVelocity -= transform.right;
+                rb.angularVelocity -= bankRotation;
             
-            // yaw heading
-            // rb.angularVelocity += transform.up;
-            rb.angularVelocity += yawHeading;
+                // yaw heading
+                // rb.angularVelocity += transform.up;
+                rb.angularVelocity += yawHeading;
             
-            // rb.linearVelocity -= transform.forward;
-            // rb.linearVelocity = new Vector3(transform.right.x * speed.x, savedYVelocity, transform.right.z * speed.x);
+                // rb.linearVelocity -= transform.forward;
+                // rb.linearVelocity = new Vector3(transform.right.x * speed.x, savedYVelocity, transform.right.z * speed.x);
 
-            // Vector3 horizontalVelocity = new Vector3(rb.linearVelocity.x, 0.0f,  rb.linearVelocity.z);
-            // Vector3 targetHorizontalVelocity = new Vector3(transform.right.x * speed.x, 0.0f, transform.right.z * speed.x);
-            // Vector3 horizontal = Vector3.MoveTowards(horizontalVelocity, targetHorizontalVelocity, Time.fixedDeltaTime);
-            // horizontal.y = savedYVelocity;
-            // rb.linearVelocity = horizontal;
+                // Vector3 horizontalVelocity = new Vector3(rb.linearVelocity.x, 0.0f,  rb.linearVelocity.z);
+                // Vector3 targetHorizontalVelocity = new Vector3(transform.right.x * speed.x, 0.0f, transform.right.z * speed.x);
+                // Vector3 horizontal = Vector3.MoveTowards(horizontalVelocity, targetHorizontalVelocity, Time.fixedDeltaTime);
+                // horizontal.y = savedYVelocity;
+                // rb.linearVelocity = horizontal;
             
-        }
-        // plane goes to the left
-        if (Keyboard.current.aKey.isPressed)
-        {
-            // bank angle 
-            // rb.angularVelocity += transform.right;
-            rb.angularVelocity += bankRotation;
-            
-            // yaw heading
-            // rb.angularVelocity -= transform.up;
-            rb.angularVelocity -= yawHeading;
-            
-            // rb.linearVelocity += transform.forward;
-            // rb.linearVelocity = new Vector3(transform.right.x * speed.x, savedYVelocity, transform.right.z * speed.x);
-            
-        }
-        
-        Vector3 horizontalVelocity = new Vector3(rb.linearVelocity.x, 0.0f,  rb.linearVelocity.z);
-        Vector3 targetHorizontalVelocity = new Vector3(transform.right.x * speed.x, 0.0f, transform.right.z * speed.x);
-        Vector3 horizontal = Vector3.MoveTowards(horizontalVelocity, targetHorizontalVelocity, Time.fixedDeltaTime);
-        horizontal.y = savedYVelocity;
-        rb.linearVelocity = horizontal;
-        
-        // The space button will give the plane
-        // temporary boost as long as the space button
-        // is held or
-        // a gradual boost until you hit top speed
-        if (Keyboard.current.spaceKey.isPressed)
-        {
-            if (rb.linearVelocity.x < topSpeed.x)
+            }
+            // plane goes to the left
+            if (Keyboard.current.aKey.isPressed)
             {
-                rb.linearVelocity += speed;
+                // bank angle 
+                // rb.angularVelocity += transform.right;
+                rb.angularVelocity += bankRotation;
+            
+                // yaw heading
+                // rb.angularVelocity -= transform.up;
+                rb.angularVelocity -= yawHeading;
+            
+                // rb.linearVelocity += transform.forward;
+                // rb.linearVelocity = new Vector3(transform.right.x * speed.x, savedYVelocity, transform.right.z * speed.x);
+            
+            }
+        
+            Vector3 horizontalVelocity = new Vector3(rb.linearVelocity.x, 0.0f,  rb.linearVelocity.z);
+            Vector3 targetHorizontalVelocity = new Vector3(transform.right.x * speed.x, 0.0f, transform.right.z * speed.x);
+            Vector3 horizontal = Vector3.MoveTowards(horizontalVelocity, targetHorizontalVelocity, Time.fixedDeltaTime);
+            horizontal.y = savedYVelocity;
+            rb.linearVelocity = horizontal;
+        
+            // The space button will give the plane
+            // temporary boost as long as the space button
+            // is held or
+            // a gradual boost until you hit top speed
+            if (Keyboard.current.spaceKey.isPressed)
+            {
+                if (rb.linearVelocity.x < topSpeed.x)
+                {
+                    rb.linearVelocity += speed;
+                }
+            }
+        
+            // I am thinking of adding a button
+            // if you press b then the plane slows down
+            // it will gradually slow down until 
+            // you hit your original speed
+            if (Keyboard.current.bKey.isPressed)
+            {
+                if (rb.linearVelocity.x > speed.x)
+                {
+                    rb.linearVelocity -= speed;
+                }
             }
         }
-        
-        // I am thinking of adding a button
-        // if you press b then the plane slows down
-        // it will gradually slow down until 
-        // you hit your original speed
-        if (Keyboard.current.bKey.isPressed)
+        else
         {
-            if (rb.linearVelocity.x > speed.x)
-            {
-                rb.linearVelocity -= speed;
-            }
+            Debug.Log("Stopped!");
         }
+        
     }
 }

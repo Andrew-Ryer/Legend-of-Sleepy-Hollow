@@ -1,10 +1,14 @@
 using System;
+using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 
 public class RacingGameManager : NetworkBehaviour
 {
+    [SerializeField] TextMeshProUGUI statusText;
     [SerializeField] Timer timer;
+    // [SerializeField] PlayerController plane;
+    // [SerializeField] private Rigidbody rb;
     
     public override void OnNetworkSpawn()
     {
@@ -22,11 +26,16 @@ public class RacingGameManager : NetworkBehaviour
         
         if (currTime <= 0)
         {
-            Debug.Log("Game Starts!");
+            statusText.text = $"Game Starts!";
+            // Debug.Log("Game Starts!");
+            // plane moves forward by default in the x direction
+            // rb = GetComponent<NetworkRigidbody>();
+            // rb.linearVelocity = speed;
         }
         else
         {
-             Debug.Log("Current Time: " + (int) currTime);
+            // Debug.Log("Current Time: " + (int) currTime);
+            statusText.text = $"Time Left to Start: {((int)currTime).ToString()}";
         }
     }
 

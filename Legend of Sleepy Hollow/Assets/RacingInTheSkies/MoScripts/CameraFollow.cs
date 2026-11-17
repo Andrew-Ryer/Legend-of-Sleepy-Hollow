@@ -53,16 +53,3 @@ public class CameraFollow : NetworkBehaviour
         }
     }
 }
-
-// [SerializeField] Vector3 offset;
-//
-// public Transform Target { get; set; }
-//
-// void LateUpdate()
-// {
-//     if (Target == null) return;
-//     
-//     transform.position = Target.position + offset;
-//     // Debug.Log(transform.position);
-//     // Debug.Log("Target: " + Target);
-// }
