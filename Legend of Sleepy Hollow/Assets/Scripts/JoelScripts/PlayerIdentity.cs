@@ -47,8 +47,18 @@ public class PlayerIdentity : NetworkBehaviour
 
     public static void LocalSwitchTeam(GameTeam team)
     {
+        if (Local == null) return;
+        Local.SwitchTeamServerRpc(team);
+    }
+
+    // Runs on the host: resolve the caller's seat from the RPC sender so a
+    // client can only ever change its own team.
+    [Rpc(SendTo.Server)]
+    void SwitchTeamServerRpc(GameTeam team)
+    {
         PlayerRoster roster = PlayerRoster.Local;
-        if (roster == null || Local == null) return;
-        PlayerRoster.ServerSetTeam(roster.LocalPlayerId, team);
+        if (roster == null) return;
+        PlayerRosterEntry? entry = roster.FindByClientId(OwnerClientId);
+        if (entry.HasValue) PlayerRoster.ServerSetTeam(entry.Value.PlayerId, team);
     }
 }
