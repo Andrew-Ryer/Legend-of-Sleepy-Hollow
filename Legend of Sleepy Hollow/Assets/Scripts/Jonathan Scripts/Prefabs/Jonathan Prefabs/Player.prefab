@@ -388,6 +388,7 @@ MonoBehaviour:
   _pickupLayer:
     serializedVersion: 2
     m_Bits: 4294967295
+  fireLeft: {fileID: 7677603149478707562, guid: 3adb5d6a60e2c5c48bac7aedfdffd0fc, type: 3}
   waterParticles: {fileID: 5564815809890356044}
 --- !u!198 &5564815809890356044
 ParticleSystem:

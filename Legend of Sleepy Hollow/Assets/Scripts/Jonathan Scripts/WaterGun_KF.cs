@@ -12,12 +12,16 @@ public class WaterGun_KF : NetworkBehaviour
     [SerializeField] float _detectionRadius = 2f;
     [SerializeField] float _detectionAngle = 40f;
     [SerializeField] LayerMask _pickupLayer;
+    [SerializeField] public KitchenTimer fireLeft;
+
 
     [Header("Misc.")]
     [SerializeField] ParticleSystem waterParticles;
     bool isShooting;
-    
-
+    public override void OnNetworkSpawn()
+    {
+        fireLeft = FindFirstObjectByType<KitchenTimer>();
+    }
     void Update()
     {
         UpdateFlamesTarget();
@@ -27,14 +31,22 @@ public class WaterGun_KF : NetworkBehaviour
     {
         //makes sure only owner can shoot
         if (!IsOwner) return;
-        Debug.Log("shoot");
+        //Debug.Log("shoot");
 
         if (_closestTarget == null) return;
 
         if (!_closestTarget.CanExtinguish(ObjectType_KF.Flame))
             return;
 
+        if (!_closestTarget.NetworkObject.IsSpawned)
+        {
+            _closestTarget = null;
+            StopShoot();
+            return;
+        }
         ExtinguishFireRpc(_closestTarget.NetworkObject);
+        _closestTarget = null;
+        StopShoot();
     }
 
     [Rpc(SendTo.Server)]
@@ -44,6 +56,8 @@ public class WaterGun_KF : NetworkBehaviour
             return;
 
         fire.Despawn();
+        fireLeft.fireCount.Value--;
+        Debug.Log("Fires Left: " + fireLeft.fireCount.Value);
     }
 
 

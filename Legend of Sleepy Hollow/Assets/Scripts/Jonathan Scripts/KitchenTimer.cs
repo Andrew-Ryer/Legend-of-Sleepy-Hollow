@@ -6,10 +6,14 @@ public class KitchenTimer : NetworkBehaviour
 
     private NetworkVariable<float> timer1 = new NetworkVariable<float>();
     private NetworkVariable<bool> timerCheck = new NetworkVariable<bool>();
+    public NetworkVariable<int> fireCount = new NetworkVariable<int>();
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public override void OnNetworkSpawn()
     {
-        
+        if (IsServer)
+        {
+            fireCount.Value = 4;
+        }
     }
 
     // Update is called once per frame
@@ -41,8 +45,14 @@ public class KitchenTimer : NetworkBehaviour
             if (timer1.Value <= 0) {
                 timer1.Value = 0;
                 timerCheck.Value = false;
-
-                Debug.Log("Time is up.");
+                if (fireCount.Value > 0)
+                {
+                    Debug.Log("You Lose. Fires Left was: " + fireCount.Value);
+                } else
+                {
+                    Debug.Log("You Win!");
+                }
+                
             }
         }
     }
