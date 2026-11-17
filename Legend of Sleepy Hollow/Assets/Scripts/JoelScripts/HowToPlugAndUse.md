@@ -45,6 +45,31 @@ void OnDisable() { PlayerRoster.PlayerRosterUpdated -= MyRefresh; }
   Players who have not picked a seat are never shown.
 - Every `Player.prefab` already has a nameplate. Do not add your own.
 
+## Making your own multiplayer (no NetworkManager)
+
+Drag `Assets/Overworld/Prefabs/PlayerInfoBridge.prefab` into your scene. It is
+a plain empty object. It has no NetworkObject and makes no connections.
+
+Read player info whenever you want:
+
+```csharp
+IReadOnlyList<PlayerInfo> players = PlayerInfoBridge.Local.Players;
+PlayerInfoBridge.Local.PlayersChanged += MyRefresh;  // fire when the list changes
+```
+
+`PlayerInfo` is a plain struct: `PlayerId`, `Username`, `Team`, `Points`. Put
+it into your own network messages however you like.
+
+If you do not use the overworld session, send your own data to the bridge when
+your server gives it to you:
+
+```csharp
+PlayerInfoBridge.Local.Publish(myPlayers);  // then everyone reading the bridge sees your list
+```
+
+If a GameSession exists, the bridge copies it by itself. You never call
+anything.
+
 ## Files (all in `Assets/Scripts/JoelScripts/`)
 
 | File | What it does |
