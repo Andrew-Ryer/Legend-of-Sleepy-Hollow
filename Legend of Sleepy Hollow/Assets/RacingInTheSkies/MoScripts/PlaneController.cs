@@ -28,7 +28,7 @@ public class PlaneControllers : MonoBehaviour
         Debug.Log("Vertical Speed: " + rb.angularVelocity.z);
         Debug.Log("Move Speed: " + rb.linearVelocity.x);
         Debug.Log("Altitude: " + rb.position.y);
-        Debug.Log("Heading : "  + rb.rotation.y);
+        // Debug.Log("Heading : "  + rb.rotation.y);
         // This is to prevent the plane from pitching farther
         // without pressing any buttons
         rb.angularVelocity = new Vector3(0f, 0f, 0f);

@@ -470,7 +470,7 @@ GameObject:
   - component: {fileID: 1642787854562162966}
   m_Layer: 0
   m_Name: Plane_Networked
-  m_TagString: Untagged
+  m_TagString: Plane
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -752,4 +752,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraFollow
   ShowTopMostFoldoutHeaderGroup: 1
-  offset: {x: 0, y: 0, z: 0}
