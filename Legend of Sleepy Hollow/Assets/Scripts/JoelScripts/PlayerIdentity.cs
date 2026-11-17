@@ -36,7 +36,7 @@ public class PlayerIdentity : NetworkBehaviour
         base.OnNetworkDespawn();
     }
 
-    [Rpc(SendTo.Server)]
+    [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Owner)]
     void SendUsernameServerRpc(string username) => PlayerRoster.ServerSetUsername(OwnerClientId, username);
 
     public static void LocalSetUsername(string username)
@@ -51,9 +51,10 @@ public class PlayerIdentity : NetworkBehaviour
         Local.SwitchTeamServerRpc(team);
     }
 
-    // Runs on the host: resolve the caller's seat from the RPC sender so a
-    // client can only ever change its own team.
-    [Rpc(SendTo.Server)]
+    // Runs on the host. InvokePermission=Owner makes Netcode drop any send
+    // whose sender isn't this object's owner (checked against the wire
+    // SenderId), so OwnerClientId here is provably the caller's own seat.
+    [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Owner)]
     void SwitchTeamServerRpc(GameTeam team)
     {
         PlayerRoster roster = PlayerRoster.Local;
