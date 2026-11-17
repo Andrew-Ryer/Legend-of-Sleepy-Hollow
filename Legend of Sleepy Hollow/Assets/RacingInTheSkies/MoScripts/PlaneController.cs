@@ -1,9 +1,10 @@
 using System;
+using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlaneControllers : MonoBehaviour
+public class PlaneControllers : NetworkBehaviour
 {
     [SerializeField] private Rigidbody rb;
     [SerializeField] private Vector3 speed = new Vector3(10f, 0f, 0f);

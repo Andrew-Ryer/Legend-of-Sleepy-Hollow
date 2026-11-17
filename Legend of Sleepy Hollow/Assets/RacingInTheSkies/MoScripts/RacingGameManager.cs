@@ -18,7 +18,16 @@ public class RacingGameManager : NetworkBehaviour
 
     private void Update()
     {
+        float currTime = timer.UpdateTimer();
         
+        if (currTime <= 0)
+        {
+            Debug.Log("Game Starts!");
+        }
+        else
+        {
+             Debug.Log("Current Time: " + (int) currTime);
+        }
     }
 
     public void OnFinishLineReached()
