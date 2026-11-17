@@ -12,9 +12,8 @@
   <component name="ChangeListManager">
     <list default="true" id="eb8be328-1ac4-4095-8465-ef6e9dfb5720" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Legend of Sleepy Hollow/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Legend of Sleepy Hollow/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RacingInTheSkies/MoPrefabs/Plane_Networked.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/RacingInTheSkies/MoPrefabs/Plane_Networked.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/RacingInTheSkies/MoScripts/PlaneController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/RacingInTheSkies/MoScripts/PlaneController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/RacingInTheSkies/MoScripts/RacingGameManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/RacingInTheSkies/MoScripts/RacingGameManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/RacingInTheSkies/MoScripts/Timer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/RacingInTheSkies/MoScripts/Timer.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -130,7 +129,9 @@
       <workItem from="1794875858556" duration="996000" />
       <workItem from="1794880141239" duration="306000" />
       <workItem from="1794880852542" duration="2605000" />
-      <workItem from="1794885276071" duration="1085000" />
+      <workItem from="1794885276071" duration="1371000" />
+      <workItem from="1794887152989" duration="59000" />
+      <workItem from="1794887333889" duration="505000" />
     </task>
     <servers />
   </component>

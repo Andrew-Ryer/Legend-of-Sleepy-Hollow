@@ -1,5 +1,6 @@
 using System;
 using Unity.Netcode;
+using Unity.Netcode.Components;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -7,6 +8,7 @@ using UnityEngine.InputSystem;
 public class PlaneControllers : NetworkBehaviour
 {
     [SerializeField] private Rigidbody rb;
+    // [SerializeField] private NetworkRigidbody rb;
     [SerializeField] private Vector3 speed = new Vector3(10f, 0f, 0f);
     [SerializeField] private Vector3 topSpeed = new Vector3(20f, 0f, 0f);
     // how fast the plane goes
@@ -20,12 +22,16 @@ public class PlaneControllers : NetworkBehaviour
 
     void Start()
     {
+        if (!IsOwner) return;
         // plane moves forward by default in the x direction
         rb = GetComponent<Rigidbody>();
+        // rb = GetComponent<NetworkRigidbody>();
         rb.linearVelocity = speed;
     }
     private void FixedUpdate()
     {
+        if (!IsOwner) return;
+        
         Debug.Log("Vertical Speed: " + rb.angularVelocity.z);
         Debug.Log("Move Speed: " + rb.linearVelocity.x);
         Debug.Log("Altitude: " + rb.position.y);

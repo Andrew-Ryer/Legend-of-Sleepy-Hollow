@@ -463,8 +463,8 @@ GameObject:
   - component: {fileID: 512794212279566428}
   - component: {fileID: 4369100764048930832}
   - component: {fileID: 5323484814531888112}
-  - component: {fileID: 8975221132037166588}
   - component: {fileID: 8979283399829594474}
+  - component: {fileID: 8975221132037166588}
   - component: {fileID: 2802895850930213997}
   - component: {fileID: -4245641856586614780}
   - component: {fileID: 1642787854562162966}
@@ -634,21 +634,6 @@ MonoBehaviour:
       BarrelClipping: 0.25
       Anamorphism: 0
   BlendHint: 0
---- !u!114 &8975221132037166588
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5812966747555088641}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 29d2a8bcc2f9c4118b98e2c3cbe770e9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerController
-  rb: {fileID: 4369100764048930832}
-  speed: {x: 10, y: 0, z: 0}
-  topSpeed: {x: 100, y: 0, z: 0}
 --- !u!114 &8979283399829594474
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -676,6 +661,22 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
+--- !u!114 &8975221132037166588
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5812966747555088641}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29d2a8bcc2f9c4118b98e2c3cbe770e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerController
+  ShowTopMostFoldoutHeaderGroup: 1
+  rb: {fileID: 4369100764048930832}
+  speed: {x: 10, y: 0, z: 0}
+  topSpeed: {x: 100, y: 0, z: 0}
 --- !u!114 &2802895850930213997
 MonoBehaviour:
   m_ObjectHideFlags: 0
