@@ -221,7 +221,7 @@ public class PlayerRoster : NetworkBehaviour
         if (playerId < 0) playerId = roster.LocalPlayerId;
         if (playerId < 0 && teamPoints == 0)
         {
-            Debug.LogWarning("SubmitLocalResult: local player is not on the roster yet.");
+            Debug.LogWarning("SubmitLocalResult: not on roster yet.");
             return;
         }
 
@@ -236,7 +236,7 @@ public class PlayerRoster : NetworkBehaviour
             if (playerId >= 0)
             {
                 int index = rows.FindIndex(e => e.PlayerId == playerId);
-                if (index < 0) Debug.LogWarning($"SubmitResult: no roster entry for player id {playerId}.");
+                if (index < 0) Debug.LogWarning($"SubmitResult: no roster entry {playerId}.");
                 else
                 {
                     PlayerRosterEntry entry = rows[index];
