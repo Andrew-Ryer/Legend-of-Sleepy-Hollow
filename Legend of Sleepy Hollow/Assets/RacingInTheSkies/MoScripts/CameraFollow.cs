@@ -48,6 +48,8 @@ public class CameraFollow : NetworkBehaviour
             planePosition = transform.position;
             cameraPosition = planePosition - transform.right * 5f + transform.up * 1f; 
             camera.transform.position = cameraPosition;
+            Vector3 lookDirection = planePosition - cameraPosition;
+            camera.transform.rotation =  Quaternion.LookRotation(lookDirection);
         }
     }
 }
