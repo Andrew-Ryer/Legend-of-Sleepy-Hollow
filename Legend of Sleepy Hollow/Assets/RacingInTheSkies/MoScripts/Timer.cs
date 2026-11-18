@@ -1,3 +1,4 @@
+using TMPro;
 using System;
 using Unity.Netcode;
 using TMPro;
@@ -185,5 +186,10 @@ public class Timer : NetworkBehaviour
 
         _lastDisplayedSecond = displayedSeconds;
         timerText.text = _state.Value == Countdown ? $"Starting in\n{displayedSeconds}" : $"Time\n{displayedSeconds / 60}:{displayedSeconds % 60:00}";
+    }
+
+    public float UpdateTimer()
+    {
+        return timeLeft;
     }
 }

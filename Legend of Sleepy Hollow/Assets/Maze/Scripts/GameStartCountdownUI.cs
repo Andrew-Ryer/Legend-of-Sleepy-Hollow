@@ -6,54 +6,64 @@ public class GameStartCountdownUI : MonoBehaviour
 {
     [SerializeField]
     private TextMeshProUGUI countdownText;
+
+    [SerializeField]
+    private SessionStateMachine sessionStateMachine;
+
     private Animator animator;
+    private CanvasGroup canvasGroup;
     private int previousCountdownNumber;
     private const string NUMBER_POPUP = "NumberPopup";
 
     private void Awake()
     {
         animator = GetComponent<Animator>();
+        canvasGroup = GetComponent<CanvasGroup>();
     }
 
-    void Start()
+    private void Start()
     {
-        GameManager.Instance.OnStateChanged += GameManager_OnStateChanged;
+        if (sessionStateMachine == null)
+            sessionStateMachine = FindFirstObjectByType<SessionStateMachine>();
+
         Hide();
     }
 
-    private void GameManager_OnStateChanged(object sender, EventArgs e)
+    private void Update()
     {
-        if (GameManager.Instance.IsCountdownToStartActive())
-        {
-            Show();
-        }
-        else
+        if (sessionStateMachine == null)
+            return;
+
+        if (sessionStateMachine.CurrentPhase != SessionPhase.Countdown)
         {
             Hide();
+            return;
         }
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        int countdownNumber = Mathf.CeilToInt(GameManager.Instance.GetCountdownToStartTimer());
+        Show();
+
+        int countdownNumber = Mathf.CeilToInt(sessionStateMachine.CountdownRemaining);
+
         countdownText.text = countdownNumber.ToString();
+
         if (previousCountdownNumber != countdownNumber)
         {
             previousCountdownNumber = countdownNumber;
-
-            // animator.SetTrigger(NUMBER_POPUP);
-            // SoundManager.Instance.PlayCountdownSound();
+            animator.SetTrigger(NUMBER_POPUP);
         }
     }
 
     private void Show()
     {
-        gameObject.SetActive(true);
+        canvasGroup.alpha = 1f;
+        canvasGroup.interactable = true;
+        canvasGroup.blocksRaycasts = true;
     }
 
     private void Hide()
     {
-        gameObject.SetActive(false);
+        canvasGroup.alpha = 0f;
+        canvasGroup.interactable = false;
+        canvasGroup.blocksRaycasts = false;
     }
 }
