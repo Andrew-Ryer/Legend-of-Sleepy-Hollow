@@ -125,6 +125,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5fe21d6106840b5aeb6b73ba457848f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LocalWallDiscovery
-  _revealRadius: 3
+  _revealRadius: 10
   _wallRenderer: {fileID: 6504357035212754733}
   _wallCollider: {fileID: 30484160944855014}
