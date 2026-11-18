@@ -111,12 +111,27 @@ public class PlayerController_SS : NetworkBehaviour
     {
         if (!IsOwner) return;
 
+        // Debug.Log(wasPressed);
+
         if (prevPress == wasPressed) return;
+        Debug.Log(wasPressed);
         prevPress = wasPressed;
 
         //send the target's NetworkObjectId to the server.
-        if (_closestTarget == null) return;
-        RequestInteractRpc(_closestTarget.NetworkObjectId, wasPressed);
+        // if (_closestTarget == null) return;
+        if (_closestTarget != null && _heldItem.ReturnHeldObject() == ObjectType_SS.None)
+        {
+            Debug.Log("item in range, call interact");
+            RequestInteractRpc(_closestTarget.NetworkObjectId, wasPressed);
+        }
+           
+    
+        if (_heldItem.ReturnHeldObject() != ObjectType_SS.None)
+        {
+            Debug.Log("holding item, call drop");
+            RequestDropRpc(wasPressed);
+        }
+            
     }
 
 
@@ -124,6 +139,7 @@ public class PlayerController_SS : NetworkBehaviour
     {
         //find the closest valid Interactable in front of the player.
 
+        // Debug.Log("updating target");
         Interactable_SS interactable = FindClosestValidInteractable();
         if (interactable == _closestTarget) return;
 
@@ -132,22 +148,14 @@ public class PlayerController_SS : NetworkBehaviour
         if (interactable != null)
         {
             // Debug.Log("found interactable");
-            interactable.GetComponent<InRange_SS>().SetInRange(true);
+            // interactable.GetComponent<InRange_SS>().SetInRange(true);
             _closestTarget = interactable;
         }
     }
 
     Interactable_SS FindClosestValidInteractable()
     {
-        // 1. Detect nearby objects with Physics.OverlapSphere, using
-        //    _detectionRadius and _pickupLayer.
-        // 2. Check each hit and keep the closest Interactable within _detectionAngle.
-        //    Ignore hits without an Interactable or whose
-        //    CanInteract(_heldItem.ObjectType) returns false.
-        // 3. If the closest candidate is still _closestTarget, nothing changed; return.
-        // 4. Otherwise, remove the old highlight, store the new candidate, and
-        //    highlight it (if there is one).
-
+        // Debug.Log("find closest");
         Collider[] candidates = Physics.OverlapSphere(transform.position, _detectionRadius, _pickupLayer);
         Interactable_SS closestInteractable = null;
         float closestDistanceSqr = float.MaxValue;
@@ -155,7 +163,7 @@ public class PlayerController_SS : NetworkBehaviour
         foreach(Collider c in candidates)
         {
             if (!c.TryGetComponent(out Interactable_SS interactable)) continue;
-            if (!interactable.CanInteract(_heldItem.ObjectType_SS)) continue;
+            // if (!interactable.CanInteract(_heldItem.ObjectType_SS)) continue;
 
             Vector3 directionToInteractable = interactable.transform.position - transform.position;
 
@@ -167,16 +175,18 @@ public class PlayerController_SS : NetworkBehaviour
             {
                 closestInteractable = interactable;
                 closestDistanceSqr = distanceSqr;
+                // Debug.Log(closestInteractable);
                 // Debug.Log("within distance");
             }
         }
+        // Debug.Log(closestInteractable);
         return closestInteractable;
     }
 
     void ClearSelection()
     {
-        if (_closestTarget != null)
-            _closestTarget.GetComponent<InRange_SS>().SetInRange(false);
+        // if (_closestTarget != null)
+        //     _closestTarget.GetComponent<InRange_SS>().SetInRange(false);
 
         _closestTarget =  null;
     }
@@ -208,12 +218,27 @@ public class PlayerController_SS : NetworkBehaviour
         }
             
 
-        if (interactable.CanInteract(_heldItem.ObjectType_SS) && !wasPressed)
+        // if (!wasPressed)
+        // {
+        //     Debug.Log("let go");
+        //     _heldItem.DropItem();
+        // }
+        
+        // if (interactable.CanInteract(_heldItem.ObjectType_SS) && !wasPressed)
+        // {
+        //     Debug.Log("let go");
+        //     interactable.ServerLetGo(_heldItem);
+        // }
+            
+    }
+
+    void RequestDropRpc(bool wasPressed)
+    {
+        if (!wasPressed)
         {
             Debug.Log("let go");
-            interactable.ServerLetGo(_heldItem);
+            _heldItem.DropItem();
         }
-            
     }
 
 }
