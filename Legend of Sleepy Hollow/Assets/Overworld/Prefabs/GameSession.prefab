@@ -52,7 +52,7 @@ MonoBehaviour:
   Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
-  m_InScenePlaced: 1
+  m_InScenePlaced: 0
   ActiveSceneSynchronization: 0
   SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
@@ -86,3 +86,5 @@ MonoBehaviour:
   - username: Ghost Two
     team: 1
     points: 0
+  _landingRadius: 3
+  _landingHeight: 1.05
