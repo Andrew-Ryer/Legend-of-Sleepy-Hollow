@@ -140,8 +140,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 345438479166819506}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.008700187, y: -0.5670807, z: -0.0059904577, w: 0.82359457}
-  m_LocalPosition: {x: 4.088003, y: 1.8154279, z: -0.6571213}
+  m_LocalRotation: {x: 0.14663999, y: 0.1887776, z: -0.028521128, w: 0.9705907}
+  m_LocalPosition: {x: -0.7096791, y: 3.1280665, z: -3.1098948}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -224,7 +224,7 @@ MonoBehaviour:
     SplineCurvature: 0.5
   RecenteringTarget: 2
   HorizontalAxis:
-    Value: -69.098206
+    Value: 22.012955
     Center: 0
     Range: {x: -180, y: 180}
     Wrap: 1
@@ -234,7 +234,7 @@ MonoBehaviour:
       Time: 2
     Restrictions: 0
   VerticalAxis:
-    Value: 3.4301095
+    Value: 17.139687
     Center: 17.5
     Range: {x: -10, y: 45}
     Wrap: 0
@@ -389,6 +389,11 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   fireLeft: {fileID: 7677603149478707562, guid: 3adb5d6a60e2c5c48bac7aedfdffd0fc, type: 3}
+  playerScore:
+    UpdateTraits:
+      MinSecondsBetweenUpdates: 0
+      MaxSecondsBetweenUpdates: 0
+    m_InternalValue: 0
   waterParticles: {fileID: 5564815809890356044}
 --- !u!198 &5564815809890356044
 ParticleSystem:

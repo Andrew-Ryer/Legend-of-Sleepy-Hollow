@@ -7,6 +7,7 @@ public class KitchenTimer : NetworkBehaviour
     private NetworkVariable<float> timer1 = new NetworkVariable<float>();
     private NetworkVariable<bool> timerCheck = new NetworkVariable<bool>();
     public NetworkVariable<int> fireCount = new NetworkVariable<int>();
+    public NetworkVariable<int> allScores = new NetworkVariable<int>();
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public override void OnNetworkSpawn()
     {
