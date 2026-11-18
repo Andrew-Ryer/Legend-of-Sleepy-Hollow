@@ -5,113 +5,167 @@ using UnityEngine;
 
 // Updated to now end the game by setting deltaTime to 0 if that feature is enabled
 // As well as featuring an optional countdown that only affects the players in PogoPark
-public class Timer : MonoBehaviour
+// Updated both timers to only start when a host joins the game
+[RequireComponent(typeof(NetworkObject))]
+public class Timer : NetworkBehaviour
 {
     [SerializeField, Min(0f)] float timeLeft = 60f;
-    [SerializeField] bool timerIsRunning = true;
     [SerializeField] bool endGameWhenTimeRunsOut;
     [SerializeField] bool countdownTimer;
     [SerializeField, Min(0f)] float countdownTime = 3f;
     [SerializeField] TMP_Text timerText;
 
-    float _startingTime;
-    float _countdownRemaining;
+    const byte Waiting = 0;
+    const byte Countdown = 1;
+    const byte Running = 2;
+    const byte Finished = 3;
+    const byte Stopped = 4;
+
+    readonly NetworkVariable<float> _remainingTime = new NetworkVariable<float>(0f, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    readonly NetworkVariable<byte> _state = new NetworkVariable<byte>(Waiting,NetworkVariableReadPermission.Everyone,NetworkVariableWritePermission.Server);
+
+    float _serverRemainingTime;
     float _elapsedTime;
     int _lastLoggedSecond = -1;
     int _lastDisplayedSecond = -1;
-    bool _isCountingDown;
-    bool _hasExpired;
+    int _lastPublishedSecond = -1;
 
-    public float TimeLeft => Mathf.Max(0f, timeLeft);
+    public float TimeLeft => Mathf.Max(0f, _remainingTime.Value);
     public float ElapsedTime => _elapsedTime;
-    public bool IsRunning => timerIsRunning;
-    public bool HasExpired => _hasExpired;
-    public bool GameplayStarted => timerIsRunning && !_isCountingDown && !_hasExpired;
+    public bool IsRunning => _state.Value == Countdown || _state.Value == Running;
+    public bool HasExpired => _state.Value == Finished;
+    public bool GameplayStarted => _state.Value == Running;
     public event Action TimerExpired;
 
     void Awake()
     {
-        _startingTime = Mathf.Max(0f, timeLeft);
-        if (timerIsRunning)
-            BeginCountdownOrRun();
         UpdateTimerText();
     }
 
-    public void StartTimer()
+    public override void OnNetworkSpawn()
     {
-        if (_hasExpired && endGameWhenTimeRunsOut)
+        _remainingTime.OnValueChanged += HandleRemainingTimeChanged;
+        _state.OnValueChanged += HandleStateChanged;
+
+        if (IsServer)
+        {
+            if (Time.timeScale == 0f)
+                Time.timeScale = 1f;
+
+            _elapsedTime = 0f;
+            _lastLoggedSecond = -1;
+            _lastPublishedSecond = -1;
+
+            if (countdownTimer && countdownTime > 0f)
+            {
+                _serverRemainingTime = countdownTime;
+                _state.Value = Countdown;
+            }
+            else
+            {
+                _serverRemainingTime = Mathf.Max(0f, timeLeft);
+                _state.Value = Running;
+            }
+
+            _remainingTime.Value = _serverRemainingTime;
+        }
+
+        UpdateTimerText();
+    }
+
+    public override void OnNetworkDespawn()
+    {
+        _remainingTime.OnValueChanged -= HandleRemainingTimeChanged;
+        _state.OnValueChanged -= HandleStateChanged;
+
+        if (IsServer && Time.timeScale == 0f)
             Time.timeScale = 1f;
-
-        timeLeft = _startingTime;
-        _elapsedTime = 0f;
-        _lastLoggedSecond = -1;
-        _hasExpired = false;
-        BeginCountdownOrRun();
-        UpdateTimerText();
-    }
-
-    public void StopTimer()
-    {
-        _isCountingDown = false;
-        timerIsRunning = false;
-        UpdateTimerText();
     }
 
     void Update()
     {
-        if (_isCountingDown)
-        {
-            _countdownRemaining = Mathf.Max(0f, _countdownRemaining - Time.deltaTime);
-            UpdateTimerText();
+        if (!IsSpawned || !IsServer)
+            return;
 
-            if (_countdownRemaining <= 0f)
+        if (_state.Value != Countdown && _state.Value != Running)
+            return;
+
+        float deltaTime = Time.deltaTime;
+        _serverRemainingTime = Mathf.Max(0f, _serverRemainingTime - deltaTime);
+
+        if (_state.Value == Running)
+            _elapsedTime += deltaTime;
+
+        int remainingSeconds = Mathf.CeilToInt(_serverRemainingTime);
+        if (remainingSeconds != _lastLoggedSecond)
+        {
+            _lastLoggedSecond = remainingSeconds;
+            Debug.Log(_state.Value == Countdown ? $"Game starts in: {remainingSeconds}" : $"Time remaining: {remainingSeconds}");
+        }
+
+        if (_serverRemainingTime <= 0f)
+        {
+            if (_state.Value == Countdown)
             {
-                _isCountingDown = false;
-                timerIsRunning = true;
                 _elapsedTime = 0f;
+                _serverRemainingTime = Mathf.Max(0f, timeLeft);
                 _lastLoggedSecond = -1;
-                _lastDisplayedSecond = -1;
-                UpdateTimerText();
+                _lastPublishedSecond = -1;
+                _state.Value = Running;
+                _remainingTime.Value = _serverRemainingTime;
+            }
+            else
+            {
+                _remainingTime.Value = 0f;
+                _state.Value = Finished;
+                TimerExpired?.Invoke();
+
+                if (endGameWhenTimeRunsOut)
+                {
+                    Debug.Log("Game Over!");
+                    Time.timeScale = 0f;
+                }
             }
 
             return;
         }
 
-        if (!timerIsRunning)
-            return;
-
-        float deltaTime = Time.deltaTime;
-        timeLeft = Mathf.Max(0f, timeLeft - deltaTime);
-        _elapsedTime += deltaTime;
-        UpdateTimerText();
-
-        int remainingSeconds = Mathf.CeilToInt(timeLeft);
-        if (remainingSeconds != _lastLoggedSecond)
+        if (remainingSeconds != _lastPublishedSecond)
         {
-            _lastLoggedSecond = remainingSeconds;
-            if (ShouldLog())
-                Debug.Log($"Time remaining: {remainingSeconds}");
-        }
-
-        if (timeLeft > 0f || _hasExpired)
-            return;
-
-        _hasExpired = true;
-        timerIsRunning = false;
-        TimerExpired?.Invoke();
-
-        if (endGameWhenTimeRunsOut)
-        {
-            if (ShouldLog())
-                Debug.Log("Game Over!");
-            Time.timeScale = 0f;
+            _lastPublishedSecond = remainingSeconds;
+            _remainingTime.Value = _serverRemainingTime;
+            UpdateTimerText();
         }
     }
 
-    bool ShouldLog()
+    public void StopTimer()
     {
-        NetworkManager networkManager = NetworkManager.Singleton;
-        return networkManager == null || networkManager.IsServer;
+        if (!IsServer || !IsSpawned)
+            return;
+
+        if (_state.Value == Finished)
+            return;
+
+        _state.Value = Stopped;
+        UpdateTimerText();
+    }
+
+    void HandleRemainingTimeChanged(float previousValue, float newValue)
+    {
+        UpdateTimerText();
+    }
+
+    void HandleStateChanged(byte previousValue, byte newValue)
+    {
+        _lastDisplayedSecond = -1;
+        UpdateTimerText();
+
+        if (newValue == Finished && !IsServer)
+        {
+            TimerExpired?.Invoke();
+            if (endGameWhenTimeRunsOut)
+                Time.timeScale = 0f;
+        }
     }
 
     void UpdateTimerText()
@@ -119,31 +173,17 @@ public class Timer : MonoBehaviour
         if (timerText == null)
             return;
 
-        int displayedSeconds = _isCountingDown
-            ? Mathf.CeilToInt(_countdownRemaining)
-            : Mathf.CeilToInt(Mathf.Max(0f, timeLeft));
+        if (_state.Value == Waiting)
+        {
+            timerText.text = "Waiting for host";
+            return;
+        }
+
+        int displayedSeconds = Mathf.CeilToInt(Mathf.Max(0f, _remainingTime.Value));
         if (displayedSeconds == _lastDisplayedSecond)
             return;
 
         _lastDisplayedSecond = displayedSeconds;
-        timerText.text = _isCountingDown
-            ? $"Starting in\n{displayedSeconds}"
-            : $"Time\n{displayedSeconds / 60}:{displayedSeconds % 60:00}";
-    }
-
-    void BeginCountdownOrRun()
-    {
-        if (countdownTimer && countdownTime > 0f)
-        {
-            _isCountingDown = true;
-            timerIsRunning = false;
-            _countdownRemaining = countdownTime;
-            _lastDisplayedSecond = -1;
-        }
-        else
-        {
-            _isCountingDown = false;
-            timerIsRunning = true;
-        }
+        timerText.text = _state.Value == Countdown ? $"Starting in\n{displayedSeconds}" : $"Time\n{displayedSeconds / 60}:{displayedSeconds % 60:00}";
     }
 }
