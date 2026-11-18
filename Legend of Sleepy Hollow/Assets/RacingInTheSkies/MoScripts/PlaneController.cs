@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 
 public class PlaneControllers : NetworkBehaviour
 {
-    // [SerializeField] Timer timer;
+    CountdownToRace countdownToRace ;
     [SerializeField] private Rigidbody rb;
     // [SerializeField] private NetworkRigidbody rb;
     [SerializeField] private Vector3 speed = new Vector3(10f, 0f, 0f);
@@ -26,8 +26,8 @@ public class PlaneControllers : NetworkBehaviour
         if (!IsOwner) return;
         
         rb = GetComponent<Rigidbody>();
-        // rb.angularVelocity = new Vector3(0f, 0f, 0f);
-        rb.linearVelocity = speed;
+        rb.angularVelocity = new Vector3(0f, 0f, 0f);
+        // rb.linearVelocity = speed;
 
         /*float currTime = timer.UpdateTimer();
 
@@ -48,7 +48,11 @@ public class PlaneControllers : NetworkBehaviour
     private void FixedUpdate()
     {
         if (!IsOwner) return;
+
+        // countdownToRace = new CountdownToRace();
+        float currTime = countdownToRace.UpdateTimer();
         
+        Debug.Log("Current Time: " + currTime);
         Debug.Log("Vertical Speed: " + rb.angularVelocity.z);
         Debug.Log("Move Speed: " + rb.linearVelocity.x);
         Debug.Log("Altitude: " + rb.position.y);
