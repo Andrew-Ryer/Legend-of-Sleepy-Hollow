@@ -19,6 +19,7 @@ public class MazePlayerController : NetworkBehaviour
     );
 
     float _verticalSpeed;
+    SessionStateMachine _sessionStateMachine;
 
     public override void OnNetworkSpawn()
     {
@@ -56,6 +57,18 @@ public class MazePlayerController : NetworkBehaviour
     {
         if (!IsSpawned || !IsOwner)
             return;
+
+        if (_sessionStateMachine == null)
+            _sessionStateMachine = FindFirstObjectByType<SessionStateMachine>();
+
+        if (_sessionStateMachine == null)
+            return;
+
+        if (_sessionStateMachine.CurrentPhase != SessionPhase.Playing)
+        {
+            _verticalSpeed = -2f;
+            return;
+        }
 
         Vector2 input = _moveAction.action.ReadValue<Vector2>();
         Vector3 motion =

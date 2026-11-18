@@ -108,7 +108,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -140,8 +140,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 345438479166819506}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.13506396, y: -0.57769096, z: -0.09764634, w: 0.7990595}
-  m_LocalPosition: {x: 3.16499, y: 1.02, z: -0.18169188}
+  m_LocalRotation: {x: -0.05970474, y: 0.91549724, z: 0.14800122, w: 0.369318}
+  m_LocalPosition: {x: -0.9744415, y: 1.0453031, z: 2.4340687}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -224,7 +224,7 @@ MonoBehaviour:
     SplineCurvature: 0.5
   RecenteringTarget: 2
   HorizontalAxis:
-    Value: -71.73112
+    Value: 136.06102
     Center: 0
     Range: {x: -180, y: 180}
     Wrap: 1
@@ -234,7 +234,7 @@ MonoBehaviour:
       Time: 2
     Restrictions: 0
   VerticalAxis:
-    Value: -10
+    Value: -9.41753
     Center: 17.5
     Range: {x: -10, y: 45}
     Wrap: 0
@@ -362,13 +362,13 @@ Transform:
   m_GameObject: {fileID: 2243102343931093780}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.52078, y: 1.28809, z: 0.28337}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0.68, y: 0.28809, z: 0.40481424}
+  m_LocalScale: {x: 1.4285713, y: 1, z: 1.4285713}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8349681159164886967}
   - {fileID: 3509898889551028364}
-  m_Father: {fileID: 5682579640196333854}
+  m_Father: {fileID: 3739590873053689720}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5655738713926365127
 MonoBehaviour:
@@ -388,6 +388,7 @@ MonoBehaviour:
   _pickupLayer:
     serializedVersion: 2
     m_Bits: 4294967295
+  fireLeft: {fileID: 7677603149478707562, guid: 3adb5d6a60e2c5c48bac7aedfdffd0fc, type: 3}
   waterParticles: {fileID: 5564815809890356044}
 --- !u!198 &5564815809890356044
 ParticleSystem:
@@ -5260,7 +5261,6 @@ Transform:
   - {fileID: 7266225027724528554}
   - {fileID: 3739590873053689720}
   - {fileID: 7197217323196286879}
-  - {fileID: 4670595974955986779}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1733971873958311490
@@ -5275,7 +5275,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 4096318721
+  GlobalObjectIdHash: 3272804065
   InScenePlacedSourceGlobalObjectIdHash: 0
   m_InScenePlacedDisabledByDefault: 0
   DeferredDespawnTick: 0
@@ -5351,6 +5351,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   waterGun: {fileID: 5655738713926365127}
   cinemachineCamera: {fileID: 345438479166819506}
+  cameraTransform: {fileID: 7266225027724528554}
   speed: 5
 --- !u!114 &4722841116849433871
 MonoBehaviour:
@@ -5359,7 +5360,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2986326518283731768}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2d324529274b2c741ab1f7f0a5deeea1, type: 3}
   m_Name: 
@@ -5517,7 +5518,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -5534,7 +5535,10 @@ GameObject:
   - component: {fileID: 6485818965576384115}
   - component: {fileID: 4969439621992803111}
   - component: {fileID: 100308781849862263}
+  - component: {fileID: 6132098470390698660}
   - component: {fileID: 5620103387212196874}
+  - component: {fileID: 4340906929052172649}
+  - component: {fileID: 1487932563339869995}
   m_Layer: 6
   m_Name: Capsule
   m_TagString: Untagged
@@ -5555,6 +5559,7 @@ Transform:
   m_LocalScale: {x: 0.7, y: 1, z: 0.7}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 4670595974955986779}
   - {fileID: 3775516007834782132}
   - {fileID: 3453656214155161831}
   m_Father: {fileID: 5682579640196333854}
@@ -5651,6 +5656,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8d7a9039cd5c0a4c9bfef5ad605210e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player
+--- !u!114 &6132098470390698660
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6185957395292432534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d324529274b2c741ab1f7f0a5deeea1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CameraLockLook
+  ShowTopMostFoldoutHeaderGroup: 1
+  cameraTransform: {fileID: 7266225027724528554}
 --- !u!54 &5620103387212196874
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -5675,9 +5694,72 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 80
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
+--- !u!114 &4340906929052172649
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6185957395292432534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.Components.NetworkTransform
+  ShowTopMostFoldoutHeaderGroup: 1
+  NetworkTransformExpanded: 0
+  AutoOwnerAuthorityTickOffset: 1
+  PositionInterpolationType: 0
+  RotationInterpolationType: 0
+  ScaleInterpolationType: 0
+  PositionLerpSmoothing: 1
+  PositionMaxInterpolationTime: 0.1
+  RotationLerpSmoothing: 1
+  RotationMaxInterpolationTime: 0.1
+  ScaleLerpSmoothing: 1
+  ScaleMaxInterpolationTime: 0.1
+  AuthorityMode: 0
+  TickSyncChildren: 0
+  UseUnreliableDeltas: 0
+  SyncPositionX: 1
+  SyncPositionY: 1
+  SyncPositionZ: 1
+  SyncRotAngleX: 0
+  SyncRotAngleY: 1
+  SyncRotAngleZ: 0
+  SyncScaleX: 0
+  SyncScaleY: 0
+  SyncScaleZ: 0
+  PositionThreshold: 0.001
+  RotAngleThreshold: 0.01
+  ScaleThreshold: 0.01
+  UseQuaternionSynchronization: 0
+  UseQuaternionCompression: 0
+  UseHalfFloatPrecision: 0
+  InLocalSpace: 0
+  SwitchTransformSpaceWhenParented: 0
+  Interpolate: 1
+  SlerpPosition: 0
+--- !u!114 &1487932563339869995
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6185957395292432534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6c0be61502bb534f922ebb746851216, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.Components.NetworkRigidbody
+  ShowTopMostFoldoutHeaderGroup: 1
+  NetworkRigidbodyBaseExpanded: 0
+  UseRigidBodyForMotion: 0
+  AutoUpdateKinematicState: 1
+  AutoSetKinematicOnDespawn: 1
 --- !u!1 &8773941247851625959
 GameObject:
   m_ObjectHideFlags: 0
@@ -5786,7 +5868,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}

@@ -22,6 +22,9 @@ public class GameManager : MonoBehaviour
     private float gamePlayingTimer;
     private float gamePlayingTimerMax = 60f;
 
+    [SerializeField]
+    private SessionStateMachine sessionStateMachine;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
@@ -33,6 +36,11 @@ public class GameManager : MonoBehaviour
     {
         GameInput.Instance.OnPauseAction += GameInput_OnPauseAction;
         GameInput.Instance.OnInteractAction += GameInput_OnInteractAction;
+
+        if (sessionStateMachine == null)
+        {
+            sessionStateMachine = FindFirstObjectByType<SessionStateMachine>();
+        }
     }
 
     private void GameInput_OnInteractAction(object sender, EventArgs e)
