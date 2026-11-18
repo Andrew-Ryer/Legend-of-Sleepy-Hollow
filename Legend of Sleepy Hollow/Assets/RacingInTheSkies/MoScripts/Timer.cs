@@ -147,4 +147,9 @@ public class Timer : MonoBehaviour
             timerIsRunning = true;
         }
     }
+
+    public float UpdateTimer()
+    {
+        return timeLeft;
+    }
 }
