@@ -2674,9 +2674,9 @@ GameObject:
   m_Component:
   - component: {fileID: 577498120}
   - component: {fileID: 577498122}
-  - component: {fileID: 577498121}
+  - component: {fileID: 577498123}
   m_Layer: 0
-  m_Name: Timer
+  m_Name: CountdownToRace
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2697,24 +2697,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &577498121
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 577498119}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 352edc7ce1e28433db3ac9e3cab661fb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::NewMonoBehaviourScript
-  ShowTopMostFoldoutHeaderGroup: 1
-  timeLeft: 3
-  endGameWhenTimeRunsOut: 0
-  countdownTimer: 1
-  countdownTime: 3
-  timerText: {fileID: 1766341138}
 --- !u!114 &577498122
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2742,6 +2724,20 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
+--- !u!114 &577498123
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 577498119}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72e4fd9104ea64d56a6849e1e10e73aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CountdowntoRace
+  timeLeft: 5
+  timerIsRunning: 1
 --- !u!1 &590975564
 GameObject:
   m_ObjectHideFlags: 0
@@ -3770,7 +3766,7 @@ MonoBehaviour:
       - {fileID: 11400000, guid: 97b4fd2d59902a93bbd025a912c725b5, type: 2}
     TickRate: 30
     ClientConnectionBufferTimeout: 10
-    ConnectionApproval: 0
+    ConnectionApproval: 1
     ConnectionData: 
     EnableTimeResync: 0
     TimeResyncInterval: 30
@@ -7180,7 +7176,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RacingGameManager
   ShowTopMostFoldoutHeaderGroup: 1
   statusText: {fileID: 1766341138}
-  timer: {fileID: 577498121}
+  countdownToRace: {fileID: 577498123}
 --- !u!1 &1619101948
 GameObject:
   m_ObjectHideFlags: 0
