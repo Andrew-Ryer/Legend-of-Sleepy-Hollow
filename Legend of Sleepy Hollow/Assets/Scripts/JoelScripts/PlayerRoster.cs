@@ -347,6 +347,9 @@ public class PlayerRoster : NetworkBehaviour
         });
     }
 
+    [Rpc(SendTo.ClientsAndHost, InvokePermission = RpcInvokePermission.Server)]
+    public void EnterCabinRpc(string sceneName) => CabinMinigame.EnterScene(sceneName);
+
     // ------------------------------------------------------------------
     // Minigame-facing API: one call moves the whole session. The connection,
     // the seats, and the scores all ride along, there and back.
