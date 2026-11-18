@@ -1,8 +1,11 @@
 using UnityEngine;
 
 // Temporary script that will eventually trigger points when touched (only glows for now)
+// WIll now be updated to assign players points based on how long it took them to get to the goal (100 points)
+// If they didn't get to the goal then just give them points based on how much progress they have when the
+// timer reached 0. Example: 34% progress then 34 points.
 [RequireComponent(typeof(Renderer))]
-public class CubeGlowByTag : MonoBehaviour
+public class PointsEventScript : MonoBehaviour
 {
     public string triggerTag = "SpringPlayer"; // Tag to detect
 
@@ -43,11 +46,14 @@ public class CubeGlowByTag : MonoBehaviour
         }
     }
 
+    public int CalculatePoints(float progress)
+    {
+        return Mathf.Clamp(Mathf.RoundToInt(progress), 0, 100);
+    }
+
     // Sets the cubee's glow
     void SetGlow(Color glowColor)
     {
         cubeMaterial.SetColor("_EmissionColor", glowColor);
     }
 }
-
-
