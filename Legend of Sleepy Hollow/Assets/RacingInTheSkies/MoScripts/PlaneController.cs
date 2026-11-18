@@ -30,8 +30,8 @@ public class PlaneControllers : NetworkBehaviour
         Debug.Log("Current Time: " + (int) currTime);*/
         
         rb = GetComponent<Rigidbody>();
-        // rb.angularVelocity = new Vector3(0f, 0f, 0f);
-        rb.linearVelocity = speed;
+        rb.linearVelocity = new Vector3(0f, 0f, 0f);
+        // rb.linearVelocity = speed;
     }
     private void FixedUpdate()
     {
