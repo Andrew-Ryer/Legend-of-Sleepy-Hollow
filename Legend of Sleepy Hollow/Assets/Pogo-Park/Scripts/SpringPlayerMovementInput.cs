@@ -3,32 +3,53 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-// Owner input and server-authoritative turning / spring launches for SpringPlayer.
+// Owner input with server-authoritative tilt and spring launches
 public class SpringPlayerMovementInput : NetworkBehaviour
 {
-    [Header("References")]
     [SerializeField] Rigidbody _body;
+    [SerializeField] Collider _springOriginCollider;
 
-    [Header("Turning")]
-    [SerializeField, Min(0f)] float _turnSpeedDegreesPerSecond = 180f;
+    [Header("Tilt")]
+    float _turnSpeedDegreesPerSecond = 180;
+    float _maximumTiltDegrees = 60f;
+    float _uprightRecoverySpeedDegreesPerSecond = 180f;
+    float _uprightRecoveryDistance = 2f;
 
-    [Header("Spring charge")]
+    [Header("Air Gravity")] // Preferably do not change these for now, they are gravity
+    [SerializeField, Min(1f)] float _risingGravityMultiplier = 1.15f; // Don't go below 1
+    [SerializeField, Min(1f)] float _fallingGravityMultiplier = 2.0f; // Don't go below 1
+
+    [Header("Spring")]
+    float _postLaunchGroundPause = 0.5f; // Delay before it starts trying to fix the player upright
     [SerializeField] FloatSpring _springSettings = new FloatSpring();
-    [SerializeField, Min(0.05f)] float _secondsToFullCharge = 1f;
-    [SerializeField, Min(0f)] float _maximumCompressionMeters = 0.8f;
-    [SerializeField, Min(0f)] float _minimumChargeSeconds = 0.05f;
+    [SerializeField, Min(0.05f)] float _secondsToFullCharge = 0.6f; // 0.6 is a good starting point;
+    [SerializeField, Min(0f)] float _maximumCompressionMeters = 3.0f; // 3.0 is a good starting point
+    [SerializeField] float _minimumChargeSeconds = 0.05f;
+    float _minimumGroundNormalDot = 0.5f;
 
-    // Server writes this; all clients can read it later to animate a spring visual.
-    readonly NetworkVariable<float> _charge01 = new(0f, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    float _turnInput;
+    bool _spaceHeld;
+    bool _spaceWasHeld;
+    float _tilt;
+    float _chargeTime;
+    float _lastSupportTime = float.NegativeInfinity;
+    float _groundResponsePausedUntil;
+    float _lastLaunchSpeed;
+    float _lastLaunchTime;
+    Vector3 _lastLaunchDirection;
 
-    float _serverTurnInput;
-    bool _serverSpringHeld;
-    bool _wasSpringHeld;
-    bool _isGrounded;
-    float _chargeSeconds;
+    public Rigidbody Body => _body;
+    public Collider SpringOriginCollider => _springOriginCollider;
+    public bool IsSpringOriginGrounded => _springOriginCollider != null && !_springOriginCollider.isTrigger && SpringOriginGrounded;
+    public bool IsCharging => _spaceHeld && IsSpringOriginGrounded && _chargeTime > 0f;
+    public float Charge01 => Mathf.Clamp01(_chargeTime / Mathf.Max(0.05f, _secondsToFullCharge));
+    public float CompressionMeters => _maximumCompressionMeters * Charge01;
+    public float LastLaunchSpeed => _lastLaunchSpeed;
+    public float LastLaunchTime => _lastLaunchTime;
+    public Vector3 LastLaunchDirection => _lastLaunchDirection;
 
-    // Normalized charge, replicated so a spring visual can use it.
-    public float Charge01 => _charge01.Value;
+    bool SpringOriginGrounded => Time.fixedTime >= _groundResponsePausedUntil &&
+        Time.fixedTime - _lastSupportTime <= Time.fixedDeltaTime * 2.5f;
 
     void Awake()
     {
@@ -42,133 +63,201 @@ public class SpringPlayerMovementInput : NetworkBehaviour
             return;
         }
 
-        // Keep the capsule upright while allowing A/D yaw rotation.
-        _body.constraints |= RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
-        _body.interpolation = RigidbodyInterpolation.Interpolate;
+        if (_springOriginCollider == null)
+        {
+            Transform origin = transform.Find("SpringOrigin");
+            if (origin != null)
+                _springOriginCollider = origin.GetComponent<Collider>();
+        }
+
+        // This is a side-view movement plane: preserve only world X/Y movement and allow the player to tilt around world Z
+        _body.constraints &= ~RigidbodyConstraints.FreezeRotationZ;
+        _body.constraints |= RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY;
     }
 
     void Update()
     {
-        if (!IsSpawned || !IsOwner || Keyboard.current == null)
+        if (!IsSpawned || !IsOwner)
             return;
 
+        Keyboard keys = Keyboard.current;
         float turn = 0f;
-        if (Keyboard.current.aKey.isPressed) turn -= 1f;
-        if (Keyboard.current.dKey.isPressed) turn += 1f;
+        bool spaceHeld = false;
 
-        bool springHeld = Keyboard.current.spaceKey.isPressed;
+        if (keys != null)
+        {
+            // D tilts the top of the player to the right, making transform.up point rightward for the launch. A tilts the top to the left
+            if (keys.aKey.isPressed) turn += 1f;
+            if (keys.dKey.isPressed) turn -= 1f;
+            spaceHeld = keys.spaceKey.isPressed;
+        }
 
-        // The host already runs the authoritative simulation locally.
+        // The host is already the server, so it can apply its own input directly
         if (IsServer)
-            ReceiveInput(turn, springHeld);
+            SetInput(turn, spaceHeld);
         else
-            SubmitInputRpc(turn, springHeld);
+            SendInputRpc(turn, spaceHeld);
     }
 
     [Rpc(SendTo.Server, Delivery = RpcDelivery.Unreliable)]
-    void SubmitInputRpc(float turn, bool springHeld)
+    void SendInputRpc(float turn, bool spaceHeld)
     {
-        ReceiveInput(turn, springHeld);
+        SetInput(turn, spaceHeld);
     }
 
-    void ReceiveInput(float turn, bool springHeld)
+    void SetInput(float turn, bool spaceHeld)
     {
-        _serverTurnInput = Mathf.Clamp(turn, -1f, 1f);
-        _serverSpringHeld = springHeld;
+        _turnInput = Mathf.Clamp(turn, -1f, 1f);
+        _spaceHeld = spaceHeld;
     }
 
     void FixedUpdate()
     {
-        if (!IsSpawned || !IsServer || _body == null)
+        if (!IsSpawned || !IsServer)
             return;
 
-        float turnDelta = _serverTurnInput * _turnSpeedDegreesPerSecond * Time.fixedDeltaTime;
-        _body.MoveRotation(_body.rotation * Quaternion.Euler(0f, turnDelta, 0f));
+        bool grounded = _springOriginCollider != null && !_springOriginCollider.isTrigger && SpringOriginGrounded;
+        float normalizedTilt = Mathf.DeltaAngle(0f, _tilt);
+        bool outsideSpringTilt = Mathf.Abs(normalizedTilt) > _maximumTiltDegrees;
+        bool groundResponsePaused = Time.fixedTime < _groundResponsePausedUntil;
+        bool recovering = !groundResponsePaused && outsideSpringTilt && (grounded || IsNearGround());
 
-        if (_serverSpringHeld && _isGrounded)
+        if (!grounded)
         {
-            _chargeSeconds = Mathf.Min(_chargeSeconds + Time.fixedDeltaTime, _secondsToFullCharge);
-            _charge01.Value = Mathf.Clamp01(_chargeSeconds / _secondsToFullCharge);
+            float gravityMultiplier = _body.linearVelocity.y > 0f
+                ? _risingGravityMultiplier
+                : _fallingGravityMultiplier;
+            float extraGravityMultiplier = _body.useGravity ? gravityMultiplier - 1f : gravityMultiplier;
+            _body.AddForce(Physics.gravity * extraGravityMultiplier, ForceMode.Acceleration);
         }
 
-        // A release only launches if the player is still supported by the ground.
-        if (_wasSpringHeld && !_serverSpringHeld)
+        if (recovering)
         {
-            if (_isGrounded && _chargeSeconds >= _minimumChargeSeconds)
-                LaunchFromSpring();
-
-            ResetCharge();
+            float targetTilt = Mathf.Clamp(normalizedTilt, -_maximumTiltDegrees, _maximumTiltDegrees);
+            _tilt = Mathf.MoveTowardsAngle(_tilt, targetTilt, _uprightRecoverySpeedDegreesPerSecond * Time.fixedDeltaTime);
+        }
+        else
+        {
+            _tilt += _turnInput * _turnSpeedDegreesPerSecond * Time.fixedDeltaTime;
+            if (grounded)
+                _tilt = Mathf.Clamp(Mathf.DeltaAngle(0f, _tilt), -_maximumTiltDegrees, _maximumTiltDegrees);
+            else
+                _tilt = Mathf.Repeat(_tilt + 180f, 360f) - 180f;
         }
 
-        _wasSpringHeld = _serverSpringHeld;
+        _body.MoveRotation(Quaternion.Euler(0f, 0f, _tilt));
+
+        if (grounded)
+        {
+            _body.linearVelocity = new Vector3(0f, _body.linearVelocity.y, _body.linearVelocity.z);
+            _body.angularVelocity = Vector3.zero;
+        }
+
+        bool canSpring = grounded && Mathf.Abs(Mathf.DeltaAngle(0f, _tilt)) <= _maximumTiltDegrees + 0.1f;
+
+        if (canSpring && _spaceHeld)
+        {
+            _chargeTime = Mathf.Min(
+                _chargeTime + Time.fixedDeltaTime,
+                Mathf.Max(0.05f, _secondsToFullCharge));
+        }
+        else if (!canSpring)
+        {
+            // Charge only accumulates while the dedicated support collider is actually in contact with a floor-like surface
+            _chargeTime = 0f;
+        }
+
+        if (_spaceWasHeld && !_spaceHeld)
+        {
+            _lastLaunchSpeed = 0f;
+            _lastLaunchDirection = Vector3.zero;
+            if (canSpring && _chargeTime >= _minimumChargeSeconds)
+                Launch();
+
+            _chargeTime = 0f;
+        }
+
+        _spaceWasHeld = _spaceHeld;
     }
 
-    void LaunchFromSpring()
+    bool IsNearGround()
     {
-        if (_maximumCompressionMeters <= 0f || _springSettings.frequencyHz <= 0f)
+        RaycastHit[] hits = Physics.RaycastAll(
+            _body.worldCenterOfMass,
+            Vector3.down,
+            _uprightRecoveryDistance,
+            Physics.DefaultRaycastLayers,
+            QueryTriggerInteraction.Ignore);
+
+        foreach (RaycastHit hit in hits)
+        {
+            if (hit.rigidbody == _body || Vector3.Dot(hit.normal, Vector3.up) < _minimumGroundNormalDot)
+                continue;
+
+            return true;
+        }
+
+        return false;
+    }
+
+    void Launch()
+    {
+        if (_springSettings.frequencyHz <= 0f || _maximumCompressionMeters <= 0f)
             return;
 
-        float compression = _maximumCompressionMeters * Mathf.Clamp01(_charge01.Value);
-        if (compression <= 0f)
-            return;
+        float charge01 = Mathf.Clamp01(_chargeTime / Mathf.Max(0.05f, _secondsToFullCharge));
+        float compression = _maximumCompressionMeters * charge01;
 
-        // Start a fresh spring at the compressed position and let its configured
-        // FloatSpring settings determine the upward release velocity.
-        FloatSpring releaseSpring = new FloatSpring
+        // Compute the release velocity from the existing FloatSpring settings
+        // This uses its current values; it does not modify/tune those settings
+        FloatSpring spring = new FloatSpring
         {
             equilibrium = _springSettings.equilibrium,
             frequencyHz = _springSettings.frequencyHz,
             dampingRatio = _springSettings.dampingRatio
         };
-        releaseSpring.SetValue(releaseSpring.equilibrium - compression);
+        spring.SetValue(spring.equilibrium - compression);
 
-        const float springStep = 1f / 120f;
+        const float step = 1f / 120f;
         float launchSpeed = 0f;
         for (int i = 0; i < 720; i++)
         {
-            releaseSpring.Advance(springStep);
-            if (releaseSpring.Value >= releaseSpring.equilibrium)
+            spring.Advance(step);
+            if (spring.Value >= spring.equilibrium)
             {
-                launchSpeed = Mathf.Max(0f, releaseSpring.Velocity);
+                launchSpeed = Mathf.Max(0f, spring.Velocity);
                 break;
             }
         }
 
+        _lastLaunchSpeed = launchSpeed;
+        // The player's Z tilt steers this launch left or right while retaining vertical lift. Z velocity is prevented by the Rigidbody constraint
         if (launchSpeed > 0f)
         {
-            Vector3 velocity = _body.linearVelocity;
-            velocity.y = launchSpeed;
-            _body.linearVelocity = velocity;
-            _isGrounded = false;
+            _lastLaunchDirection = _body.transform.up;
+            _lastLaunchTime = Time.time;
+            _body.linearVelocity = _lastLaunchDirection * launchSpeed;
+            _groundResponsePausedUntil = Time.fixedTime + _postLaunchGroundPause;
         }
+
+        _lastSupportTime = float.NegativeInfinity;
     }
 
-    void ResetCharge()
-    {
-        _chargeSeconds = 0f;
-        _charge01.Value = 0f;
-    }
+    void OnCollisionEnter(Collision collision) => CheckSpringOriginContact(collision);
+    void OnCollisionStay(Collision collision) => CheckSpringOriginContact(collision);
 
-    void OnCollisionEnter(Collision collision) => UpdateGroundedState(collision);
-    void OnCollisionStay(Collision collision) => UpdateGroundedState(collision);
-
-    void OnCollisionExit(Collision collision)
+    void CheckSpringOriginContact(Collision collision)
     {
-        if (IsServer)
-            _isGrounded = false;
-    }
-
-    void UpdateGroundedState(Collision collision)
-    {
-        if (!IsServer || !IsSpawned)
+        if (!IsServer || !IsSpawned || _springOriginCollider == null)
             return;
 
         for (int i = 0; i < collision.contactCount; i++)
         {
-            // Only surfaces below the player count as support; a side wall does not.
-            if (Vector3.Dot(collision.GetContact(i).normal, Vector3.up) > 0.5f)
+            ContactPoint contact = collision.GetContact(i);
+            // Reject walls and ceilings; only upward-facing support surfaces count
+            if (contact.thisCollider == _springOriginCollider && Vector3.Dot(contact.normal, Vector3.up) >= _minimumGroundNormalDot)
             {
-                _isGrounded = true;
+                _lastSupportTime = Time.fixedTime;
                 return;
             }
         }
