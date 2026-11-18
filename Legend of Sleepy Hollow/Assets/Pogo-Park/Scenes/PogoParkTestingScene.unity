@@ -290,7 +290,7 @@ MonoBehaviour:
   _spawnPoint: {fileID: 2064335762}
   _finishPoint: {fileID: 1333523892}
   _timer: {fileID: 314746346}
-  _pointsEventScript: {fileID: 0}
+  _pointsEventScript: {fileID: 1333523893}
 --- !u!4 &314746345
 Transform:
   m_ObjectHideFlags: 0
@@ -1793,7 +1793,7 @@ Transform:
   m_GameObject: {fileID: 2064335758}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 60, y: 1, z: 0}
+  m_LocalPosition: {x: -80, y: 1, z: 0}
   m_LocalScale: {x: 10, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
