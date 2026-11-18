@@ -2,14 +2,16 @@ using UnityEngine;
 using System.Collections.Generic;
 using System;
 using Unity.Netcode;
+using UnityEditor.Experimental.GraphView;
 
 
 public class PlayerHeldItem_SS : NetworkBehaviour
 {
-    private NetworkObject _networkObject;
-    private Rigidbody _networkRb;
+    // private NetworkObject _networkObject;
+    // private Rigidbody _networkRb;
     [SerializeField] Transform transformHandHeld;
     [SerializeField] Transform transformCartHeld;
+    // [SerializeField] int speed = 5;
 
     [Serializable]
     public struct ItemCatalogEntry
@@ -23,8 +25,11 @@ public class PlayerHeldItem_SS : NetworkBehaviour
     [SerializeField] List<ItemCatalogEntry> _itemCatalog = new();
 
     public ObjectType_SS ObjectType_SS => _heldObjectType.Value;
+    
 
     readonly NetworkVariable<ObjectType_SS> _heldObjectType = new();
+    
+  
     
     
     public override void OnNetworkSpawn()
@@ -42,7 +47,7 @@ public class PlayerHeldItem_SS : NetworkBehaviour
         //drop the held item unless the host is shutting down
         if (!IsServer) return;
         if (!NetworkManager.ShutdownInProgress)
-            DropItem(transform.position);
+            DropItem();
     }
 
     public override void OnNetworkDespawn()
@@ -53,32 +58,37 @@ public class PlayerHeldItem_SS : NetworkBehaviour
     }
 
      
-    public void SetHeldItem(ObjectType_SS objectType, NetworkObject child, Rigidbody rb)
+    // public void SetHeldItem(ObjectType_SS objectType, NetworkObject child, Rigidbody rb
+    public void SetHeldItem(ObjectType_SS objectType)
     {
         if (!IsServer) return;
 
         Debug.Log("set held item");
+
         _heldObjectType.Value = objectType;
-        _networkObject = child;
-        _networkRb = rb;
+        // _heldObjectType.Value = objectType;
+        // _networkObject = child;
+        // _networkRb = rb;
 
-        if (_heldObjectType.Value != ObjectType_SS.Cart)
-        {
-            child.transform.position = transformHandHeld.position;
-            child.TrySetParent(transform, true);
-            _networkRb.isKinematic = true;
-        }
+        // if (_heldObjectType.Value != ObjectType_SS.Cart)
+        // {
+        //     child.transform.position = transformHandHeld.position;
+        //     child.transform.position = Vector3.MoveTowards(child.transform.position, transformHandHeld.position, speed * Time.deltaTime);
+        //     child.TrySetParent(transform, true);
+        //     _networkRb.isKinematic = true;
+        // }
 
-        else
-        {
-            child.transform.position = transformCartHeld.position;
-            child.TrySetParent(transform, true);
-            _networkRb.isKinematic = true;
-        }             
+        // else
+        // {
+        //     child.transform.position = transformCartHeld.position;
+        //     child.transform.position = Vector3.MoveTowards(child.transform.position, transformCartHeld.position, speed * Time.deltaTime);
+        //     child.TrySetParent(transform, true);
+        //     _networkRb.isKinematic = true;
+        // }             
     }
 
 
-    public void DropItem(Vector3 position)
+    public void DropItem()
     {
         if (!IsServer) return;
         
@@ -86,41 +96,67 @@ public class PlayerHeldItem_SS : NetworkBehaviour
         if (_heldObjectType.Value == ObjectType_SS.None) return;
 
         if (_heldObjectType.Value != ObjectType_SS.Cart)
-            DropShell(_networkObject);
+            // DropShell(_networkObject);
+            DropShell();
 
         if (_heldObjectType.Value == ObjectType_SS.Cart)
         {
-            DropCart(_networkObject);
+            DropCart();
+            // DropCart(_networkObject);
         }
             
     }
+
+    void DropShell()
+    {
+        Debug.Log("Drop shell");
+        if (_heldObjectType.Value == ObjectType_SS.None) return;
+
+        ItemCatalogEntry matchingEntry = _itemCatalog.Find(item => item.type == _heldObjectType.Value);
+
+        NetworkObject.InstantiateAndSpawn(matchingEntry.prefab.gameObject, NetworkManager, position: transformHandHeld.position);
     
-    void DropShell(NetworkObject child)
-    {
-        // ItemCatalogEntry matchingEntry = _itemCatalog.Find(item => item.type == _heldObjectType.Value);
-        // NetworkObject.InstantiateAndSpawn(matchingEntry.prefab.gameObject, NetworkManager, position: position);
-
-        child.TryRemoveParent(true);
-        _networkRb.isKinematic = false;
-
         ClearItem();
     }
 
-    void DropCart(NetworkObject child)
+    void DropCart()
     {
-        child.TryRemoveParent(true);
-        _networkRb.isKinematic = false;
+        Debug.Log("Drop cart");
+        if (_heldObjectType.Value == ObjectType_SS.None) return;
+
+        ItemCatalogEntry matchingEntry = _itemCatalog.Find(item => item.type == _heldObjectType.Value);
+
+        NetworkObject.InstantiateAndSpawn(matchingEntry.prefab.gameObject, NetworkManager, position: transformCartHeld.position);
+    
+        ClearItem();
+    }
+    
+    // void DropShell(NetworkObject child)
+    // {
+    //     child.TryRemoveParent(true);
+    //     _networkRb.isKinematic = false;
+
+    //     // ItemCatalogEntry matchingEntry = _itemCatalog.Find(item => item.type == _heldObjectType.Value);
+    //     // NetworkObject.InstantiateAndSpawn(matchingEntry.prefab.gameObject, NetworkManager, position: transformHandHeld.position);
+
+    //     ClearItem();
+    // }
+
+    // void DropCart(NetworkObject child)
+    // {
+    //     // ItemCatalogEntry matchingEntry = _itemCatalog.Find(item => item.type == _heldObjectType.Value);
+    //     // NetworkObject.InstantiateAndSpawn(matchingEntry.prefab.gameObject, NetworkManager, position: transformCartHeld.position);
         
-        ClearItem();
-    }
+    //     child.TryRemoveParent(true);
+    //     _networkRb.isKinematic = false;
+        
+    //     ClearItem();
+    // }
 
 
     void ClearItem()
     {
         if (!IsServer) return;
-
-        if (_heldObjectType.Value == ObjectType_SS.Cart)
-
 
         _heldObjectType.Value = ObjectType_SS.None;
     }
@@ -129,8 +165,18 @@ public class PlayerHeldItem_SS : NetworkBehaviour
 
     void HandleObjectTypeChanged(ObjectType_SS previousValue, ObjectType_SS newValue)
     {
-        // TODO Slice 6.8: show only the held model matching newValue.
+        //show only the held model matching newValue.
+        Debug.Log("object changed");
         foreach (var item in _itemCatalog)
+        {
             item.model.SetActive(item.type == newValue);
+        }
+                 
+    }
+
+    public ObjectType_SS ReturnHeldObject()
+    {
+        Debug.Log(_heldObjectType.Value);
+        return _heldObjectType.Value;
     }
 }
