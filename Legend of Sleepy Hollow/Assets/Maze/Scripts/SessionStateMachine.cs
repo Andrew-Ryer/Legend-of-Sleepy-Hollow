@@ -26,7 +26,7 @@ public class SessionStateMachine : NetworkBehaviour
 
     public SessionPhase CurrentPhase => _phase.Value;
     public int RequiredReadyPlayers => requiredReadyPlayers;
-    public float CountdownRemaining => _countdownRemaining;
+    public float CountdownRemaining => _countdownRemaining.Value;
     public int ReadyPlayerCount => CountReadyPlayers();
     public bool CanStart =>
         _phase.Value == SessionPhase.Lobby
@@ -39,7 +39,12 @@ public class SessionStateMachine : NetworkBehaviour
         NetworkVariableWritePermission.Server
     );
 
-    float _countdownRemaining;
+    readonly NetworkVariable<float> _countdownRemaining = new(
+        0f,
+        NetworkVariableReadPermission.Everyone,
+        NetworkVariableWritePermission.Server
+    );
+
     string _lastBlockedReason = "Waiting for ready players.";
 
     public override void OnNetworkSpawn()
@@ -55,7 +60,7 @@ public class SessionStateMachine : NetworkBehaviour
             return;
 
         _phase.Value = SessionPhase.Lobby;
-        _countdownRemaining = 0f;
+        _countdownRemaining.Value = 0f;
         _lastBlockedReason = "Waiting for ready players.";
         NetworkManager.OnConnectionEvent += HandleConnectionEvent;
     }
@@ -90,8 +95,8 @@ public class SessionStateMachine : NetworkBehaviour
                 return;
             }
 
-            _countdownRemaining -= Time.deltaTime;
-            if (_countdownRemaining <= 0f)
+            _countdownRemaining.Value -= Time.deltaTime;
+            if (_countdownRemaining.Value <= 0f)
                 ChangePhase(SessionPhase.Playing, "countdown finished");
         }
     }
@@ -171,7 +176,7 @@ public class SessionStateMachine : NetworkBehaviour
             return;
         }
 
-        _countdownRemaining = countdownSeconds;
+        _countdownRemaining.Value = countdownSeconds;
         ChangePhase(SessionPhase.Countdown, reason);
     }
 

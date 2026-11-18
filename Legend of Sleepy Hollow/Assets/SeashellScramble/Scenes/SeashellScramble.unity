@@ -226,37 +226,6 @@ MonoBehaviour:
     PacketDelayMS: 0
     PacketJitterMS: 0
     PacketDropRate: 0
---- !u!1 &314798127
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 314798128}
-  m_Layer: 0
-  m_Name: SessionManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &314798128
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 314798127}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &376323152
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -318,12 +287,20 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4299591063928358799, guid: 8b1e98b1586a7cb43bb6fdb6c09f023f, type: 3}
+      propertyPath: m_InScenePlacedDisabledByDefault
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4299591063928358799, guid: 8b1e98b1586a7cb43bb6fdb6c09f023f, type: 3}
       propertyPath: InScenePlacedSourceGlobalObjectIdHash
       value: 2432242840
       objectReference: {fileID: 0}
     - target: {fileID: 4750683439106676439, guid: 8b1e98b1586a7cb43bb6fdb6c09f023f, type: 3}
       propertyPath: m_Name
       value: SandDollar_SS
+      objectReference: {fileID: 0}
+    - target: {fileID: 4750683439106676439, guid: 8b1e98b1586a7cb43bb6fdb6c09f023f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -464,12 +441,20 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4299591063928358799, guid: f85e2b70be4b08a4cb255fdf24481442, type: 3}
+      propertyPath: m_InScenePlacedDisabledByDefault
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4299591063928358799, guid: f85e2b70be4b08a4cb255fdf24481442, type: 3}
       propertyPath: InScenePlacedSourceGlobalObjectIdHash
       value: 2747078566
       objectReference: {fileID: 0}
     - target: {fileID: 4750683439106676439, guid: f85e2b70be4b08a4cb255fdf24481442, type: 3}
       propertyPath: m_Name
       value: Sundial_SS
+      objectReference: {fileID: 0}
+    - target: {fileID: 4750683439106676439, guid: f85e2b70be4b08a4cb255fdf24481442, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -675,6 +660,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1562480473361985384, guid: e1b7dcad31d39a24d8ecc3a1083421dd, type: 3}
+      propertyPath: m_InScenePlacedDisabledByDefault
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1562480473361985384, guid: e1b7dcad31d39a24d8ecc3a1083421dd, type: 3}
       propertyPath: InScenePlacedSourceGlobalObjectIdHash
       value: 2208210082
       objectReference: {fileID: 0}
@@ -721,6 +710,10 @@ PrefabInstance:
     - target: {fileID: 4947808072682608801, guid: e1b7dcad31d39a24d8ecc3a1083421dd, type: 3}
       propertyPath: m_Name
       value: Cart_SS
+      objectReference: {fileID: 0}
+    - target: {fileID: 4947808072682608801, guid: e1b7dcad31d39a24d8ecc3a1083421dd, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7061956588436562536, guid: e1b7dcad31d39a24d8ecc3a1083421dd, type: 3}
       propertyPath: m_Mesh
@@ -808,12 +801,20 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4299591063928358799, guid: 67d97c3a0e6ff3f49a02ceec447ca39d, type: 3}
+      propertyPath: m_InScenePlacedDisabledByDefault
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4299591063928358799, guid: 67d97c3a0e6ff3f49a02ceec447ca39d, type: 3}
       propertyPath: InScenePlacedSourceGlobalObjectIdHash
       value: 2716958810
       objectReference: {fileID: 0}
     - target: {fileID: 4750683439106676439, guid: 67d97c3a0e6ff3f49a02ceec447ca39d, type: 3}
       propertyPath: m_Name
       value: Scallop_SS
+      objectReference: {fileID: 0}
+    - target: {fileID: 4750683439106676439, guid: 67d97c3a0e6ff3f49a02ceec447ca39d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1072,4 +1073,3 @@ SceneRoots:
   - {fileID: 981504639}
   - {fileID: 387397119}
   - {fileID: 94081862}
-  - {fileID: 314798128}

@@ -1,241 +1,96 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="AutoImportSettings">
-    <option name="autoReloadType" value="SELECTIVE" />
-  </component>
-  <component name="CMakeProjectFlavorService">
-    <option name="flavorId" value="CMakePlainProjectFlavor" />
-  </component>
-  <component name="CMakeSettings">
-    <configurations />
-  </component>
-  <component name="ChangeListManager">
-    <list default="true" id="eb8be328-1ac4-4095-8465-ef6e9dfb5720" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Legend of Sleepy Hollow/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Legend of Sleepy Hollow/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/3AM_Assets/Prefabs/ArcadeGround.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/3AM_Assets/Prefabs/ArcadeGround.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/3AM_Assets/Prefabs/ArcadeMachine.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/3AM_Assets/Prefabs/ArcadeMachine.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/3AM_Assets/Prefabs/ArcadePlayer.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/3AM_Assets/Prefabs/ArcadePlayer.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/3AM_Assets/Scripts/ArcadeGameManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/3AM_Assets/Scripts/ArcadeGameManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/3AM_Assets/Scripts/ArcadeMachine.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/3AM_Assets/Scripts/ArcadeMachine.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/3AM_Assets/Scripts/ArcadePlayer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/3AM_Assets/Scripts/ArcadePlayer.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/3AM_Assets/Scripts/ArcadePlayerCamera.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/3AM_Assets/Scripts/ArcadePlayerCamera.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/3AM_Assets/Scripts/ArcadePlayerMap.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/3AM_Assets/Scripts/ArcadePlayerMap.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/DefaultNetworkPrefabs.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/DefaultNetworkPrefabs.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/InputSystem_Actions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/InputSystem_Actions.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/3AM Arcade.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/3AM Arcade.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/manifest.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/packages-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/packages-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/Packages/com.unity.probuilder/Settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/Packages/com.unity.probuilder/Settings.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" afterDir="false" />
-    </list>
-    <option name="SHOW_DIALOG" value="false" />
-    <option name="HIGHLIGHT_CONFLICTS" value="true" />
-    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
-    <option name="LAST_RESOLUTION" value="IGNORE" />
-  </component>
-  <component name="EmbeddingIndexingInfo">
-    <option name="cachedIndexableFilesCount" value="12035" />
-  </component>
-  <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
-  </component>
-  <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.burst@973857688024/Runtime/BurstCompiler.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.multiplayer.tools@ab0f93c2f1f1/Common/Runtime/Extensions/TaskExtensions.cs" root0="SKIP_HIGHLIGHTING" />
-  </component>
-  <component name="McpProjectServerCommands">
-    <commands />
-    <urls />
-  </component>
-  <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="false" />
-  <component name="NextEditCompletionFeaturesState">
-    <decayedCancelled>
-      <entry key="MS100" value="7.454266394309051E-213" />
-      <entry key="MS500" value="5.888353074397048E-43" />
-      <entry key="S2" value="5.371218536469832E-11" />
-      <entry key="S5" value="1.732473403699802E-4" />
-      <entry key="S10" value="0.035744728355524745" />
-      <entry key="S30" value="2.327160700806403" />
-      <entry key="S60" value="9.264839570842232" />
-      <entry key="M2" value="26.953900256882662" />
-      <entry key="M5" value="90.00858784570843" />
-      <entry key="M10" value="158.33867990443005" />
-      <entry key="M15" value="195.00452335370326" />
-      <entry key="M30" value="251.72931320731198" />
-      <entry key="H1" value="322.39869220926624" />
-      <entry key="H2" value="404.2836471140599" />
-      <entry key="H4" value="472.36876112216964" />
-      <entry key="D1" value="551.8669865384956" />
-      <entry key="W1" value="568.1916321783872" />
-    </decayedCancelled>
-    <decayedSelected>
-      <entry key="MS100" value="1.0" />
-      <entry key="MS500" value="1.0" />
-      <entry key="S2" value="1.0000000000393088" />
-      <entry key="S5" value="1.0001412472931595" />
-      <entry key="S10" value="1.0264193045104575" />
-      <entry key="S30" value="2.297468780996722" />
-      <entry key="S60" value="5.769490846169585" />
-      <entry key="M2" value="13.47942474306564" />
-      <entry key="M5" value="30.07334856591952" />
-      <entry key="M10" value="42.6616620989147" />
-      <entry key="M15" value="48.57913129036462" />
-      <entry key="M30" value="57.0983859684914" />
-      <entry key="H1" value="67.03400200775974" />
-      <entry key="H2" value="78.10027813946938" />
-      <entry key="H4" value="87.11717913454129" />
-      <entry key="D1" value="97.5140133270497" />
-      <entry key="W1" value="99.63544986893031" />
-    </decayedSelected>
-    <decayedShown>
-      <entry key="MS100" value="3.862782574372188E-5" />
-      <entry key="MS500" value="0.13103280943961612" />
-      <entry key="S2" value="0.6016515130794946" />
-      <entry key="S5" value="0.8163706011280203" />
-      <entry key="S10" value="0.9612553666343633" />
-      <entry key="S30" value="4.50297635045047" />
-      <entry key="S60" value="14.845990001284456" />
-      <entry key="M2" value="40.19755883639533" />
-      <entry key="M5" value="119.85277249242056" />
-      <entry key="M10" value="200.82837502896243" />
-      <entry key="M15" value="243.4501063704252" />
-      <entry key="M30" value="308.7469366380627" />
-      <entry key="H1" value="389.3839319014083" />
-      <entry key="H2" value="482.35479555621106" />
-      <entry key="H4" value="559.4694237514318" />
-      <entry key="D1" value="649.3778700384307" />
-      <entry key="W1" value="667.8266239080472" />
-    </decayedShown>
-  </component>
-  <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 7
-}</component>
-  <component name="ProjectId" id="3LcppVijV8ENhupXSjJEQja37WI" />
-  <component name="ProjectViewState">
-    <option name="hideEmptyMiddlePackages" value="true" />
-    <option name="showLibraryContents" value="true" />
-  </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
-    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
-    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;florencio's__branch&quot;,
-    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
-  }
-}</component>
-  <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
-    <configuration name="Start Unity" type="RunUnityExe" factoryName="Unity Executable">
-      <option name="EXE_PATH" value="C:\Program Files\Unity\Hub\Editor\6000.3.6f1\Editor\Unity.exe" />
-      <option name="PROGRAM_PARAMETERS" value="-projectPath &quot;C:\CST426\Legend-of-Sleepy-Hollow\Legend of Sleepy Hollow&quot; -debugCodeOptimization" />
-      <option name="WORKING_DIRECTORY" value="C:\CST426\Legend-of-Sleepy-Hollow\Legend of Sleepy Hollow" />
-      <option name="PASS_PARENT_ENVS" value="1" />
-      <option name="ENV_FILE_PATHS" value="" />
-      <option name="REDIRECT_INPUT_PATH" value="" />
-      <option name="MIXED_MODE_DEBUG" value="0" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Unit Tests (batch mode)" type="RunUnityExe" factoryName="Unity Executable">
-      <option name="EXE_PATH" value="C:\Program Files\Unity\Hub\Editor\6000.3.6f1\Editor\Unity.exe" />
-      <option name="PROGRAM_PARAMETERS" value="-runTests -batchmode -projectPath &quot;C:\CST426\Legend-of-Sleepy-Hollow\Legend of Sleepy Hollow&quot; -testResults Logs/results.xml -logFile Logs/Editor.log -testPlatform EditMode -debugCodeOptimization" />
-      <option name="WORKING_DIRECTORY" value="C:\CST426\Legend-of-Sleepy-Hollow\Legend of Sleepy Hollow" />
-      <option name="PASS_PARENT_ENVS" value="1" />
-      <option name="ENV_FILE_PATHS" value="" />
-      <option name="REDIRECT_INPUT_PATH" value="" />
-      <option name="MIXED_MODE_DEBUG" value="0" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" useMixedMode="false">
-      <option name="allowRunningInParallel" value="false" />
-      <option name="coreClr" value="false" />
-      <option name="listenPortForConnections" value="false" />
-      <option name="pid" />
-      <option name="projectPathOnTarget" />
-      <option name="selectedOptions">
-        <list />
-      </option>
-      <method v="2" />
-    </configuration>
-    <configuration name="Attach to" type="UnityDevicePlayer" factoryName="UnityAttachToDevicePlayer">
-      <method v="2" />
-    </configuration>
-  </component>
-  <component name="TaskManager">
-    <task active="true" id="Default" summary="Default task">
-      <changelist id="eb8be328-1ac4-4095-8465-ef6e9dfb5720" name="Changes" comment="" />
-      <created>1793763395971</created>
-      <option name="number" value="Default" />
-      <option name="presentableId" value="Default" />
-      <updated>1793763395971</updated>
-      <workItem from="1793763398565" duration="459000" />
-      <workItem from="1794195510887" duration="267000" />
-      <workItem from="1794199319459" duration="30000" />
-      <workItem from="1794199399150" duration="4000" />
-      <workItem from="1794209984637" duration="1835000" />
-      <workItem from="1794364317577" duration="573000" />
-      <workItem from="1794365008548" duration="964000" />
-      <workItem from="1794366115432" duration="2897000" />
-      <workItem from="1794369177066" duration="197000" />
-      <workItem from="1794427773695" duration="8432000" />
-      <workItem from="1794436676786" duration="825000" />
-      <workItem from="1794445962789" duration="8623000" />
-      <workItem from="1794677112659" duration="3000" />
-      <workItem from="1794686048914" duration="3000" />
-      <workItem from="1794686380615" duration="4000" />
-      <workItem from="1794693228229" duration="314000" />
-      <workItem from="1794710396804" duration="31000" />
-      <workItem from="1794710665801" duration="3000" />
-      <workItem from="1794713247099" duration="2000" />
-      <workItem from="1794714233422" duration="6000" />
-      <workItem from="1794721056146" duration="76000" />
-    </task>
-    <servers />
-  </component>
-  <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="3" />
-  </component>
-  <component name="UnityCheckinConfiguration" checkUnsavedScenes="false" />
-  <component name="UnityProjectConfiguration" hasMinimizedUI="true" />
-  <component name="UnityProjectDiscoverer">
-    <option name="hasUnityReference" value="true" />
-    <option name="unityProject" value="true" />
-    <option name="unityProjectFolder" value="true" />
-  </component>
-  <component name="UnityUnitTestConfiguration" currentTestLauncher="Both" />
-  <component name="VcsManagerConfiguration">
-    <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <breakpoint enabled="true" type="DotNet_Exception_Breakpoints">
-          <properties exception="System.OperationCanceledException" breakIfHandledByOtherCode="false" displayValue="System.OperationCanceledException" />
-          <option name="timeStamp" value="1" />
-        </breakpoint>
-        <breakpoint enabled="true" type="DotNet_Exception_Breakpoints">
-          <properties exception="System.Threading.Tasks.TaskCanceledException" breakIfHandledByOtherCode="false" displayValue="System.Threading.Tasks.TaskCanceledException" />
-          <option name="timeStamp" value="2" />
-        </breakpoint>
-        <breakpoint enabled="true" type="DotNet_Exception_Breakpoints">
-          <properties exception="System.Threading.ThreadAbortException" breakIfHandledByOtherCode="false" displayValue="System.Threading.ThreadAbortException" />
-          <option name="timeStamp" value="3" />
-        </breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
-  </component>
-</project>
+    <component name="AutoImportSettings">
+        <option name="autoReloadType" value="SELECTIVE" />
+    </component>
+    <component name="CMakeProjectFlavorService">
+        <option name="flavorId" value="CMakePlainProjectFlavor" />
+    </component>
+    <component name="CMakeSettings">
+        <configurations />
+    </component>
+    <component name="ChangeListManager">
+        <list default="true" id="eb8be328-1ac4-4095-8465-ef6e9dfb5720" name="Changes" comment="">
+            <change beforePath="$PROJECT_DIR$/.idea/.idea.Legend of Sleepy Hollow/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Legend of Sleepy Hollow/.idea/workspace.xml" afterDir="false" />
+            <change beforePath="$PROJECT_DIR$/Assets/3AM_Assets/Prefabs/ArcadeGround.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/3AM_Assets/Prefabs/ArcadeGround.prefab" afterDir="false" />
+            <change beforePath="$PROJECT_DIR$/Assets/3AM_Assets/Prefabs/ArcadeMachine.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/3AM_Assets/Prefabs/ArcadeMachine.prefab" afterDir="false" />
+            <change beforePath="$PROJECT_DIR$/Assets/3AM_Assets/Prefabs/ArcadePlayer.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/3AM_Assets/Prefabs/ArcadePlayer.prefab" afterDir="false" />
+            <change beforePath="$PROJECT_DIR$/Assets/3AM_Assets/Scripts/ArcadeGameManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/3AM_Assets/Scripts/ArcadeGameManager.cs" afterDir="false" />
+            <change beforePath="$PROJECT_DIR$/Assets/3AM_Assets/Scripts/ArcadeMachine.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/3AM_Assets/Scripts/ArcadeMachine.cs" afterDir="false" />
+            <change beforePath="$PROJECT_DIR$/Assets/3AM_Assets/Scripts/ArcadePlayer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/3AM_Assets/Scripts/ArcadePlayer.cs" afterDir="false" />
+            <change beforePath="$PROJECT_DIR$/Assets/3AM_Assets/Scripts/ArcadePlayerCamera.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/3AM_Assets/Scripts/ArcadePlayerCamera.cs" afterDir="false" />
+            <change beforePath="$PROJECT_DIR$/Assets/3AM_Assets/Scripts/ArcadePlayerMap.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/3AM_Assets/Scripts/ArcadePlayerMap.cs" afterDir="false" />
+            <change beforePath="$PROJECT_DIR$/Assets/DefaultNetworkPrefabs.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/DefaultNetworkPrefabs.asset" afterDir="false" />
+            <change beforePath="$PROJECT_DIR$/Assets/InputSystem_Actions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/InputSystem_Actions.cs" afterDir="false" />
+            <change beforePath="$PROJECT_DIR$/Assets/Scenes/3AM Arcade.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/3AM Arcade.unity" afterDir="false" />
+            <change beforePath="$PROJECT_DIR$/Packages/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/manifest.json" afterDir="false" />
+            <change beforePath="$PROJECT_DIR$/Packages/packages-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/packages-lock.json" afterDir="false" />
+            <change beforePath="$PROJECT_DIR$/ProjectSettings/Packages/com.unity.probuilder/Settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/Packages/com.unity.probuilder/Settings.json" afterDir="false" />
+            <change beforePath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" afterDir="false" />
+        </list>
+        <option name="SHOW_DIALOG" value="false" />
+        <option name="HIGHLIGHT_CONFLICTS" value="true" />
+        <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+        <option name="LAST_RESOLUTION" value="IGNORE" />
+    </component>
+    <component name="EmbeddingIndexingInfo">
+        <option name="cachedIndexableFilesCount" value="12035" />
+    </component>
+    <component name="Git.Settings">
+        <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+    </component>
+    <component name="HighlightingSettingsPerFile">
+        <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.burst@973857688024/Runtime/BurstCompiler.cs" root0="SKIP_HIGHLIGHTING" />
+        <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.multiplayer.tools@ab0f93c2f1f1/Common/Runtime/Extensions/TaskExtensions.cs" root0="SKIP_HIGHLIGHTING" />
+    </component>
+    <component name="McpProjectServerCommands">
+        <commands />
+        <urls />
+    </component>
+    <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="false" />
+    <component name="NextEditCompletionFeaturesState">
+        <decayedCancelled>
+            <entry key="MS100" value="7.454266394309051E-213" />
+            <entry key="MS500" value="5.888353074397048E-43" />
+            <entry key="S2" value="5.371218536469832E-11" />
+            <entry key="S5" value="1.732473403699802E-4" />
+            <entry key="S10" value="0.035744728355524745" />
+            <entry key="S30" value="2.327160700806403" />
+            <entry key="S60" value="9.264839570842232" />
+            <entry key="M2" value="26.953900256882662" />
+            <entry key="M5" value="90.00858784570843" />
+            <entry key="M10" value="158.33867990443005" />
+            <entry key="M15" value="195.00452335370326" />
+            <entry key="M30" value="251.72931320731198" />
+            <entry key="H1" value="322.39869220926624" />
+            <entry key="H2" value="404.2836471140599" />
+            <entry key="H4" value="472.36876112216964" />
+            <entry key="D1" value="551.8669865384956" />
+            <entry key="W1" value="568.1916321783872" />
+        </decayedCancelled>
+        <decayedSelected>
+            <entry key="MS100" value="1.0" />
+            <entry key="MS500" value="1.0" />
+            <entry key="S2" value="1.0000000000393088" />
+            <entry key="S5" value="1.0001412472931595" />
+            <entry key="S10" value="1.0264193045104575" />
+            <entry key="S30" value="2.297468780996722" />
+            <entry key="S60" value="5.769490846169585" />
+            <entry key="M2" value="13.47942474306564" />
+            <entry key="M5" value="30.07334856591952" />
+            <entry key="M10" value="42.6616620989147" />
+            <entry key="M15" value="48.57913129036462" />
+            <entry key="M30" value="57.0983859684914" />
+            <entry key="H1" value="67.03400200775974" />
+            <entry key="H2" value="78.10027813946938" />
+            <entry key="H4" value="87.11717913454129" />
+            <entry key="D1" value="97.5140133270497" />
+            <entry key="W1" value="99.63544986893031" />
+        </decayedSelected>
+        <decayedShown>
+            <entry key="MS100" value="3.862782574372188E-5" />
+            <entry key="MS500" value="0.13103280943961612" />
+            <entry key="S2" value="0.6016515130794946" />
+            <entry key="S5" value="0.8163706011280203" />
+            <entry key="S10" value="0.9612553666343633" />
+            <entry key="S30" value="4.50297635045047" />
