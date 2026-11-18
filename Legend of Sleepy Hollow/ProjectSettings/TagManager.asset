@@ -4,6 +4,8 @@
 TagManager:
   serializedVersion: 3
   tags:
+  - SpringPlayer
+  - ArcadeMap
   - Plane
   layers:
   - Default
@@ -12,7 +14,7 @@ TagManager:
   - 
   - Water
   - UI
-  - 
+  - Player Layer Kitchen
   - 
   - 
   - 
@@ -51,3 +53,27 @@ TagManager:
   - Light Layer 5
   - Light Layer 6
   - Light Layer 7
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
