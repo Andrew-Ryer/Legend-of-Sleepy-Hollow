@@ -47,7 +47,7 @@ public class KitchenTimer : NetworkBehaviour
                 timerCheck.Value = false;
                 if (fireCount.Value > 0)
                 {
-                    Debug.Log("You Lose. Fires Left was: " + fireCount.Value);
+                    Debug.Log("Fires Left was: " + fireCount.Value);
                 } else
                 {
                     Debug.Log("You Win!");

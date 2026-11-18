@@ -13,6 +13,7 @@ public class WaterGun_KF : NetworkBehaviour
     [SerializeField] float _detectionAngle = 40f;
     [SerializeField] LayerMask _pickupLayer;
     [SerializeField] public KitchenTimer fireLeft;
+    [SerializeField] public int playerScore = 0;
 
 
     [Header("Misc.")]
@@ -34,7 +35,7 @@ public class WaterGun_KF : NetworkBehaviour
         //Debug.Log("shoot");
         isShooting = true;
 
-        if (!waterParticles.isPlaying) waterParticles.Play();
+        PlayParticlesRpc();
 
         if (_closestTarget == null) return;
 
@@ -67,8 +68,7 @@ public class WaterGun_KF : NetworkBehaviour
     {
         isShooting = false;
         //stops water particles from playing 
-        if (waterParticles.isPlaying)
-            waterParticles.Stop();
+        StopParticlesRpc();
     }
     
     void UpdateFlamesTarget()
@@ -123,6 +123,20 @@ public class WaterGun_KF : NetworkBehaviour
         //clears selection and stops water particles
         _closestTarget =  null;
         //StopShoot();
+    }
+
+    [Rpc(SendTo.ClientsAndHost)]
+    void PlayParticlesRpc()
+    {
+        if (!waterParticles.isPlaying)
+            waterParticles.Play();
+    }
+
+    [Rpc(SendTo.ClientsAndHost)]
+    void StopParticlesRpc()
+    {
+        if (waterParticles.isPlaying)
+            waterParticles.Stop();
     }
 
 }
