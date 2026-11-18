@@ -24,7 +24,8 @@ EditorBuildSettings:
     path: Assets/Scenes/Maze.unity
     guid: 280d7fbb7b83a2042b5c7b69f64d1e1a
   - enabled: 1
-    path: Assets/SeashellScramble/Scenes/SeashellScramble.unity
-    guid: 57772fa7dda1da14ab3a9ec90c86a21d
-  m_configObjects: {}
+    path: Assets/Scenes/MoScene.unity
+    guid: 3262738584dfb4292b73fb27bd62908f
+  m_configObjects:
+    com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0
