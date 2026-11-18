@@ -6,11 +6,13 @@ using UnityEngine;
 
 // Script to handle which player is closest to a finishPoint from the startingPoint
 // Updated to work with the leaderboard UI to track player positions
+// Updated to now handle points per player
 public class RaceProgressTracker : MonoBehaviour
 {
     [SerializeField] Transform _spawnPoint;
     [SerializeField] Transform _finishPoint;
     [SerializeField] Timer _timer;
+    [SerializeField] PointsEventScript _pointsEventScript;
 
     const float PrintIntervalSeconds = 1f;
     float _nextPrintTime;
@@ -25,6 +27,7 @@ public class RaceProgressTracker : MonoBehaviour
         public ulong ClientId;
         public string PlayerName;
         public float Progress;
+        public int Points;
     }
 
     public IReadOnlyList<PlayerProgress> RankedPlayers => _rankedPlayers;
@@ -33,6 +36,11 @@ public class RaceProgressTracker : MonoBehaviour
     {
         if (_timer == null)
             _timer = FindFirstObjectByType<Timer>();
+
+        if (_pointsEventScript == null)
+            _pointsEventScript = GetComponent<PointsEventScript>();
+        if (_pointsEventScript == null)
+            _pointsEventScript = gameObject.AddComponent<PointsEventScript>();
     }
 
     void OnEnable()
@@ -61,24 +69,7 @@ public class RaceProgressTracker : MonoBehaviour
         if (Mathf.Approximately(startX, finishX))
             return;
 
-        foreach (NetworkObject networkObject in networkManager.SpawnManager.SpawnedObjectsList)
-        {
-            if (networkObject == null || !networkObject.IsPlayerObject ||
-                !networkObject.TryGetComponent(out SpringPlayerMovementInput player))
-                continue;
-
-            ulong clientId = networkObject.OwnerClientId;
-            float progress = player.HasFinished
-                ? 100f
-                : Mathf.Min(99f, Mathf.InverseLerp(startX, finishX, player.transform.position.x) * 100f);
-
-            _players[clientId] = new PlayerProgress
-            {
-                ClientId = clientId,
-                PlayerName = $"Player {clientId + 1}",
-                Progress = progress
-            };
-        }
+        CapturePlayerProgress(networkManager, startX, finishX);
 
         RefreshRankedPlayers();
 
@@ -133,6 +124,26 @@ public class RaceProgressTracker : MonoBehaviour
         });
     }
 
+    void CapturePlayerProgress(NetworkManager networkManager, float startX, float finishX)
+    {
+        foreach (NetworkObject networkObject in networkManager.SpawnManager.SpawnedObjectsList)
+        {
+            if (networkObject == null || !networkObject.IsPlayerObject ||
+                !networkObject.TryGetComponent(out SpringPlayerMovementInput player))
+                continue;
+
+            ulong clientId = networkObject.OwnerClientId;
+            float progress = player.HasFinished ? 100f : Mathf.Min(99f, Mathf.InverseLerp(startX, finishX, player.transform.position.x) * 100f);
+
+            _players[clientId] = new PlayerProgress
+            {
+                ClientId = clientId,
+                PlayerName = $"Player {clientId + 1}",
+                Progress = progress
+            };
+        }
+    }
+
     bool AllPlayersFinished()
     {
         if (_rankedPlayers.Count == 0)
@@ -158,6 +169,9 @@ public class RaceProgressTracker : MonoBehaviour
         if (_raceFinished)
             return;
 
+        CaptureFinalProgress();
+        AssignFinalPoints();
+        RefreshRankedPlayers();
         _raceFinished = true;
         _timer.StopTimer();
 
@@ -172,6 +186,32 @@ public class RaceProgressTracker : MonoBehaviour
         Debug.Log(message.ToString());
     }
 
+    void CaptureFinalProgress()
+    {
+        if (_spawnPoint == null || _finishPoint == null)
+            return;
+
+        NetworkManager networkManager = NetworkManager.Singleton;
+        if (networkManager == null || !networkManager.IsListening || networkManager.SpawnManager == null)
+            return;
+
+        float startX = _spawnPoint.position.x;
+        float finishX = _finishPoint.position.x;
+        if (!Mathf.Approximately(startX, finishX))
+            CapturePlayerProgress(networkManager, startX, finishX);
+    }
+
+    void AssignFinalPoints()
+    {
+        List<ulong> clientIds = new List<ulong>(_players.Keys);
+        foreach (ulong clientId in clientIds)
+        {
+            PlayerProgress player = _players[clientId];
+            player.Points = _pointsEventScript.CalculatePoints(player.Progress);
+            _players[clientId] = player;
+        }
+    }
+
     string BuildLiveLeaderboard()
     {
         StringBuilder message = new StringBuilder();
@@ -183,7 +223,7 @@ public class RaceProgressTracker : MonoBehaviour
             int place = i + 1;
             message.Append(place).Append(GetPlaceSuffix(place)).Append(" Place: ")
                 .Append(_rankedPlayers[i].PlayerName).Append(" (")
-                .Append(Mathf.RoundToInt(_rankedPlayers[i].Progress)).Append(" units)");
+                .Append(Mathf.RoundToInt(_rankedPlayers[i].Progress)).Append("%)");
         }
 
         return message.ToString();
@@ -213,7 +253,9 @@ public class RaceProgressTracker : MonoBehaviour
         {
             int place = i + 1;
             message.Append(place).Append(GetPlaceSuffix(place)).Append(" Place: ")
-                .Append(players[i].PlayerName).Append(" (");
+                .Append(players[i].PlayerName).Append(" (")
+                .Append(Mathf.RoundToInt(players[i].Progress)).Append("%, ")
+                .Append(players[i].Points).Append(" points, ");
 
             if (_finishTimes.TryGetValue(players[i].ClientId, out float finishTime))
                 message.Append(finishTime.ToString("F3", CultureInfo.InvariantCulture)).Append('s');

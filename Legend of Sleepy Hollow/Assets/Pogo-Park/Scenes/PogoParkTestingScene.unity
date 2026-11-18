@@ -266,6 +266,7 @@ GameObject:
   m_Component:
   - component: {fileID: 314746345}
   - component: {fileID: 314746344}
+  - component: {fileID: 314746347}
   - component: {fileID: 314746346}
   m_Layer: 0
   m_Name: RaceProgressTracker
@@ -289,6 +290,7 @@ MonoBehaviour:
   _spawnPoint: {fileID: 2064335762}
   _finishPoint: {fileID: 1333523892}
   _timer: {fileID: 314746346}
+  _pointsEventScript: {fileID: 0}
 --- !u!4 &314746345
 Transform:
   m_ObjectHideFlags: 0
@@ -316,12 +318,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 352edc7ce1e28433db3ac9e3cab661fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Timer
+  ShowTopMostFoldoutHeaderGroup: 1
   timeLeft: 60
-  timerIsRunning: 1
   endGameWhenTimeRunsOut: 1
   countdownTimer: 1
   countdownTime: 3
   timerText: {fileID: 1921470497}
+--- !u!114 &314746347
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 314746343}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
+  GlobalObjectIdHash: 2734086065
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  m_InScenePlacedDisabledByDefault: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  m_InScenePlaced: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 0
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!1 &468669354
 GameObject:
   m_ObjectHideFlags: 0
