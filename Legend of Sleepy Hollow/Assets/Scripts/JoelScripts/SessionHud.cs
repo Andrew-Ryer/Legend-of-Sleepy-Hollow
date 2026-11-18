@@ -29,7 +29,9 @@ public class SessionHud : MonoBehaviour
         _clientButton.onClick.AddListener(HandleClientClicked);
         _disconnectButton.onClick.AddListener(HandleDisconnectClicked);
         SessionManager.SessionChanged += HandleSessionChanged;
-        ApplyState(_sessionManager.State);
+        // The session root survives a trip to a minigame and back, so this
+        // scene's copy of the manager may already be gone.
+        ApplyState((SessionManager.Local != null ? SessionManager.Local : _sessionManager).State);
     }
 
     void OnDisable()
