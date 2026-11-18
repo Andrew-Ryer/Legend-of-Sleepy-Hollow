@@ -467,6 +467,7 @@ GameObject:
   - component: {fileID: 2802895850930213997}
   - component: {fileID: -4245641856586614780}
   - component: {fileID: 1642787854562162966}
+  - component: {fileID: -2703059693553448045}
   m_Layer: 0
   m_Name: Plane_Networked
   m_TagString: Plane
@@ -709,3 +710,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraFollow
   ShowTopMostFoldoutHeaderGroup: 1
+--- !u!114 &-2703059693553448045
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5812966747555088641}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c0f7a3c8b2a74655b6e66271194343d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CountdownToRace
+  timeLeft: 5
+  timerIsRunning: 1
