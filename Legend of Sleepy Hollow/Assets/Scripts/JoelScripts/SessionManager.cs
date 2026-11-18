@@ -8,6 +8,8 @@ public class SessionManager : MonoBehaviour
     [SerializeField] NetworkManager _networkManager;
     [SerializeField] UnityTransport _transport;
 
+    public static SessionManager Local { get; private set; }
+
     public static EventHandler<SessionChangedArgs> SessionChanged;
 
     public class SessionChangedArgs : EventArgs
@@ -20,10 +22,25 @@ public class SessionManager : MonoBehaviour
     public SessionChangedArgs State { get; private set; } = new() { status = "Disconnected" };
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
-    static void ResetEvents() => SessionChanged = null;
+    static void ResetEvents()
+    {
+        SessionChanged = null;
+        Local = null;
+    }
 
     void OnEnable()
     {
+        // A trip back to the overworld loads a second copy of this scene. The
+        // session already has one NetworkManager and one bootstrap, and that is
+        // the one still running, so this copy steps aside instead of starting a
+        // second session on top of it.
+        if (NetworkManager.Singleton != null && NetworkManager.Singleton != _networkManager)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Local = this;
         SessionHud.SessionRequested += HandleSessionRequested;
         _networkManager.OnClientConnectedCallback += HandleClientConnected;
         _networkManager.OnClientStopped += HandleClientStopped;
@@ -33,6 +50,7 @@ public class SessionManager : MonoBehaviour
 
     void OnDisable()
     {
+        if (Local == this) Local = null;
         SessionHud.SessionRequested -= HandleSessionRequested;
         _networkManager.OnClientConnectedCallback -= HandleClientConnected;
         _networkManager.OnClientStopped -= HandleClientStopped;
@@ -100,6 +118,10 @@ public class SessionManager : MonoBehaviour
         response.Position = new Vector3(Mathf.Sin(angle) * 2f, 1.05f, Mathf.Cos(angle) * 2f);
         response.Rotation = Quaternion.identity;
         response.Pending = false;
+
+        // Claim the seat on the server before this client starts syncing, so the
+        // row is already in its first roster copy.
+        PlayerRoster.Local?.ServerEnsureEntry(request.ClientNetworkId);
     }
 
     void HandleClientConnected(ulong clientId)

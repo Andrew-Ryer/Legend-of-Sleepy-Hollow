@@ -20,6 +20,14 @@ public class PlayerController : NetworkBehaviour
     {
         if (!IsSpawned || !IsOwner) return;
 
+        // Outside the overworld this avatar belongs to whatever minigame is
+        // running. It stays out of the way and keeps no fall speed from the trip.
+        if (!PlayerRoster.InOverworld)
+        {
+            _verticalSpeed = -2f;
+            return;
+        }
+
         Vector2 input = _moveAction.action.ReadValue<Vector2>();
         Vector3 motion = Vector3.ClampMagnitude(new Vector3(input.x, 0f, input.y), 1f) * _movementSpeed;
 
