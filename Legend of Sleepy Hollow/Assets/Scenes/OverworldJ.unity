@@ -238,7 +238,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8379765290702069620, guid: aecd1e7897d26c12fb94fc73646a3055, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9000000202}
   m_SourcePrefab: {fileID: 100100000, guid: aecd1e7897d26c12fb94fc73646a3055, type: 3}
 --- !u!4 &11356890 stripped
 Transform:
@@ -3672,7 +3675,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8379765290702069620, guid: aecd1e7897d26c12fb94fc73646a3055, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9000000302}
   m_SourcePrefab: {fileID: 100100000, guid: aecd1e7897d26c12fb94fc73646a3055, type: 3}
 --- !u!4 &450274432 stripped
 Transform:
@@ -6347,7 +6353,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8379765290702069620, guid: aecd1e7897d26c12fb94fc73646a3055, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9000000602}
   m_SourcePrefab: {fileID: 100100000, guid: aecd1e7897d26c12fb94fc73646a3055, type: 3}
 --- !u!4 &780569841 stripped
 Transform:
@@ -9771,7 +9780,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8379765290702069620, guid: aecd1e7897d26c12fb94fc73646a3055, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9000000102}
   m_SourcePrefab: {fileID: 100100000, guid: aecd1e7897d26c12fb94fc73646a3055, type: 3}
 --- !u!4 &1321991494 stripped
 Transform:
@@ -11983,7 +11995,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8379765290702069620, guid: aecd1e7897d26c12fb94fc73646a3055, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9000000402}
   m_SourcePrefab: {fileID: 100100000, guid: aecd1e7897d26c12fb94fc73646a3055, type: 3}
 --- !u!4 &1539334432 stripped
 Transform:
@@ -14383,7 +14398,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8379765290702069620, guid: aecd1e7897d26c12fb94fc73646a3055, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9000000502}
   m_SourcePrefab: {fileID: 100100000, guid: aecd1e7897d26c12fb94fc73646a3055, type: 3}
 --- !u!4 &1867792263 stripped
 Transform:
@@ -17067,6 +17085,120 @@ Mesh:
       - serializedVersion: 1
         m_IndexStart: 0
         m_IndexCount: 0
+--- !u!1 &9000000101 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8379765290702069620, guid: aecd1e7897d26c12fb94fc73646a3055, type: 3}
+  m_PrefabInstance: {fileID: 1321991493}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &9000000102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9000000101}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42ea189672b14b58aaf63d6999316710, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CabinMinigame
+  _sceneName: Headless
+  _displayName: Headless Horseman's Dash
+--- !u!1 &9000000201 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8379765290702069620, guid: aecd1e7897d26c12fb94fc73646a3055, type: 3}
+  m_PrefabInstance: {fileID: 11356889}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &9000000202
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9000000201}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42ea189672b14b58aaf63d6999316710, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CabinMinigame
+  _sceneName: 3AM Arcade
+  _displayName: 3AM Arcade
+--- !u!1 &9000000301 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8379765290702069620, guid: aecd1e7897d26c12fb94fc73646a3055, type: 3}
+  m_PrefabInstance: {fileID: 450274431}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &9000000302
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9000000301}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42ea189672b14b58aaf63d6999316710, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CabinMinigame
+  _sceneName: PogoParkTestingScene
+  _displayName: Pogo Park
+--- !u!1 &9000000401 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8379765290702069620, guid: aecd1e7897d26c12fb94fc73646a3055, type: 3}
+  m_PrefabInstance: {fileID: 1539334431}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &9000000402
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9000000401}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42ea189672b14b58aaf63d6999316710, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CabinMinigame
+  _sceneName: Kitchen Fighters
+  _displayName: Kitchen Fighters
+--- !u!1 &9000000501 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8379765290702069620, guid: aecd1e7897d26c12fb94fc73646a3055, type: 3}
+  m_PrefabInstance: {fileID: 1867792262}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &9000000502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9000000501}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42ea189672b14b58aaf63d6999316710, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CabinMinigame
+  _sceneName: Maze
+  _displayName: Maze Craze
+--- !u!1 &9000000601 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8379765290702069620, guid: aecd1e7897d26c12fb94fc73646a3055, type: 3}
+  m_PrefabInstance: {fileID: 780569840}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &9000000602
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9000000601}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42ea189672b14b58aaf63d6999316710, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CabinMinigame
+  _sceneName: MoScene
+  _displayName: Racing in the Skies
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
