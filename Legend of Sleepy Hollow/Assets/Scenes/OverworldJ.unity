@@ -119,6 +119,47 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &10455973
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 10455974}
+  m_Layer: 0
+  m_Name: Expanded
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &10455974
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 10455973}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1146695497}
+  - {fileID: 75068307}
+  - {fileID: 1598994781}
+  - {fileID: 527268811}
+  - {fileID: 523035015}
+  - {fileID: 1919988558}
+  m_Father: {fileID: 79190611}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: -12, y: -60}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &11356889
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -238,7 +279,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8379765290702069620, guid: aecd1e7897d26c12fb94fc73646a3055, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9000000202}
   m_SourcePrefab: {fileID: 100100000, guid: aecd1e7897d26c12fb94fc73646a3055, type: 3}
 --- !u!4 &11356890 stripped
 Transform:
@@ -779,7 +823,11 @@ Mesh:
       - serializedVersion: 1
         m_IndexStart: 0
         m_IndexCount: 0
+<<<<<<<< HEAD:Legend of Sleepy Hollow/Assets/_Recovery/0.unity
+--- !u!1 &75068306
+========
 --- !u!1 &62326966
+>>>>>>>> MazeCrazeContribution:Legend of Sleepy Hollow/Assets/Scenes/OverworldJ.unity
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -787,22 +835,50 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
+<<<<<<<< HEAD:Legend of Sleepy Hollow/Assets/_Recovery/0.unity
+  - component: {fileID: 75068307}
+  - component: {fileID: 75068309}
+  - component: {fileID: 75068308}
+  m_Layer: 0
+  m_Name: MortalTotal
+========
   - component: {fileID: 62326967}
   - component: {fileID: 62326969}
   - component: {fileID: 62326968}
   m_Layer: 0
   m_Name: MeChip
+>>>>>>>> MazeCrazeContribution:Legend of Sleepy Hollow/Assets/Scenes/OverworldJ.unity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+<<<<<<<< HEAD:Legend of Sleepy Hollow/Assets/_Recovery/0.unity
+--- !u!224 &75068307
+========
 --- !u!224 &62326967
+>>>>>>>> MazeCrazeContribution:Legend of Sleepy Hollow/Assets/Scenes/OverworldJ.unity
 RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+<<<<<<<< HEAD:Legend of Sleepy Hollow/Assets/_Recovery/0.unity
+  m_GameObject: {fileID: 75068306}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 10455974}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 12, y: -54}
+  m_SizeDelta: {x: 0, y: 33}
+  m_Pivot: {x: 0, y: 1}
+--- !u!114 &75068308
+========
   m_GameObject: {fileID: 62326966}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -817,12 +893,17 @@ RectTransform:
   m_SizeDelta: {x: 300, y: 34}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &62326968
+>>>>>>>> MazeCrazeContribution:Legend of Sleepy Hollow/Assets/Scenes/OverworldJ.unity
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+<<<<<<<< HEAD:Legend of Sleepy Hollow/Assets/_Recovery/0.unity
+  m_GameObject: {fileID: 75068306}
+========
   m_GameObject: {fileID: 62326966}
+>>>>>>>> MazeCrazeContribution:Legend of Sleepy Hollow/Assets/Scenes/OverworldJ.unity
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
@@ -836,7 +917,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
+<<<<<<<< HEAD:Legend of Sleepy Hollow/Assets/_Recovery/0.unity
+  m_text: 'Total: 0'
+========
   m_text: 'You: 0'
+>>>>>>>> MazeCrazeContribution:Legend of Sleepy Hollow/Assets/Scenes/OverworldJ.unity
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -864,14 +949,22 @@ MonoBehaviour:
     serializedVersion: 2
     rgba: 4294967295
   m_fontSize: 24
+<<<<<<<< HEAD:Legend of Sleepy Hollow/Assets/_Recovery/0.unity
+  m_fontSizeBase: 36
+========
   m_fontSizeBase: 24
+>>>>>>>> MazeCrazeContribution:Legend of Sleepy Hollow/Assets/Scenes/OverworldJ.unity
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 1
+<<<<<<<< HEAD:Legend of Sleepy Hollow/Assets/_Recovery/0.unity
+  m_VerticalAlignment: 512
+========
   m_VerticalAlignment: 256
+>>>>>>>> MazeCrazeContribution:Legend of Sleepy Hollow/Assets/Scenes/OverworldJ.unity
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_characterHorizontalScale: 1
@@ -880,7 +973,11 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
+<<<<<<<< HEAD:Legend of Sleepy Hollow/Assets/_Recovery/0.unity
+  m_TextWrappingMode: 1
+========
   m_TextWrappingMode: 0
+>>>>>>>> MazeCrazeContribution:Legend of Sleepy Hollow/Assets/Scenes/OverworldJ.unity
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}
@@ -908,13 +1005,118 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+<<<<<<<< HEAD:Legend of Sleepy Hollow/Assets/_Recovery/0.unity
+--- !u!222 &75068309
+========
 --- !u!222 &62326969
+>>>>>>>> MazeCrazeContribution:Legend of Sleepy Hollow/Assets/Scenes/OverworldJ.unity
 CanvasRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+<<<<<<<< HEAD:Legend of Sleepy Hollow/Assets/_Recovery/0.unity
+  m_GameObject: {fileID: 75068306}
+  m_CullTransparentMesh: 1
+--- !u!1 &79190610
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 79190611}
+  - component: {fileID: 79190613}
+  - component: {fileID: 79190615}
+  - component: {fileID: 79190614}
+  m_Layer: 0
+  m_Name: ScorePanel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &79190611
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 79190610}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 10455974}
+  m_Father: {fileID: 1606651510}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 16, y: -60}
+  m_SizeDelta: {x: 220, y: 54}
+  m_Pivot: {x: 0, y: 1}
+--- !u!114 &79190613
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 79190610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 327f0c4b60282564a815023f8c22931c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: GameSession::OverworldScoreboard
+  _mortalTitle: {fileID: 1146695498}
+  _ghostTitle: {fileID: 1598994782}
+  _mortalTotal: {fileID: 75068308}
+  _ghostTotal: {fileID: 527268812}
+  _mortalColumn: {fileID: 523035014}
+  _ghostColumn: {fileID: 1919988557}
+  _rowPrefab: {fileID: 794721554287393174, guid: ae4a7f82570e2a48ba11f007aef47d07, type: 3}
+  _expandedContent: {fileID: 10455973}
+--- !u!114 &79190614
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 79190610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.08, g: 0.08, b: 0.1, a: 0.85}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &79190615
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 79190610}
+========
   m_GameObject: {fileID: 62326966}
+>>>>>>>> MazeCrazeContribution:Legend of Sleepy Hollow/Assets/Scenes/OverworldJ.unity
   m_CullTransparentMesh: 1
 --- !u!1 &115355881
 GameObject:
@@ -1053,6 +1255,8 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 115355881}
   m_CullTransparentMesh: 1
+<<<<<<<< HEAD:Legend of Sleepy Hollow/Assets/_Recovery/0.unity
+========
 --- !u!1 &128195116
 GameObject:
   m_ObjectHideFlags: 0
@@ -1190,6 +1394,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 128195116}
   m_CullTransparentMesh: 1
+>>>>>>>> MazeCrazeContribution:Legend of Sleepy Hollow/Assets/Scenes/OverworldJ.unity
 --- !u!43 &207147540
 Mesh:
   m_ObjectHideFlags: 0
@@ -2948,6 +3153,8 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_RenderingLayers: 1
   m_ShadowRenderingLayers: 1
+<<<<<<<< HEAD:Legend of Sleepy Hollow/Assets/_Recovery/0.unity
+========
 --- !u!1 &411736809
 GameObject:
   m_ObjectHideFlags: 0
@@ -3160,6 +3367,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 424159359}
   m_CullTransparentMesh: 1
+>>>>>>>> MazeCrazeContribution:Legend of Sleepy Hollow/Assets/Scenes/OverworldJ.unity
 --- !u!1 &433372165
 GameObject:
   m_ObjectHideFlags: 0
@@ -3297,6 +3505,8 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 433372165}
   m_CullTransparentMesh: 1
+<<<<<<<< HEAD:Legend of Sleepy Hollow/Assets/_Recovery/0.unity
+========
 --- !u!1 &442049876
 GameObject:
   m_ObjectHideFlags: 0
@@ -3375,6 +3585,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 442049876}
   m_CullTransparentMesh: 1
+>>>>>>>> MazeCrazeContribution:Legend of Sleepy Hollow/Assets/Scenes/OverworldJ.unity
 --- !u!43 &444668023
 Mesh:
   m_ObjectHideFlags: 0
@@ -3672,7 +3883,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8379765290702069620, guid: aecd1e7897d26c12fb94fc73646a3055, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9000000302}
   m_SourcePrefab: {fileID: 100100000, guid: aecd1e7897d26c12fb94fc73646a3055, type: 3}
 --- !u!4 &450274432 stripped
 Transform:
@@ -4290,7 +4504,11 @@ Mesh:
       - serializedVersion: 1
         m_IndexStart: 0
         m_IndexCount: 0
+<<<<<<<< HEAD:Legend of Sleepy Hollow/Assets/_Recovery/0.unity
+--- !u!1 &523035014
+========
 --- !u!1 &532605194
+>>>>>>>> MazeCrazeContribution:Legend of Sleepy Hollow/Assets/Scenes/OverworldJ.unity
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4298,22 +4516,112 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
+<<<<<<<< HEAD:Legend of Sleepy Hollow/Assets/_Recovery/0.unity
+  - component: {fileID: 523035015}
+  - component: {fileID: 523035016}
+  m_Layer: 0
+  m_Name: MortalColumn
+========
   - component: {fileID: 532605195}
   - component: {fileID: 532605197}
   - component: {fileID: 532605196}
   m_Layer: 0
   m_Name: MortalTitle
+>>>>>>>> MazeCrazeContribution:Legend of Sleepy Hollow/Assets/Scenes/OverworldJ.unity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+<<<<<<<< HEAD:Legend of Sleepy Hollow/Assets/_Recovery/0.unity
+--- !u!224 &523035015
+========
 --- !u!224 &532605195
+>>>>>>>> MazeCrazeContribution:Legend of Sleepy Hollow/Assets/Scenes/OverworldJ.unity
 RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+<<<<<<<< HEAD:Legend of Sleepy Hollow/Assets/_Recovery/0.unity
+  m_GameObject: {fileID: 523035014}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 10455974}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 3, y: -24}
+  m_SizeDelta: {x: -18, y: -72}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &523035016
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 523035014}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59f8146938fff824cb5fd77236b75775, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.VerticalLayoutGroup
+  m_Padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 0
+  m_Spacing: 6
+  m_ChildForceExpandWidth: 0
+  m_ChildForceExpandHeight: 0
+  m_ChildControlWidth: 1
+  m_ChildControlHeight: 1
+  m_ChildScaleWidth: 0
+  m_ChildScaleHeight: 0
+  m_ReverseArrangement: 0
+--- !u!1 &527268810
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 527268811}
+  - component: {fileID: 527268813}
+  - component: {fileID: 527268812}
+  m_Layer: 0
+  m_Name: GhostTotal
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &527268811
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 527268810}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 10455974}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 12, y: -54}
+  m_SizeDelta: {x: 0, y: 33}
+  m_Pivot: {x: 0, y: 1}
+--- !u!114 &527268812
+========
   m_GameObject: {fileID: 532605194}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -4328,12 +4636,17 @@ RectTransform:
   m_SizeDelta: {x: 760, y: 60}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &532605196
+>>>>>>>> MazeCrazeContribution:Legend of Sleepy Hollow/Assets/Scenes/OverworldJ.unity
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+<<<<<<<< HEAD:Legend of Sleepy Hollow/Assets/_Recovery/0.unity
+  m_GameObject: {fileID: 527268810}
+========
   m_GameObject: {fileID: 532605194}
+>>>>>>>> MazeCrazeContribution:Legend of Sleepy Hollow/Assets/Scenes/OverworldJ.unity
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
@@ -4347,7 +4660,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
+<<<<<<<< HEAD:Legend of Sleepy Hollow/Assets/_Recovery/0.unity
+  m_text: 'Total: 0'
+========
   m_text: Mortals (0)
+>>>>>>>> MazeCrazeContribution:Legend of Sleepy Hollow/Assets/Scenes/OverworldJ.unity
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -4357,7 +4674,11 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4294967295
+<<<<<<<< HEAD:Legend of Sleepy Hollow/Assets/_Recovery/0.unity
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+========
   m_fontColor: {r: 1, g: 0.8, b: 0.3, a: 1}
+>>>>>>>> MazeCrazeContribution:Legend of Sleepy Hollow/Assets/Scenes/OverworldJ.unity
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -4369,20 +4690,33 @@ MonoBehaviour:
   m_spriteAsset: {fileID: 0}
   m_tintAllSprites: 0
   m_StyleSheet: {fileID: 0}
+<<<<<<<< HEAD:Legend of Sleepy Hollow/Assets/_Recovery/0.unity
+  m_TextStyleHashCode: -1183493901
+========
   m_TextStyleHashCode: 0
+>>>>>>>> MazeCrazeContribution:Legend of Sleepy Hollow/Assets/Scenes/OverworldJ.unity
   m_overrideHtmlColors: 0
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
+<<<<<<<< HEAD:Legend of Sleepy Hollow/Assets/_Recovery/0.unity
+  m_fontSize: 24
+  m_fontSizeBase: 36
+========
   m_fontSize: 46
   m_fontSizeBase: 46
+>>>>>>>> MazeCrazeContribution:Legend of Sleepy Hollow/Assets/Scenes/OverworldJ.unity
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 1
+<<<<<<<< HEAD:Legend of Sleepy Hollow/Assets/_Recovery/0.unity
+  m_VerticalAlignment: 512
+========
   m_VerticalAlignment: 256
+>>>>>>>> MazeCrazeContribution:Legend of Sleepy Hollow/Assets/Scenes/OverworldJ.unity
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_characterHorizontalScale: 1
@@ -4391,7 +4725,11 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
+<<<<<<<< HEAD:Legend of Sleepy Hollow/Assets/_Recovery/0.unity
+  m_TextWrappingMode: 1
+========
   m_TextWrappingMode: 0
+>>>>>>>> MazeCrazeContribution:Legend of Sleepy Hollow/Assets/Scenes/OverworldJ.unity
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}
@@ -4419,12 +4757,19 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+<<<<<<<< HEAD:Legend of Sleepy Hollow/Assets/_Recovery/0.unity
+--- !u!222 &527268813
+========
 --- !u!222 &532605197
+>>>>>>>> MazeCrazeContribution:Legend of Sleepy Hollow/Assets/Scenes/OverworldJ.unity
 CanvasRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+<<<<<<<< HEAD:Legend of Sleepy Hollow/Assets/_Recovery/0.unity
+  m_GameObject: {fileID: 527268810}
+========
   m_GameObject: {fileID: 532605194}
   m_CullTransparentMesh: 1
 --- !u!1 &537710735
@@ -4563,6 +4908,7 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 537710735}
+>>>>>>>> MazeCrazeContribution:Legend of Sleepy Hollow/Assets/Scenes/OverworldJ.unity
   m_CullTransparentMesh: 1
 --- !u!1 &537942523
 GameObject:
@@ -6347,7 +6693,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8379765290702069620, guid: aecd1e7897d26c12fb94fc73646a3055, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9000000602}
   m_SourcePrefab: {fileID: 100100000, guid: aecd1e7897d26c12fb94fc73646a3055, type: 3}
 --- !u!4 &780569841 stripped
 Transform:
@@ -6718,6 +7067,8 @@ Mesh:
       - serializedVersion: 1
         m_IndexStart: 0
         m_IndexCount: 0
+<<<<<<<< HEAD:Legend of Sleepy Hollow/Assets/_Recovery/0.unity
+========
 --- !u!1 &866034087
 GameObject:
   m_ObjectHideFlags: 0
@@ -6855,6 +7206,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 866034087}
   m_CullTransparentMesh: 1
+>>>>>>>> MazeCrazeContribution:Legend of Sleepy Hollow/Assets/Scenes/OverworldJ.unity
 --- !u!1 &870251454
 GameObject:
   m_ObjectHideFlags: 0
@@ -8333,6 +8685,143 @@ Mesh:
       - serializedVersion: 1
         m_IndexStart: 0
         m_IndexCount: 0
+--- !u!1 &1146695496
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1146695497}
+  - component: {fileID: 1146695499}
+  - component: {fileID: 1146695498}
+  m_Layer: 0
+  m_Name: MortalTitle
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1146695497
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1146695496}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 10455974}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 12, y: -12}
+  m_SizeDelta: {x: 0, y: 42}
+  m_Pivot: {x: 0, y: 1}
+--- !u!114 &1146695498
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1146695496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: Mortals
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4285779186
+  m_fontColor: {r: 0.95, g: 0.8, b: 0.45, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 30
+  m_fontSizeBase: 36
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 1
+  m_HorizontalAlignment: 1
+  m_VerticalAlignment: 512
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_characterHorizontalScale: 1
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_TextWrappingMode: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 0
+  m_ActiveFontFeatures: 6e72656b
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_EmojiFallbackSupport: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &1146695499
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1146695496}
+  m_CullTransparentMesh: 1
 --- !u!43 &1179731420
 Mesh:
   m_ObjectHideFlags: 0
@@ -8745,6 +9234,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+<<<<<<<< HEAD:Legend of Sleepy Hollow/Assets/_Recovery/0.unity
+========
 --- !u!1 &1183343057
 GameObject:
   m_ObjectHideFlags: 0
@@ -8823,6 +9314,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1183343057}
   m_CullTransparentMesh: 1
+>>>>>>>> MazeCrazeContribution:Legend of Sleepy Hollow/Assets/Scenes/OverworldJ.unity
 --- !u!1 &1187242939
 GameObject:
   m_ObjectHideFlags: 0
@@ -9771,7 +10263,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8379765290702069620, guid: aecd1e7897d26c12fb94fc73646a3055, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9000000102}
   m_SourcePrefab: {fileID: 100100000, guid: aecd1e7897d26c12fb94fc73646a3055, type: 3}
 --- !u!4 &1321991494 stripped
 Transform:
@@ -11488,6 +11983,8 @@ Mesh:
       - serializedVersion: 1
         m_IndexStart: 0
         m_IndexCount: 0
+<<<<<<<< HEAD:Legend of Sleepy Hollow/Assets/_Recovery/0.unity
+========
 --- !u!1 &1490045197
 GameObject:
   m_ObjectHideFlags: 0
@@ -11565,6 +12062,7 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+>>>>>>>> MazeCrazeContribution:Legend of Sleepy Hollow/Assets/Scenes/OverworldJ.unity
 --- !u!1 &1509261107
 GameObject:
   m_ObjectHideFlags: 0
@@ -11983,7 +12481,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8379765290702069620, guid: aecd1e7897d26c12fb94fc73646a3055, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9000000402}
   m_SourcePrefab: {fileID: 100100000, guid: aecd1e7897d26c12fb94fc73646a3055, type: 3}
 --- !u!4 &1539334432 stripped
 Transform:
@@ -12346,7 +12847,11 @@ Mesh:
       - serializedVersion: 1
         m_IndexStart: 0
         m_IndexCount: 0
+<<<<<<<< HEAD:Legend of Sleepy Hollow/Assets/_Recovery/0.unity
+--- !u!1 &1598994780
+========
 --- !u!1 &1602219643
+>>>>>>>> MazeCrazeContribution:Legend of Sleepy Hollow/Assets/Scenes/OverworldJ.unity
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -12354,22 +12859,50 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
+<<<<<<<< HEAD:Legend of Sleepy Hollow/Assets/_Recovery/0.unity
+  - component: {fileID: 1598994781}
+  - component: {fileID: 1598994783}
+  - component: {fileID: 1598994782}
+  m_Layer: 0
+  m_Name: GhostTitle
+========
   - component: {fileID: 1602219644}
   - component: {fileID: 1602219646}
   - component: {fileID: 1602219645}
   m_Layer: 0
   m_Name: MortalColumn
+>>>>>>>> MazeCrazeContribution:Legend of Sleepy Hollow/Assets/Scenes/OverworldJ.unity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+<<<<<<<< HEAD:Legend of Sleepy Hollow/Assets/_Recovery/0.unity
+--- !u!224 &1598994781
+========
 --- !u!224 &1602219644
+>>>>>>>> MazeCrazeContribution:Legend of Sleepy Hollow/Assets/Scenes/OverworldJ.unity
 RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+<<<<<<<< HEAD:Legend of Sleepy Hollow/Assets/_Recovery/0.unity
+  m_GameObject: {fileID: 1598994780}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 10455974}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 12, y: -12}
+  m_SizeDelta: {x: 0, y: 42}
+  m_Pivot: {x: 0, y: 1}
+--- !u!114 &1598994782
+========
   m_GameObject: {fileID: 1602219643}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -12384,11 +12917,102 @@ RectTransform:
   m_SizeDelta: {x: -80, y: -20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1602219645
+>>>>>>>> MazeCrazeContribution:Legend of Sleepy Hollow/Assets/Scenes/OverworldJ.unity
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+<<<<<<<< HEAD:Legend of Sleepy Hollow/Assets/_Recovery/0.unity
+  m_GameObject: {fileID: 1598994780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: Ghosts
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294957465
+  m_fontColor: {r: 0.6, g: 0.85, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 30
+  m_fontSizeBase: 36
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 1
+  m_HorizontalAlignment: 1
+  m_VerticalAlignment: 512
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_characterHorizontalScale: 1
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_TextWrappingMode: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 0
+  m_ActiveFontFeatures: 6e72656b
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_EmojiFallbackSupport: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &1598994783
+CanvasRenderer:
+========
   m_GameObject: {fileID: 1602219643}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -12399,10 +13023,15 @@ MonoBehaviour:
   m_VerticalFit: 2
 --- !u!114 &1602219646
 MonoBehaviour:
+>>>>>>>> MazeCrazeContribution:Legend of Sleepy Hollow/Assets/Scenes/OverworldJ.unity
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+<<<<<<<< HEAD:Legend of Sleepy Hollow/Assets/_Recovery/0.unity
+  m_GameObject: {fileID: 1598994780}
+  m_CullTransparentMesh: 1
+========
   m_GameObject: {fileID: 1602219643}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -12423,6 +13052,7 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+>>>>>>>> MazeCrazeContribution:Legend of Sleepy Hollow/Assets/Scenes/OverworldJ.unity
 --- !u!43 &1605583829
 Mesh:
   m_ObjectHideFlags: 0
@@ -12810,11 +13440,16 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
+<<<<<<<< HEAD:Legend of Sleepy Hollow/Assets/_Recovery/0.unity
+  - {fileID: 79190611}
+  - {fileID: 1916741793}
+========
   - {fileID: 1916741793}
   - {fileID: 1252722246}
   - {fileID: 1371792962}
   - {fileID: 779731072}
   - {fileID: 1797868129}
+>>>>>>>> MazeCrazeContribution:Legend of Sleepy Hollow/Assets/Scenes/OverworldJ.unity
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -12885,6 +13520,8 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+<<<<<<<< HEAD:Legend of Sleepy Hollow/Assets/_Recovery/0.unity
+========
 --- !u!1 &1610078845
 GameObject:
   m_ObjectHideFlags: 0
@@ -12963,6 +13600,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1610078845}
   m_CullTransparentMesh: 1
+>>>>>>>> MazeCrazeContribution:Legend of Sleepy Hollow/Assets/Scenes/OverworldJ.unity
 --- !u!1 &1614520452
 GameObject:
   m_ObjectHideFlags: 0
@@ -13456,6 +14094,8 @@ Mesh:
       - serializedVersion: 1
         m_IndexStart: 0
         m_IndexCount: 0
+<<<<<<<< HEAD:Legend of Sleepy Hollow/Assets/_Recovery/0.unity
+========
 --- !u!1 &1652791535
 GameObject:
   m_ObjectHideFlags: 0
@@ -13531,6 +14171,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1652791535}
   m_CullTransparentMesh: 1
+>>>>>>>> MazeCrazeContribution:Legend of Sleepy Hollow/Assets/Scenes/OverworldJ.unity
 --- !u!1 &1733563607
 GameObject:
   m_ObjectHideFlags: 0
@@ -13541,6 +14182,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1733563608}
   - component: {fileID: 1733563609}
+<<<<<<<< HEAD:Legend of Sleepy Hollow/Assets/_Recovery/0.unity
+  - component: {fileID: 1733563610}
+========
+>>>>>>>> MazeCrazeContribution:Legend of Sleepy Hollow/Assets/Scenes/OverworldJ.unity
   m_Layer: 0
   m_Name: Joel GameSession Bootstrap
   m_TagString: Untagged
@@ -13577,6 +14222,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: GameSession::GameSessionManager
   _networkManager: {fileID: 537942526}
   _gameSessionPrefab: {fileID: 8476210188761981987, guid: b691c02226f03133dbe628aab1be35f5, type: 3}
+<<<<<<<< HEAD:Legend of Sleepy Hollow/Assets/_Recovery/0.unity
+--- !u!114 &1733563610
+========
 --- !u!1 &1787244888
 GameObject:
   m_ObjectHideFlags: 0
@@ -13615,11 +14263,20 @@ RectTransform:
   m_SizeDelta: {x: 4, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1787244890
+>>>>>>>> MazeCrazeContribution:Legend of Sleepy Hollow/Assets/Scenes/OverworldJ.unity
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+<<<<<<<< HEAD:Legend of Sleepy Hollow/Assets/_Recovery/0.unity
+  m_GameObject: {fileID: 1733563607}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 699cfad8197b5240d9e1f5a5df6786a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AutoHostOnPlay
+========
   m_GameObject: {fileID: 1787244888}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -13652,6 +14309,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1787244888}
   m_CullTransparentMesh: 1
+>>>>>>>> MazeCrazeContribution:Legend of Sleepy Hollow/Assets/Scenes/OverworldJ.unity
 --- !u!43 &1788105720
 Mesh:
   m_ObjectHideFlags: 0
@@ -14383,7 +15041,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8379765290702069620, guid: aecd1e7897d26c12fb94fc73646a3055, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9000000502}
   m_SourcePrefab: {fileID: 100100000, guid: aecd1e7897d26c12fb94fc73646a3055, type: 3}
 --- !u!4 &1867792263 stripped
 Transform:
@@ -15200,6 +15861,71 @@ MonoBehaviour:
   _saveUsernameButton: {fileID: 1187242943}
   _mortalTeamButton: {fileID: 1182860731}
   _ghostTeamButton: {fileID: 1509261111}
+<<<<<<<< HEAD:Legend of Sleepy Hollow/Assets/_Recovery/0.unity
+--- !u!1 &1919988557
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1919988558}
+  - component: {fileID: 1919988559}
+  m_Layer: 0
+  m_Name: GhostColumn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1919988558
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1919988557}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 10455974}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -3, y: -24}
+  m_SizeDelta: {x: -18, y: -72}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1919988559
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1919988557}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59f8146938fff824cb5fd77236b75775, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.VerticalLayoutGroup
+  m_Padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 0
+  m_Spacing: 6
+  m_ChildForceExpandWidth: 0
+  m_ChildForceExpandHeight: 0
+  m_ChildControlWidth: 1
+  m_ChildControlHeight: 1
+  m_ChildScaleWidth: 0
+  m_ChildScaleHeight: 0
+  m_ReverseArrangement: 0
+========
+>>>>>>>> MazeCrazeContribution:Legend of Sleepy Hollow/Assets/Scenes/OverworldJ.unity
 --- !u!43 &1929108974
 Mesh:
   m_ObjectHideFlags: 0
@@ -15515,6 +16241,8 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1946003068}
   m_CullTransparentMesh: 1
+<<<<<<<< HEAD:Legend of Sleepy Hollow/Assets/_Recovery/0.unity
+========
 --- !u!1 &1948009942
 GameObject:
   m_ObjectHideFlags: 0
@@ -15652,6 +16380,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1948009942}
   m_CullTransparentMesh: 1
+>>>>>>>> MazeCrazeContribution:Legend of Sleepy Hollow/Assets/Scenes/OverworldJ.unity
 --- !u!43 &1964602097
 Mesh:
   m_ObjectHideFlags: 0
@@ -17067,6 +17796,120 @@ Mesh:
       - serializedVersion: 1
         m_IndexStart: 0
         m_IndexCount: 0
+--- !u!1 &9000000101 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8379765290702069620, guid: aecd1e7897d26c12fb94fc73646a3055, type: 3}
+  m_PrefabInstance: {fileID: 1321991493}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &9000000102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9000000101}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42ea189672b14b58aaf63d6999316710, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CabinMinigame
+  _sceneName: Headless
+  _displayName: Headless Horseman's Dash
+--- !u!1 &9000000201 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8379765290702069620, guid: aecd1e7897d26c12fb94fc73646a3055, type: 3}
+  m_PrefabInstance: {fileID: 11356889}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &9000000202
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9000000201}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42ea189672b14b58aaf63d6999316710, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CabinMinigame
+  _sceneName: 3AM Arcade
+  _displayName: 3AM Arcade
+--- !u!1 &9000000301 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8379765290702069620, guid: aecd1e7897d26c12fb94fc73646a3055, type: 3}
+  m_PrefabInstance: {fileID: 450274431}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &9000000302
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9000000301}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42ea189672b14b58aaf63d6999316710, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CabinMinigame
+  _sceneName: PogoParkTestingScene
+  _displayName: Pogo Park
+--- !u!1 &9000000401 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8379765290702069620, guid: aecd1e7897d26c12fb94fc73646a3055, type: 3}
+  m_PrefabInstance: {fileID: 1539334431}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &9000000402
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9000000401}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42ea189672b14b58aaf63d6999316710, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CabinMinigame
+  _sceneName: Kitchen Fighters
+  _displayName: Kitchen Fighters
+--- !u!1 &9000000501 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8379765290702069620, guid: aecd1e7897d26c12fb94fc73646a3055, type: 3}
+  m_PrefabInstance: {fileID: 1867792262}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &9000000502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9000000501}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42ea189672b14b58aaf63d6999316710, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CabinMinigame
+  _sceneName: Maze
+  _displayName: Maze Craze
+--- !u!1 &9000000601 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8379765290702069620, guid: aecd1e7897d26c12fb94fc73646a3055, type: 3}
+  m_PrefabInstance: {fileID: 780569840}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &9000000602
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9000000601}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42ea189672b14b58aaf63d6999316710, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CabinMinigame
+  _sceneName: MoScene
+  _displayName: Racing in the Skies
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
