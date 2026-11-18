@@ -46,6 +46,15 @@ public class ItemPickup_SS : Interactable_SS
         NetworkObject.Despawn(!NetworkObject.InScenePlaced);
     }
 
+    protected override void LetGo(PlayerHeldItem_SS heldItem)
+    {
+        Debug.Log("let go");
+
+        heldItem.DropItem();
+        // _networkTransform.enabled = true;
+
+    }
+
     // protected override void LetGo(PlayerHeldItem_SS heldItem)
     // {
     //     Debug.Log("let go");

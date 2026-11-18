@@ -23,6 +23,16 @@ public abstract class Interactable_SS : NetworkBehaviour
     //     LetGo(heldItem);
     // }
 
+    public void ServerLetGo(PlayerHeldItem_SS heldItem)
+    {
+        if (!IsServer) return;
+
+        //validate CanInteract before calling the subclass behavior.
+        Debug.Log($"Requesting server let go");
+        LetGo(heldItem);
+    }
+
     protected abstract void Interact(PlayerHeldItem_SS heldItem);
     // protected abstract void LetGo(PlayerHeldItem_SS heldItem);
+    protected abstract void LetGo(PlayerHeldItem_SS heldItem);
 }
