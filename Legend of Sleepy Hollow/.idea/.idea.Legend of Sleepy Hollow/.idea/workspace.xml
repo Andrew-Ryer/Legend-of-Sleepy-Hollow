@@ -141,7 +141,7 @@
 }</component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
     <configuration name="Start Unity" type="RunUnityExe" factoryName="Unity Executable">
-      <option name="EXE_PATH" value="/Applications/Unity/Hub/Editor/6000.3.6f1/Unity.app/Contents/MacOS/Unity" />
+      <option name="EXE_PATH" value="C:\Program Files\Unity\Hub\Editor\6000.3.6f1\Editor\Unity.exe" />
       <option name="PROGRAM_PARAMETERS" value="-projectPath &quot;C:\CST426\Legend-of-Sleepy-Hollow\Legend of Sleepy Hollow&quot; -debugCodeOptimization" />
       <option name="WORKING_DIRECTORY" value="C:\CST426\Legend-of-Sleepy-Hollow\Legend of Sleepy Hollow" />
       <option name="PASS_PARENT_ENVS" value="1" />
@@ -151,7 +151,7 @@
       <method v="2" />
     </configuration>
     <configuration name="Unit Tests (batch mode)" type="RunUnityExe" factoryName="Unity Executable">
-      <option name="EXE_PATH" value="/Applications/Unity/Hub/Editor/6000.3.6f1/Unity.app/Contents/MacOS/Unity" />
+      <option name="EXE_PATH" value="C:\Program Files\Unity\Hub\Editor\6000.3.6f1\Editor\Unity.exe" />
       <option name="PROGRAM_PARAMETERS" value="-runTests -batchmode -projectPath &quot;C:\CST426\Legend-of-Sleepy-Hollow\Legend of Sleepy Hollow&quot; -testResults Logs/results.xml -logFile Logs/Editor.log -testPlatform EditMode -debugCodeOptimization" />
       <option name="WORKING_DIRECTORY" value="C:\CST426\Legend-of-Sleepy-Hollow\Legend of Sleepy Hollow" />
       <option name="PASS_PARENT_ENVS" value="1" />
@@ -194,6 +194,15 @@
       <workItem from="1794427773695" duration="8432000" />
       <workItem from="1794436676786" duration="825000" />
       <workItem from="1794445962789" duration="8623000" />
+      <workItem from="1794677112659" duration="3000" />
+      <workItem from="1794686048914" duration="3000" />
+      <workItem from="1794686380615" duration="4000" />
+      <workItem from="1794693228229" duration="314000" />
+      <workItem from="1794710396804" duration="31000" />
+      <workItem from="1794710665801" duration="3000" />
+      <workItem from="1794713247099" duration="2000" />
+      <workItem from="1794714233422" duration="6000" />
+      <workItem from="1794721056146" duration="76000" />
     </task>
     <servers />
   </component>

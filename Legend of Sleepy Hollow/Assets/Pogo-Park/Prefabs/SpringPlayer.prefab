@@ -104,7 +104,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 2839139369
+  GlobalObjectIdHash: 650986541
   InScenePlacedSourceGlobalObjectIdHash: 0
   m_InScenePlacedDisabledByDefault: 0
   DeferredDespawnTick: 0
@@ -224,14 +224,15 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   _body: {fileID: 6892152824527215131}
   _springOriginCollider: {fileID: 2645691113634898601}
-  _risingGravityMultiplier: 1
-  _fallingGravityMultiplier: 2
+  _turnSpeedDegreesPerSecond: 270
+  _risingGravityMultiplier: 3
+  _fallingGravityMultiplier: 5
   _springSettings:
     equilibrium: 0
     frequencyHz: 1
     dampingRatio: 0.1
   _secondsToFullCharge: 0.6
-  _maximumCompressionMeters: 3
+  _maximumCompressionMeters: 5
   _minimumChargeSeconds: 0.05
 --- !u!114 &4551746438586953416
 MonoBehaviour:
