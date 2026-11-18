@@ -46,15 +46,44 @@ public class KitchenTimer : NetworkBehaviour
             if (timer1.Value <= 0) {
                 timer1.Value = 0;
                 timerCheck.Value = false;
-                if (fireCount.Value > 0)
-                {
-                    Debug.Log("Fires Left was: " + fireCount.Value);
-                } else
-                {
-                    Debug.Log("You Win!");
-                }
+
+                CheckWinner();
                 
             }
+        }
+    }
+
+    public void CheckWinner()
+    {
+        if (!IsServer) return;
+
+        WaterGun_KF[] playerTotal = FindObjectsByType<WaterGun_KF>(FindObjectsSortMode.None);
+
+        int highestScore = -1; // set a base score
+        ulong winnerId = ulong.MaxValue;
+        bool tie = false;
+
+        foreach (WaterGun_KF player in playerTotal) //All players will go into a list. This will determine it all...
+        {
+            int score = player.playerScore.Value;
+            if (score > highestScore)
+            {
+                highestScore = score;
+                winnerId = player.OwnerClientId; //the winner id.
+                tie = false;
+            } else if (score == highestScore)
+            {
+                tie = true;
+            }
+        }
+
+        if (tie)
+        {
+            Debug.Log("We need a tiebreaker");
+        } else
+        {
+            Debug.Log("Our Winner... Player " + winnerId);
+            Debug.Log("Winning Score: " + highestScore);
         }
     }
 }
