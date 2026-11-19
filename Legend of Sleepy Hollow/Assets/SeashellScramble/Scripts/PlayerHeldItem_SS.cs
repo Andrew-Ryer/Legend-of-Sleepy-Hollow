@@ -7,8 +7,6 @@ using UnityEditor.Experimental.GraphView;
 
 public class PlayerHeldItem_SS : NetworkBehaviour
 {
-    // private NetworkObject _networkObject;
-    // private Rigidbody _networkRb;
     [SerializeField] Transform transformHandHeld;
     [SerializeField] Transform transformCartHeld;
     // [SerializeField] int speed = 5;
@@ -58,7 +56,6 @@ public class PlayerHeldItem_SS : NetworkBehaviour
     }
 
      
-    // public void SetHeldItem(ObjectType_SS objectType, NetworkObject child, Rigidbody rb
     public void SetHeldItem(ObjectType_SS objectType)
     {
         if (!IsServer) return;
@@ -66,45 +63,19 @@ public class PlayerHeldItem_SS : NetworkBehaviour
         Debug.Log("set held item");
 
         _heldObjectType.Value = objectType;
-        // _heldObjectType.Value = objectType;
-        // _networkObject = child;
-        // _networkRb = rb;
-
-        // if (_heldObjectType.Value != ObjectType_SS.Cart)
-        // {
-        //     child.transform.position = transformHandHeld.position;
-        //     child.transform.position = Vector3.MoveTowards(child.transform.position, transformHandHeld.position, speed * Time.deltaTime);
-        //     child.TrySetParent(transform, true);
-        //     _networkRb.isKinematic = true;
-        // }
-
-        // else
-        // {
-        //     child.transform.position = transformCartHeld.position;
-        //     child.transform.position = Vector3.MoveTowards(child.transform.position, transformCartHeld.position, speed * Time.deltaTime);
-        //     child.TrySetParent(transform, true);
-        //     _networkRb.isKinematic = true;
-        // }             
+        Debug.Log(_heldObjectType.Value);
+                  
     }
 
 
     public void DropItem()
     {
-        if (!IsServer) return;
+        if (!IsOwner) return;
         
         Debug.Log("drop held item");
-        if (_heldObjectType.Value == ObjectType_SS.None) return;
+        Debug.Log(_heldObjectType.Value);
 
-        if (_heldObjectType.Value != ObjectType_SS.Cart)
-            // DropShell(_networkObject);
-            DropShell();
-
-        if (_heldObjectType.Value == ObjectType_SS.Cart)
-        {
-            DropCart();
-            // DropCart(_networkObject);
-        }
-            
+        RequestDropRpc();
     }
 
     void DropShell()
@@ -131,28 +102,6 @@ public class PlayerHeldItem_SS : NetworkBehaviour
         ClearItem();
     }
     
-    // void DropShell(NetworkObject child)
-    // {
-    //     child.TryRemoveParent(true);
-    //     _networkRb.isKinematic = false;
-
-    //     // ItemCatalogEntry matchingEntry = _itemCatalog.Find(item => item.type == _heldObjectType.Value);
-    //     // NetworkObject.InstantiateAndSpawn(matchingEntry.prefab.gameObject, NetworkManager, position: transformHandHeld.position);
-
-    //     ClearItem();
-    // }
-
-    // void DropCart(NetworkObject child)
-    // {
-    //     // ItemCatalogEntry matchingEntry = _itemCatalog.Find(item => item.type == _heldObjectType.Value);
-    //     // NetworkObject.InstantiateAndSpawn(matchingEntry.prefab.gameObject, NetworkManager, position: transformCartHeld.position);
-        
-    //     child.TryRemoveParent(true);
-    //     _networkRb.isKinematic = false;
-        
-    //     ClearItem();
-    // }
-
 
     void ClearItem()
     {
@@ -168,10 +117,7 @@ public class PlayerHeldItem_SS : NetworkBehaviour
         //show only the held model matching newValue.
         Debug.Log("object changed");
         foreach (var item in _itemCatalog)
-        {
             item.model.SetActive(item.type == newValue);
-        }
-                 
     }
 
     public ObjectType_SS ReturnHeldObject()
@@ -179,4 +125,20 @@ public class PlayerHeldItem_SS : NetworkBehaviour
         Debug.Log(_heldObjectType.Value);
         return _heldObjectType.Value;
     }
+
+
+    [Rpc(SendTo.Server)]
+    void RequestDropRpc()
+    {
+        Debug.Log("requesting rpc drop");
+
+        if (_heldObjectType.Value == ObjectType_SS.None) return;
+
+        if (_heldObjectType.Value != ObjectType_SS.Cart)
+            DropShell();
+
+        if (_heldObjectType.Value == ObjectType_SS.Cart)
+            DropCart();
+    }
+    
 }

@@ -6,9 +6,7 @@ using UnityEngine;
 public class RacingGameManager : NetworkBehaviour
 {
     [SerializeField] TextMeshProUGUI statusText;
-    [SerializeField] Timer timer;
-    // [SerializeField] PlayerController plane;
-    // [SerializeField] private Rigidbody rb;
+    [SerializeField] CountdownToRace countdownToRace;
     
     public override void OnNetworkSpawn()
     {
@@ -22,7 +20,7 @@ public class RacingGameManager : NetworkBehaviour
 
     private void Update()
     {
-        float currTime = timer.UpdateTimer();
+        float currTime = countdownToRace.UpdateTimer();
         
         if (currTime <= 0)
         {
