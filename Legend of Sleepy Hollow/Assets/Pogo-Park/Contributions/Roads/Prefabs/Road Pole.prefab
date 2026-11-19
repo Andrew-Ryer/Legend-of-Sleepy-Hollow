@@ -8674,7 +8674,7 @@ GameObject:
   - component: {fileID: 5970191034534141099}
   - component: {fileID: 7425496484783471337}
   m_Layer: 0
-  m_Name: Pole
+  m_Name: Road Pole
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
