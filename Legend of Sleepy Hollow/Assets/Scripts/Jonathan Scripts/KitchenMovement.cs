@@ -9,15 +9,24 @@ using UnityEngine.InputSystem;
 
 public class KitchenMovement : NetworkBehaviour
 {
+    [SerializeField] WaterGun_KF waterGun;
     [SerializeField] private GameObject cinemachineCamera;
+    [SerializeField] private Transform cameraTransform;
     public float speed = 5f;
     public ulong OwnerClientId => NetworkObject.OwnerClientId;
 
     const float FirstPlayerLaneZ = 0f;
     const float PlayerLaneSpacing = 1.6f;
-
     bool _loggedFirstAcceptedMove;
 
+    private Rigidbody rb;
+
+    private Vector3 serverMoveDirection;
+    private bool hasMovementInput;
+    private void Awake()
+    {
+        rb = GetComponentInChildren<Rigidbody>();
+    }
     public override void OnNetworkSpawn()
     {
         name = $"Server Movement Player {OwnerClientId}";
@@ -64,10 +73,21 @@ public class KitchenMovement : NetworkBehaviour
         if (Keyboard.current.dKey.isPressed) horizontalDirection += 1f;
         if (Keyboard.current.sKey.isPressed) verticalDirection -= 1f;
         if (Keyboard.current.wKey.isPressed) verticalDirection += 1f;
+        HandleShoot();
 
-        Vector3 combinedMovement = new Vector3(horizontalDirection, 0, verticalDirection).normalized;
-        if (combinedMovement == Vector3.zero) return;
-        Debug.Log($"Sending movement: {horizontalDirection}");
+        Vector3 forward = cameraTransform.forward;
+        Vector3 right = cameraTransform.right;
+
+        forward.y = 0f;
+        right.y = 0f;
+
+        forward.Normalize();
+        right.Normalize();
+
+        //Vector3 combinedMovement = new Vector3(horizontalDirection, 0, verticalDirection).normalized;
+        Vector3 combinedMovement = (forward * verticalDirection + right * horizontalDirection).normalized;
+        //if (combinedMovement == Vector3.zero) return;
+        //Debug.Log($"Sending movement: {horizontalDirection}");
         MoveIntentRpc(combinedMovement);
 
     }
@@ -75,7 +95,13 @@ public class KitchenMovement : NetworkBehaviour
     [Rpc(SendTo.Server)]
     void MoveIntentRpc(Vector3 direction, RpcParams rpcParams = default)
     {
-        Debug.Log($"Server received movement: {direction}");
+        if (rpcParams.Receive.SenderClientId != OwnerClientId)
+            return;
+
+        serverMoveDirection = Vector3.ClampMagnitude(direction, 1f);
+        hasMovementInput = serverMoveDirection != Vector3.zero;
+        /*
+        //Debug.Log($"Server received movement: {direction}");
         ulong senderClientId = rpcParams.Receive.SenderClientId;
         if (senderClientId != OwnerClientId)
         {
@@ -88,8 +114,13 @@ public class KitchenMovement : NetworkBehaviour
         Vector3 clampedDirection = Vector3.ClampMagnitude(direction, 1f);
         if (clampedDirection == Vector3.zero) return;
 
-        transform.Translate(clampedDirection * speed * Time.deltaTime);
-        MaintainServerLane();
+        //Rigidbody rb = GetComponentInChildren<Rigidbody>();
+
+       // if (rb != null)
+        //{
+            rb.MovePosition(rb.position + clampedDirection * speed * Time.deltaTime);
+        //}
+        //MaintainServerLane();
 
         if (!_loggedFirstAcceptedMove)
         {
@@ -98,6 +129,20 @@ public class KitchenMovement : NetworkBehaviour
                 $"[ServerMovement] Server accepted first movement for {name} | " +
                 $"ownerClientId={OwnerClientId}");
         }
+        */
+    }
+
+    void FixedUpdate() 
+    {
+        if (!IsServer || rb == null)
+            return;
+
+        if (!hasMovementInput)
+            return;
+
+        Vector3 movement = serverMoveDirection * speed * Time.fixedDeltaTime;
+
+        rb.MovePosition(rb.position + movement);
     }
 
     void ApplyOwnerColor()
@@ -120,5 +165,14 @@ public class KitchenMovement : NetworkBehaviour
         Vector3 position = transform.position;
         position.y = GetLanePosition(OwnerClientId).y;
         transform.position = position;
+    }
+
+    //Alyssa contribution
+    void HandleShoot()
+    {
+        if(Keyboard.current.eKey.isPressed) 
+            waterGun.Shoot();
+        else 
+            waterGun.StopShoot();
     }
 }

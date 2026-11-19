@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
-public class GameManager : NetworkBehaviour
+public class HorsemenGameManager : NetworkBehaviour
 {
     private Stack<ulong> vehicleIDs = new Stack<ulong>();
     [SerializeField]
@@ -65,7 +65,8 @@ public class GameManager : NetworkBehaviour
 
         while (vehicleIDs.Count > 0)
         {
-            Debug.Log(vehicleIDs.Peek());
+            int i = 1;
+            Debug.Log(i + ": " + vehicleIDs.Peek());
             vehicleIDs.Pop();
 
         }
