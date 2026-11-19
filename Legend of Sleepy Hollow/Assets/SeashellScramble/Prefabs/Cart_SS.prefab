@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5789888180041859968}
   - component: {fileID: 269797858270440501}
   m_Layer: 0
-  m_Name: Cube (4)
+  m_Name: CartLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29,8 +29,8 @@ Transform:
   m_GameObject: {fileID: 189629319445783889}
   serializedVersion: 2
   m_LocalRotation: {x: -0.5, y: 0.5, z: 0.5, w: 0.5}
-  m_LocalPosition: {x: 0.81004, y: -0.8999997, z: -1.6329557}
-  m_LocalScale: {x: 2.291572, y: 0.14601, z: 3.8845062}
+  m_LocalPosition: {x: 0.79999995, y: -0.89999986, z: -1.642}
+  m_LocalScale: {x: 2.6988752, y: 0.14999999, z: 4}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4447955834235079852}
@@ -125,6 +125,98 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd41e63423a82644e9195ef88f4f4441, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InRange_SS
+--- !u!1 &287594154237248217
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6465238390059368446}
+  - component: {fileID: 7670605492384912119}
+  m_Layer: 0
+  m_Name: CartFR
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6465238390059368446
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 287594154237248217}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.875, y: -4.2, z: -2.7999995}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4447955834235079852}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7670605492384912119
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 287594154237248217}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61dfef012fd20314e95ffb3c507bdf79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WagonHubInfo_SS
+  wheelRadius: 0.4
+  steers: 0
+--- !u!1 &806582341003479143
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7373217788421885309}
+  - component: {fileID: 7905600248625912891}
+  m_Layer: 0
+  m_Name: CartBR
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7373217788421885309
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 806582341003479143}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.875, y: -4.2, z: -0.50000006}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4447955834235079852}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7905600248625912891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 806582341003479143}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61dfef012fd20314e95ffb3c507bdf79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WagonHubInfo_SS
+  wheelRadius: 0.4
+  steers: 0
 --- !u!1 &987695727326272040
 GameObject:
   m_ObjectHideFlags: 0
@@ -139,7 +231,7 @@ GameObject:
   - component: {fileID: 2850672547444451461}
   - component: {fileID: 400111077702609679}
   m_Layer: 0
-  m_Name: Cube (2)
+  m_Name: CartBack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -154,8 +246,8 @@ Transform:
   m_GameObject: {fileID: 987695727326272040}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0.00075169, y: -0.90000004, z: -0.3970563}
-  m_LocalScale: {x: 1.7518, y: 0.225418, z: 3.884506}
+  m_LocalPosition: {x: 0, y: -0.9000001, z: -0.38699993}
+  m_LocalScale: {x: 1.75, y: 0.22500001, z: 4}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4447955834235079852}
@@ -250,6 +342,52 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd41e63423a82644e9195ef88f4f4441, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InRange_SS
+--- !u!1 &1379219808258501596
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6381317428742928547}
+  - component: {fileID: 8028347630382786254}
+  m_Layer: 0
+  m_Name: CartBL
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6381317428742928547
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1379219808258501596}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.87500006, y: -4.2, z: -0.50000006}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4447955834235079852}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8028347630382786254
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1379219808258501596}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61dfef012fd20314e95ffb3c507bdf79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WagonHubInfo_SS
+  wheelRadius: 0.4
+  steers: 0
 --- !u!1 &1874059852031298052
 GameObject:
   m_ObjectHideFlags: 0
@@ -264,7 +402,7 @@ GameObject:
   - component: {fileID: 8410431824061287549}
   - component: {fileID: 4569287034505885248}
   m_Layer: 0
-  m_Name: Cube (3)
+  m_Name: CartRight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -279,8 +417,8 @@ Transform:
   m_GameObject: {fileID: 1874059852031298052}
   serializedVersion: 2
   m_LocalRotation: {x: -0.5, y: 0.5, z: 0.5, w: 0.5}
-  m_LocalPosition: {x: -0.81204, y: -0.8999997, z: -1.6329557}
-  m_LocalScale: {x: 2.291572, y: 0.14601, z: 3.8845062}
+  m_LocalPosition: {x: -0.79999995, y: -0.8999996, z: -1.6329557}
+  m_LocalScale: {x: 2.6847003, y: 0.14999999, z: 4}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4447955834235079852}
@@ -375,6 +513,52 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd41e63423a82644e9195ef88f4f4441, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InRange_SS
+--- !u!1 &2918987336016140571
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2416793136891069630}
+  - component: {fileID: 1488547971870168939}
+  m_Layer: 0
+  m_Name: CartFL
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2416793136891069630
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2918987336016140571}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.87500006, y: -4.2, z: -2.7999995}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4447955834235079852}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1488547971870168939
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2918987336016140571}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61dfef012fd20314e95ffb3c507bdf79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WagonHubInfo_SS
+  wheelRadius: 0.4
+  steers: 0
 --- !u!1 &4172967129073194960
 GameObject:
   m_ObjectHideFlags: 0
@@ -389,7 +573,7 @@ GameObject:
   - component: {fileID: 2784976956382346639}
   - component: {fileID: 4102280813550481514}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: CartBase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -404,8 +588,8 @@ Transform:
   m_GameObject: {fileID: 4172967129073194960}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.00075169, y: -3.3347714, z: -1.66}
-  m_LocalScale: {x: 1.7518, y: 1.4277719, z: 2.704522}
+  m_LocalPosition: {x: 0, y: -3.3347714, z: -1.65}
+  m_LocalScale: {x: 1.75, y: 1.4, z: 2.75}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4447955834235079852}
@@ -519,6 +703,7 @@ GameObject:
   - component: {fileID: 492577058939272682}
   - component: {fileID: 4358525056144259262}
   - component: {fileID: 9052188297203823781}
+  - component: {fileID: 83183283302694258}
   m_Layer: 0
   m_Name: Cart_SS
   m_TagString: Untagged
@@ -536,9 +721,13 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 0.11256, z: 0.64773}
+  m_LocalScale: {x: 1, y: 0.125, z: 0.65}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 2416793136891069630}
+  - {fileID: 6381317428742928547}
+  - {fileID: 6465238390059368446}
+  - {fileID: 7373217788421885309}
   - {fileID: 733939875282529705}
   - {fileID: 4753781913002519491}
   - {fileID: 5585242862806965815}
@@ -565,7 +754,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
+  m_DynamicOccludee: 0
   m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
@@ -749,7 +938,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 42
   m_CollisionDetection: 0
 --- !u!114 &4358525056144259262
 MonoBehaviour:
@@ -907,6 +1096,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShellScoring_SS
   ShowTopMostFoldoutHeaderGroup: 1
+--- !u!114 &83183283302694258
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4947808072682608801}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 809eb753ea03d8d4aa836f2dbffdee60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WagonHubs_SS
+  carRigidBody: {fileID: 492577058939272682}
+  hubDataList:
+  - {fileID: 1488547971870168939}
+  - {fileID: 7670605492384912119}
+  - {fileID: 8028347630382786254}
+  - {fileID: 7905600248625912891}
+  suspensionRestDist: 0.5
+  raycastLength: 0.5
+  stiffness: 10
+  damping: 10
+  groundLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  gripStrength: 10
 --- !u!1 &6011356899026043815
 GameObject:
   m_ObjectHideFlags: 0
@@ -921,7 +1136,7 @@ GameObject:
   - component: {fileID: 5010608150935515699}
   - component: {fileID: 7113538798067074049}
   m_Layer: 0
-  m_Name: Cube (1)
+  m_Name: CartFront
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -936,8 +1151,8 @@ Transform:
   m_GameObject: {fileID: 6011356899026043815}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0.00075169, y: -0.8999997, z: -2.8931892}
-  m_LocalScale: {x: 1.7518, y: 0.225418, z: 3.884506}
+  m_LocalPosition: {x: 0, y: -0.9000001, z: -2.9124994}
+  m_LocalScale: {x: 1.75, y: 0.22500001, z: 4}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4447955834235079852}
