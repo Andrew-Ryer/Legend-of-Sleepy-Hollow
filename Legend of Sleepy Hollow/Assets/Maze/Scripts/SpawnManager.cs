@@ -56,6 +56,28 @@ public class SpawnManager : MonoBehaviour
         return spawnPoints[spawnIndex].position;
     }
 
+    public int GetSpawnIndex(Vector3 position)
+    {
+        Transform[] spawnPoints = { spawnpoint1, spawnpoint2, spawnpoint3, spawnpoint4 };
+        int closestIndex = 0;
+        float closestDistance = float.MaxValue;
+
+        for (int i = 0; i < spawnPoints.Length; i++)
+        {
+            if (spawnPoints[i] == null)
+                continue;
+
+            float distance = (spawnPoints[i].position - position).sqrMagnitude;
+            if (distance < closestDistance)
+            {
+                closestDistance = distance;
+                closestIndex = i;
+            }
+        }
+
+        return closestIndex;
+    }
+
     bool TryGetNextSlot(out int slot)
     {
         for (int i = 1; i < 4; i++)

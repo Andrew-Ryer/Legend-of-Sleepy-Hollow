@@ -45,7 +45,14 @@ public class SessionStateMachine : NetworkBehaviour
         NetworkVariableWritePermission.Server
     );
 
+    readonly NetworkVariable<ulong> _winnerClientId = new(
+        ulong.MaxValue,
+        NetworkVariableReadPermission.Everyone,
+        NetworkVariableWritePermission.Server
+    );
+
     string _lastBlockedReason = "Waiting for ready players.";
+    public ulong WinnerClientId => _winnerClientId.Value;
 
     public override void OnNetworkSpawn()
     {
@@ -61,6 +68,7 @@ public class SessionStateMachine : NetworkBehaviour
 
         _phase.Value = SessionPhase.Lobby;
         _countdownRemaining.Value = 0f;
+        _winnerClientId.Value = ulong.MaxValue;
         _lastBlockedReason = "Waiting for ready players.";
         NetworkManager.OnConnectionEvent += HandleConnectionEvent;
     }
@@ -112,15 +120,15 @@ public class SessionStateMachine : NetworkBehaviour
         RequestStartRpc();
     }
 
-    public void RequestGameOver()
+    public void RequestGameOver(ulong winnerClientId)
     {
         if (IsServer)
         {
-            TryEndGame("local server control");
+            TryEndGame(winnerClientId, "local server control");
             return;
         }
 
-        RequestGameOverRpc();
+        RequestGameOverRpc(winnerClientId);
     }
 
     public void RequestReturnToLobby()
@@ -141,9 +149,15 @@ public class SessionStateMachine : NetworkBehaviour
     }
 
     [Rpc(SendTo.Server)]
-    void RequestGameOverRpc(RpcParams rpcParams = default)
+    void RequestGameOverRpc(ulong winnerClientId, RpcParams rpcParams = default)
     {
-        TryEndGame($"client request from {rpcParams.Receive.SenderClientId}");
+        if (rpcParams.Receive.SenderClientId != winnerClientId)
+        {
+            Reject($"winner rejected from client {rpcParams.Receive.SenderClientId}");
+            return;
+        }
+
+        TryEndGame(winnerClientId, $"client request from {rpcParams.Receive.SenderClientId}");
     }
 
     [Rpc(SendTo.Server)]
@@ -159,6 +173,8 @@ public class SessionStateMachine : NetworkBehaviour
             Reject($"start rejected from {reason}; phase is {_phase.Value}");
             return;
         }
+
+        _winnerClientId.Value = ulong.MaxValue;
 
         if (!HasHostAndClient)
         {
@@ -185,7 +201,7 @@ public class SessionStateMachine : NetworkBehaviour
         && NetworkManager.IsHost
         && NetworkManager.ConnectedClientsIds.Count >= 2;
 
-    void TryEndGame(string reason)
+    void TryEndGame(ulong winnerClientId, string reason)
     {
         if (_phase.Value != SessionPhase.Playing)
         {
@@ -193,6 +209,7 @@ public class SessionStateMachine : NetworkBehaviour
             return;
         }
 
+        _winnerClientId.Value = winnerClientId;
         ChangePhase(SessionPhase.GameOver, reason);
     }
 
@@ -204,6 +221,7 @@ public class SessionStateMachine : NetworkBehaviour
             return;
         }
 
+        _winnerClientId.Value = ulong.MaxValue;
         ChangePhase(SessionPhase.Lobby, reason);
     }
 
