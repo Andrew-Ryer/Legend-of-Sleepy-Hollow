@@ -19,6 +19,9 @@ public class MazePlayerController : NetworkBehaviour
     );
 
     float _verticalSpeed;
+    int _startingCorner = -1;
+    int _reachedCornersMask;
+    bool _progressResetForPlayingMatch;
     SessionStateMachine _sessionStateMachine;
 
     public override void OnNetworkSpawn()
@@ -26,7 +29,15 @@ public class MazePlayerController : NetworkBehaviour
         _spawnPosition.OnValueChanged += HandleSpawnPositionChanged;
 
         if (IsServer)
+        {
             _spawnPosition.Value = transform.position;
+            SpawnManager spawnManager = FindFirstObjectByType<SpawnManager>();
+            if (spawnManager != null)
+                _startingCorner = spawnManager.GetSpawnIndex(transform.position);
+        }
+
+        _reachedCornersMask = 0;
+        _progressResetForPlayingMatch = false;
 
         ApplySpawnPosition(_spawnPosition.Value);
         _characterController.enabled = IsOwner;
@@ -55,7 +66,7 @@ public class MazePlayerController : NetworkBehaviour
 
     void Update()
     {
-        if (!IsSpawned || !IsOwner)
+        if (!IsSpawned)
             return;
 
         if (_sessionStateMachine == null)
@@ -64,11 +75,26 @@ public class MazePlayerController : NetworkBehaviour
         if (_sessionStateMachine == null)
             return;
 
-        if (_sessionStateMachine.CurrentPhase != SessionPhase.Playing)
+        SessionPhase phase = _sessionStateMachine.CurrentPhase;
+        if (phase == SessionPhase.Playing)
         {
-            _verticalSpeed = -2f;
+            if (!_progressResetForPlayingMatch)
+            {
+                _reachedCornersMask = 0;
+                _progressResetForPlayingMatch = true;
+            }
+        }
+        else
+        {
+            _reachedCornersMask = 0;
+            _progressResetForPlayingMatch = false;
+            if (IsOwner)
+                _verticalSpeed = -2f;
             return;
         }
+
+        if (!IsOwner)
+            return;
 
         Vector2 input = _moveAction.action.ReadValue<Vector2>();
         Vector3 motion =
@@ -79,5 +105,54 @@ public class MazePlayerController : NetworkBehaviour
         _verticalSpeed += Physics.gravity.y * Time.deltaTime;
         motion.y = _verticalSpeed;
         _characterController.Move(motion * Time.deltaTime);
+    }
+
+    [Rpc(SendTo.Server)]
+    public void ReportCornerServerRpc(int cornerIndex, RpcParams rpcParams = default)
+    {
+        if (!IsServer)
+            return;
+
+        if (rpcParams.Receive.SenderClientId != OwnerClientId)
+            return;
+
+        if (_sessionStateMachine == null)
+            _sessionStateMachine = FindFirstObjectByType<SessionStateMachine>();
+
+        if (_sessionStateMachine == null || _sessionStateMachine.CurrentPhase != SessionPhase.Playing)
+            return;
+
+        if (_startingCorner < 0)
+        {
+            SpawnManager spawnManager = FindFirstObjectByType<SpawnManager>();
+            if (spawnManager != null)
+                _startingCorner = spawnManager.GetSpawnIndex(_spawnPosition.Value);
+        }
+
+        if (cornerIndex < 0 || cornerIndex >= 4)
+            return;
+
+        if (cornerIndex == _startingCorner)
+        {
+            if (IsRequiredCornerMaskComplete())
+                _sessionStateMachine.RequestGameOver(OwnerClientId);
+            return;
+        }
+
+        _reachedCornersMask |= 1 << cornerIndex;
+    }
+
+    bool IsRequiredCornerMaskComplete()
+    {
+        for (int cornerIndex = 0; cornerIndex < 4; cornerIndex++)
+        {
+            if (cornerIndex == _startingCorner)
+                continue;
+
+            if ((_reachedCornersMask & (1 << cornerIndex)) == 0)
+                return false;
+        }
+
+        return true;
     }
 }

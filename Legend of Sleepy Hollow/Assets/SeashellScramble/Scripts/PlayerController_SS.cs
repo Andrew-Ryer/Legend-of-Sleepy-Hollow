@@ -114,20 +114,20 @@ public class PlayerController_SS : NetworkBehaviour
         // Debug.Log(wasPressed);
 
         if (prevPress == wasPressed) return;
-        Debug.Log(wasPressed);
+        // Debug.Log(wasPressed);
         prevPress = wasPressed;
 
         //send the target's NetworkObjectId to the server.
         if (_closestTarget != null && _heldItem.ReturnHeldObject() == ObjectType_SS.None)
         {
-            Debug.Log("item in range, call interact");
+            // Debug.Log("item in range, call interact");
             RequestInteractRpc(_closestTarget.NetworkObjectId, wasPressed);
         }
            
     
         if (_heldItem.ReturnHeldObject() != ObjectType_SS.None)
         {
-            Debug.Log("holding item, call drop");
+            // Debug.Log("holding item, call drop");
             DropItem(wasPressed);
         }
             
@@ -191,7 +191,7 @@ public class PlayerController_SS : NetworkBehaviour
     {
         if (!wasPressed)
         {
-            Debug.Log("let go");
+            // Debug.Log("let go");
             _heldItem.DropItem();
         }
     }
@@ -218,13 +218,13 @@ public class PlayerController_SS : NetworkBehaviour
 
         if (interactable.CanInteract(_heldItem.ObjectType_SS) && wasPressed)
         {
-            Debug.Log("pick up");
+            // Debug.Log("pick up");
             interactable.ServerInteract(_heldItem);
         }
         
         if (interactable.CanInteract(_heldItem.ObjectType_SS) && !wasPressed)
         {
-            Debug.Log("let go");
+            // Debug.Log("let go");
             interactable.ServerLetGo(_heldItem);
         }
             
