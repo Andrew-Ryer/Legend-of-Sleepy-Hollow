@@ -1,0 +1,40 @@
+# Repository-wide rules. Unity-generated folders are ignored by
+# Legend of Sleepy Hollow/.gitignore, beside Assets and ProjectSettings.
+
+# macOS Finder and filesystem metadata
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100/
+.Trashes/
+.fseventsd/
+.TemporaryItems/
+
+# Windows Explorer metadata and recycle bins
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+[Dd]esktop.ini
+$RECYCLE.BIN/
+
+# Linux desktop metadata and network filesystem temporary files
+.directory
+.Trash-*/
+.nfs*
+
+# Local IDE settings and caches
+.vs/
+.idea/
+.vscode/
+*.DotSettings.user
+*.suo
+*.user
+*.userprefs
+
+# Editor backups and swap files
+*~
+*.swp
+*.swo
+*.orig
