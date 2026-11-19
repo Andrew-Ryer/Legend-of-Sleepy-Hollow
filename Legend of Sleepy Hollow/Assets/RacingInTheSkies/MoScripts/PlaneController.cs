@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 
 public class PlaneControllers : NetworkBehaviour
 {
-    // [SerializeField] Timer timer;
+    CountdownToRace countdownToRace;
     [SerializeField] private Rigidbody rb;
     // [SerializeField] private NetworkRigidbody rb;
     [SerializeField] private Vector3 speed = new Vector3(10f, 0f, 0f);
@@ -20,51 +20,41 @@ public class PlaneControllers : NetworkBehaviour
     // the heading of the plane
     private Vector3 yawHeading = new Vector3(0f, 1f, 0f);
     float savedYVelocity = 0.0f;
+    bool raceStarted = false;
 
     void Start()
     {
         if (!IsOwner) return;
         
         rb = GetComponent<Rigidbody>();
-        // rb.angularVelocity = new Vector3(0f, 0f, 0f);
-        rb.linearVelocity = speed;
-
-        /*float currTime = timer.UpdateTimer();
-
-        if (currTime <= 0)
-        {
-            Debug.Log("Game Starts!");
-            // plane moves forward by default in the x direction
-            // rb = GetComponent<NetworkRigidbody>();
-            rb.linearVelocity = speed;
-        }
-        else
-        {
-            Debug.Log("Current Time: " + (int) currTime);
-        }*/
-
-
+        // rb.linearVelocity = new Vector3(0f, 0f, 0f);
+        // rb.linearVelocity = speed;
     }
     private void FixedUpdate()
     {
         if (!IsOwner) return;
+
+        countdownToRace = GetComponent<CountdownToRace>();
+        float currTime = countdownToRace.UpdateTimer();
         
-        Debug.Log("Vertical Speed: " + rb.angularVelocity.z);
-        Debug.Log("Move Speed: " + rb.linearVelocity.x);
-        Debug.Log("Altitude: " + rb.position.y);
-        // Debug.Log("Heading : "  + rb.rotation.y);
-        // This is to prevent the plane from pitching farther
-        // without pressing any buttons
-        rb.angularVelocity = new Vector3(0f, 0f, 0f);
-        // rb.angularVelocity = new Vector3(rb.angularVelocity.x, rb.angularVelocity.y, 0f);
-        
-        // Rotation z changes nose pitch
-        // positive faces up and negative faces down
-        // plane goes up
-        if (rb.linearVelocity.x > 0)
+        // plane needs to continue and keep momentum
+        // after race has started
+        if (raceStarted)
         {
-            Debug.Log("Going!");
-            
+            // Debug.Log("Race started: " + raceStarted);
+            Debug.Log("Vertical Speed: " + rb.angularVelocity.z);
+            Debug.Log("Move Speed: " + rb.linearVelocity.x);
+            Debug.Log("Altitude: " + rb.position.y);
+            // Debug.Log("Heading : "  + rb.rotation.y);
+            // This is to prevent the plane from pitching farther
+            // without pressing any buttons
+            rb.angularVelocity = new Vector3(0f, 0f, 0f);
+            // rb.angularVelocity = new Vector3(rb.angularVelocity.x, rb.angularVelocity.y, 0f);
+        
+            // Rotation z changes nose pitch
+            // positive faces up and negative faces down
+            // plane goes up
+
             if (Keyboard.current.wKey.isPressed)
             {
                 // feels faster and more immediate
@@ -163,10 +153,20 @@ public class PlaneControllers : NetworkBehaviour
                 }
             }
         }
-        else
+        // plane remains stopped
+        if ((int)currTime > 0 && !raceStarted)
         {
-            Debug.Log("Stopped!");
+            Debug.Log("Current Time: " + (int) currTime);
+            Debug.Log("Race started: " + raceStarted);
+            rb.linearVelocity = new Vector3(0f, 0f, 0f);
         }
-        
+        // plane starts going for the first time
+        else if ((int)currTime == 0 && !raceStarted)
+        {
+            Debug.Log("Current Time: " + (int) currTime);
+            Debug.Log("Race started: " + raceStarted);
+            rb.linearVelocity = speed;
+            raceStarted = true;
+        }
     }
 }

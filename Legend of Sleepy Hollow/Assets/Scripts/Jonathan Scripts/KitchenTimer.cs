@@ -1,5 +1,6 @@
 using UnityEngine;
 using Unity.Netcode;
+using TMPro;
 public class KitchenTimer : NetworkBehaviour
 {
     [SerializeField] private float timer = 5f;
@@ -7,6 +8,8 @@ public class KitchenTimer : NetworkBehaviour
     private NetworkVariable<float> timer1 = new NetworkVariable<float>();
     private NetworkVariable<bool> timerCheck = new NetworkVariable<bool>();
     public NetworkVariable<int> fireCount = new NetworkVariable<int>();
+    public NetworkVariable<int> allScores = new NetworkVariable<int>();
+    [SerializeField] public TextMeshProUGUI textMeshProUGUI;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public override void OnNetworkSpawn()
     {
@@ -14,6 +17,8 @@ public class KitchenTimer : NetworkBehaviour
         {
             fireCount.Value = 4;
         }
+        textMeshProUGUI.text = "";
+        textMeshProUGUI.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -45,15 +50,46 @@ public class KitchenTimer : NetworkBehaviour
             if (timer1.Value <= 0) {
                 timer1.Value = 0;
                 timerCheck.Value = false;
-                if (fireCount.Value > 0)
-                {
-                    Debug.Log("You Lose. Fires Left was: " + fireCount.Value);
-                } else
-                {
-                    Debug.Log("You Win!");
-                }
+
+                CheckWinner();
                 
             }
+        }
+    }
+
+    public void CheckWinner()
+    {
+        if (!IsServer) return;
+
+        WaterGun_KF[] playerTotal = FindObjectsByType<WaterGun_KF>(FindObjectsSortMode.None);
+
+        int highestScore = -1; // set a base score
+        ulong winnerId = ulong.MaxValue;
+        bool tie = false;
+
+        foreach (WaterGun_KF player in playerTotal) //All players will go into a list. This will determine it all...
+        {
+            int score = player.playerScore.Value;
+            if (score > highestScore)
+            {
+                highestScore = score;
+                winnerId = player.OwnerClientId; //the winner id.
+                tie = false;
+            } else if (score == highestScore)
+            {
+                tie = true;
+            }
+        }
+
+        if (tie)
+        {
+            Debug.Log("We need a tiebreaker");
+        } else
+        {
+            Debug.Log("Our Winner... Player " + winnerId);
+            Debug.Log("Winning Score: " + highestScore);
+            textMeshProUGUI.gameObject.SetActive(true);
+            textMeshProUGUI.text = "Our Winner... Player " + winnerId + ". Their score was: " + highestScore;
         }
     }
 }

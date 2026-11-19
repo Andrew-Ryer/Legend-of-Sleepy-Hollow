@@ -1,4 +1,3 @@
-
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
 --- !u!114 &11400000
@@ -86,6 +85,11 @@ MonoBehaviour:
     SourceHashToOverride: 0
     OverridingTargetPrefab: {fileID: 0}
   - Override: 0
+    Prefab: {fileID: 8476210188761981987, guid: b691c02226f03133dbe628aab1be35f5, type: 3}
+    SourcePrefabToOverride: {fileID: 0}
+    SourceHashToOverride: 0
+    OverridingTargetPrefab: {fileID: 0}
+  - Override: 0
     Prefab: {fileID: 1119141711471557126, guid: a6cc1ea04205643bfb7f1932fe3e419d, type: 3}
     SourcePrefabToOverride: {fileID: 0}
     SourceHashToOverride: 0
@@ -146,22 +150,17 @@ MonoBehaviour:
     SourceHashToOverride: 0
     OverridingTargetPrefab: {fileID: 0}
   - Override: 0
-    Prefab: {fileID: 4858464776034837117, guid: 0995661fbffee9146b3565cad8eaf647, type: 3}
-    SourcePrefabToOverride: {fileID: 0}
-    SourceHashToOverride: 0
-    OverridingTargetPrefab: {fileID: 0}
-  - Override: 0
     Prefab: {fileID: 3410275030894881549, guid: 4f178cc7d3173f047b5e8b6670e6a312, type: 3}
     SourcePrefabToOverride: {fileID: 0}
     SourceHashToOverride: 0
     OverridingTargetPrefab: {fileID: 0}
   - Override: 0
-    Prefab: {fileID: 7837607668576864077, guid: f725ba8606817ec489171e9fd63d08e4, type: 3}
+    Prefab: {fileID: 4858464776034837117, guid: 0995661fbffee9146b3565cad8eaf647, type: 3}
     SourcePrefabToOverride: {fileID: 0}
     SourceHashToOverride: 0
     OverridingTargetPrefab: {fileID: 0}
   - Override: 0
-    Prefab: {fileID: 8476210188761981987, guid: b691c02226f03133dbe628aab1be35f5, type: 3}
+    Prefab: {fileID: 7837607668576864077, guid: f725ba8606817ec489171e9fd63d08e4, type: 3}
     SourcePrefabToOverride: {fileID: 0}
     SourceHashToOverride: 0
     OverridingTargetPrefab: {fileID: 0}
