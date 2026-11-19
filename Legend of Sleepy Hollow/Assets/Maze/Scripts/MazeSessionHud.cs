@@ -20,6 +20,11 @@ public class MazeSessionHud : MonoBehaviour
     [SerializeField]
     TMP_Text _statusText;
 
+    [SerializeField]
+    TMP_Text _winnerText;
+
+    SessionStateMachine _sessionStateMachine;
+
     public enum SessionAction
     {
         Host,
@@ -39,6 +44,7 @@ public class MazeSessionHud : MonoBehaviour
 
     void OnEnable()
     {
+        _sessionStateMachine = FindFirstObjectByType<SessionStateMachine>();
         _hostButton.onClick.AddListener(HandleHostClicked);
         _clientButton.onClick.AddListener(HandleClientClicked);
         _disconnectButton.onClick.AddListener(HandleDisconnectClicked);
@@ -52,6 +58,29 @@ public class MazeSessionHud : MonoBehaviour
         _clientButton.onClick.RemoveListener(HandleClientClicked);
         _disconnectButton.onClick.RemoveListener(HandleDisconnectClicked);
         MazeSessionManager.SessionChanged -= HandleSessionChanged;
+    }
+
+    void Update()
+    {
+        if (_sessionStateMachine == null)
+            _sessionStateMachine = FindFirstObjectByType<SessionStateMachine>();
+
+        if (_sessionStateMachine == null)
+            return;
+
+        bool isGameOver = _sessionStateMachine.CurrentPhase == SessionPhase.GameOver;
+        if (_winnerText != null)
+        {
+            _winnerText.gameObject.SetActive(isGameOver);
+            _winnerText.enabled = isGameOver;
+        }
+
+        if (!isGameOver || _winnerText == null)
+            return;
+
+        ulong winnerClientId = _sessionStateMachine.WinnerClientId;
+        if (winnerClientId != ulong.MaxValue)
+            _winnerText.text = $"Player {winnerClientId + 1} Wins!";
     }
 
     void HandleHostClicked() => Request(SessionAction.Host);

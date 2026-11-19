@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5632937144922345387}
   - component: {fileID: 6843621405073307477}
   - component: {fileID: 402829872518150892}
+  - component: {fileID: 402829872518150893}
   m_Layer: 0
   m_Name: Top Left Corner
   m_TagString: Untagged
@@ -113,6 +114,19 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &402829872518150893
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1473149990748230911}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8fbfce15c67d88342be92e1aa81b3066, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CornerGoal
+  cornerIndex: 0
 --- !u!1 &1575017017786189203
 GameObject:
   m_ObjectHideFlags: 0
@@ -125,6 +139,7 @@ GameObject:
   - component: {fileID: 1203818053254604412}
   - component: {fileID: 1820398206389434678}
   - component: {fileID: 3425671221896654040}
+  - component: {fileID: 3425671221896654041}
   m_Layer: 0
   m_Name: Bottom Left Corner
   m_TagString: Untagged
@@ -226,6 +241,19 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &3425671221896654041
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1575017017786189203}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8fbfce15c67d88342be92e1aa81b3066, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CornerGoal
+  cornerIndex: 2
 --- !u!1 &2039041744344137323
 GameObject:
   m_ObjectHideFlags: 0
@@ -238,6 +266,7 @@ GameObject:
   - component: {fileID: 6381792281295123291}
   - component: {fileID: 1351350360886493197}
   - component: {fileID: 1009693282803284480}
+  - component: {fileID: 1009693282803284481}
   m_Layer: 0
   m_Name: Top Right Corner
   m_TagString: Untagged
@@ -339,6 +368,19 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1009693282803284481
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2039041744344137323}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8fbfce15c67d88342be92e1aa81b3066, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CornerGoal
+  cornerIndex: 1
 --- !u!1 &8277175240200733313
 GameObject:
   m_ObjectHideFlags: 0
@@ -386,6 +428,7 @@ GameObject:
   - component: {fileID: 1785373713446806665}
   - component: {fileID: 231305082588343744}
   - component: {fileID: 7880639609673917366}
+  - component: {fileID: 7880639609673917367}
   m_Layer: 0
   m_Name: Bottom Right Corner
   m_TagString: Untagged
@@ -487,3 +530,16 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &7880639609673917367
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8713353987478357617}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8fbfce15c67d88342be92e1aa81b3066, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CornerGoal
+  cornerIndex: 3
