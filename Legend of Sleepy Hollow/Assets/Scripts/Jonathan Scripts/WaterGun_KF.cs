@@ -13,11 +13,12 @@ public class WaterGun_KF : NetworkBehaviour
     [SerializeField] float _detectionAngle = 40f;
     [SerializeField] LayerMask _pickupLayer;
     [SerializeField] public KitchenTimer fireLeft;
-
+    //[SerializeField] public int playerScore = 0;
+    public NetworkVariable<int> playerScore = new NetworkVariable<int>();
 
     [Header("Misc.")]
     [SerializeField] ParticleSystem waterParticles;
-    bool isShooting;
+    //bool isShooting;
     public override void OnNetworkSpawn()
     {
         fireLeft = FindFirstObjectByType<KitchenTimer>();
@@ -32,9 +33,9 @@ public class WaterGun_KF : NetworkBehaviour
         //makes sure only owner can shoot
         if (!IsOwner) return;
         //Debug.Log("shoot");
-        isShooting = true;
+        //isShooting = true;
 
-        if (!waterParticles.isPlaying) waterParticles.Play();
+        PlayParticlesRpc();
 
         if (_closestTarget == null) return;
 
@@ -52,23 +53,29 @@ public class WaterGun_KF : NetworkBehaviour
     }
 
     [Rpc(SendTo.Server)]
-    void ExtinguishFireRpc(NetworkObjectReference fireReference)
+    void ExtinguishFireRpc(NetworkObjectReference fireReference, RpcParams rpcParams = default)
     {
+        if (rpcParams.Receive.SenderClientId != OwnerClientId)
+        {
+            return;
+        }
+
         if (!fireReference.TryGet(out NetworkObject fire))
             return;
 
         fire.Despawn();
         fireLeft.fireCount.Value--;
+        playerScore.Value++;
         Debug.Log("Fires Left: " + fireLeft.fireCount.Value);
+        Debug.Log("Score: " + playerScore.Value);
     }
 
 
     public void StopShoot()
     {
-        isShooting = false;
+        //isShooting = false;
         //stops water particles from playing 
-        if (waterParticles.isPlaying)
-            waterParticles.Stop();
+        StopParticlesRpc();
     }
     
     void UpdateFlamesTarget()
@@ -123,6 +130,20 @@ public class WaterGun_KF : NetworkBehaviour
         //clears selection and stops water particles
         _closestTarget =  null;
         //StopShoot();
+    }
+
+    [Rpc(SendTo.ClientsAndHost)]
+    void PlayParticlesRpc()
+    {
+        if (!waterParticles.isPlaying)
+            waterParticles.Play();
+    }
+
+    [Rpc(SendTo.ClientsAndHost)]
+    void StopParticlesRpc()
+    {
+        if (waterParticles.isPlaying)
+            waterParticles.Stop();
     }
 
 }
