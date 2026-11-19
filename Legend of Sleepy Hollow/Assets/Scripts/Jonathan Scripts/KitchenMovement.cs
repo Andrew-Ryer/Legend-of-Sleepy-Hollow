@@ -12,6 +12,7 @@ public class KitchenMovement : NetworkBehaviour
     [SerializeField] WaterGun_KF waterGun;
     [SerializeField] private GameObject cinemachineCamera;
     [SerializeField] private Transform cameraTransform;
+    [SerializeField] private Animator animator;
     public float speed = 5f;
     public ulong OwnerClientId => NetworkObject.OwnerClientId;
 
@@ -137,8 +138,20 @@ public class KitchenMovement : NetworkBehaviour
         if (!IsServer || rb == null)
             return;
 
-        if (!hasMovementInput)
+        //if (!hasMovementInput)
+            //return;
+
+        bool isMoving = hasMovementInput && serverMoveDirection.sqrMagnitude > 0.001f;
+
+        if (animator != null)
+        {
+            animator.SetBool("IsMoving", isMoving);
+        }
+
+        if (!isMoving)
+        {
             return;
+        }
 
         Vector3 movement = serverMoveDirection * speed * Time.fixedDeltaTime;
 

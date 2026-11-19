@@ -60,10 +60,10 @@ public class PlayerHeldItem_SS : NetworkBehaviour
     {
         if (!IsServer) return;
 
-        Debug.Log("set held item");
+        // Debug.Log("set held item");
 
         _heldObjectType.Value = objectType;
-        Debug.Log(_heldObjectType.Value);
+        // Debug.Log(_heldObjectType.Value);
                   
     }
 
@@ -72,15 +72,15 @@ public class PlayerHeldItem_SS : NetworkBehaviour
     {
         if (!IsOwner) return;
         
-        Debug.Log("drop held item");
-        Debug.Log(_heldObjectType.Value);
+        // Debug.Log("drop held item");
+        // Debug.Log(_heldObjectType.Value);
 
         RequestDropRpc();
     }
 
     void DropShell()
     {
-        Debug.Log("Drop shell");
+        // Debug.Log("Drop shell");
         if (_heldObjectType.Value == ObjectType_SS.None) return;
 
         ItemCatalogEntry matchingEntry = _itemCatalog.Find(item => item.type == _heldObjectType.Value);
@@ -92,7 +92,7 @@ public class PlayerHeldItem_SS : NetworkBehaviour
 
     void DropCart()
     {
-        Debug.Log("Drop cart");
+        // Debug.Log("Drop cart");
         if (_heldObjectType.Value == ObjectType_SS.None) return;
 
         ItemCatalogEntry matchingEntry = _itemCatalog.Find(item => item.type == _heldObjectType.Value);
@@ -115,14 +115,14 @@ public class PlayerHeldItem_SS : NetworkBehaviour
     void HandleObjectTypeChanged(ObjectType_SS previousValue, ObjectType_SS newValue)
     {
         //show only the held model matching newValue.
-        Debug.Log("object changed");
+        // Debug.Log("object changed");
         foreach (var item in _itemCatalog)
             item.model.SetActive(item.type == newValue);
     }
 
     public ObjectType_SS ReturnHeldObject()
     {
-        Debug.Log(_heldObjectType.Value);
+        // Debug.Log(_heldObjectType.Value);
         return _heldObjectType.Value;
     }
 
@@ -130,7 +130,7 @@ public class PlayerHeldItem_SS : NetworkBehaviour
     [Rpc(SendTo.Server)]
     void RequestDropRpc()
     {
-        Debug.Log("requesting rpc drop");
+        // Debug.Log("requesting rpc drop");
 
         if (_heldObjectType.Value == ObjectType_SS.None) return;
 
