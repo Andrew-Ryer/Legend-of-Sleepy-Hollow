@@ -6,8 +6,8 @@ public class GameDuration_SS : NetworkBehaviour
 {
     public Button readyButton;
     [SerializeField] float startTime = 60f;
-    bool isPlaying;
-    private float timer;
+    NetworkVariable<bool> isPlaying = new NetworkVariable<bool>();
+    NetworkVariable<float> timer = new NetworkVariable<float>();
 
     public override void OnNetworkSpawn()
     {
@@ -16,27 +16,45 @@ public class GameDuration_SS : NetworkBehaviour
         readyButton.gameObject.SetActive(true);
         readyButton.onClick.AddListener(StartTimer);
         
-        isPlaying = false;
+        isPlaying.OnValueChanged += HandlePlayingChanged;
+        
+        //sets isPlaying value to false to start
+        HandlePlayingChanged(false, isPlaying.Value);
     }
 
     public override void OnNetworkDespawn()
     {
+        readyButton.onClick.RemoveListener(StartTimer);
+        isPlaying.OnValueChanged -= HandlePlayingChanged;
+        
         base.OnNetworkDespawn();
+    }
+
+
+    void HandlePlayingChanged(bool prevValue, bool newValue)
+    {
+        //hides and shows button on host and client side 
+        readyButton.gameObject.SetActive(!newValue);
     }
 
 
     public void StartTimer()
     {        
+        //button click requests server to start timer 
         RequestClickRpc();
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if (!IsServer) return;
         
-        if (isPlaying)
+        //only counts down after button has been pressed
+        if (isPlaying.Value)
         {
-            RequestTimerRpc();
+            timer.Value -= Time.fixedDeltaTime;
+            Debug.Log(timer.Value);
+            
+            CheckDoneTimer();
         }
     }
 
@@ -44,37 +62,26 @@ public class GameDuration_SS : NetworkBehaviour
     {
         if (!IsServer) return;
         
-        if (timer <= 0)
+        //stops timer when value hits zero 
+        if (timer.Value <= 0)
         {
-            isPlaying = false;
+            isPlaying.Value = false;
             Debug.Log("stop timer");
             Debug.Log("GAME IS OVER");
         }
             
     }
-    
+
 
     [Rpc(SendTo.Server)]
-    void RequestTimerRpc()
-    {
-        Debug.Log("requesting rpc timer");
-
-        if (isPlaying)
-        {
-            timer -= Time.deltaTime;
-            Debug.Log(timer);
-            
-            CheckDoneTimer();
-        }
-    }
 
     void RequestClickRpc()
     {
-        readyButton.gameObject.SetActive(false);
-
-        timer = startTime;
-        isPlaying = true;
+        //server starts the timer
+        timer.Value = startTime;
+        isPlaying.Value = true;
         Debug.Log("start timer");
         Debug.Log(isPlaying);
     }
+
 }
