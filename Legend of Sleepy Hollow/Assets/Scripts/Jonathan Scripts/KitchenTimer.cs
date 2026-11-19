@@ -1,5 +1,6 @@
 using UnityEngine;
 using Unity.Netcode;
+using TMPro;
 public class KitchenTimer : NetworkBehaviour
 {
     [SerializeField] private float timer = 5f;
@@ -8,6 +9,7 @@ public class KitchenTimer : NetworkBehaviour
     private NetworkVariable<bool> timerCheck = new NetworkVariable<bool>();
     public NetworkVariable<int> fireCount = new NetworkVariable<int>();
     public NetworkVariable<int> allScores = new NetworkVariable<int>();
+    [SerializeField] public TextMeshProUGUI textMeshProUGUI;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public override void OnNetworkSpawn()
     {
@@ -15,6 +17,8 @@ public class KitchenTimer : NetworkBehaviour
         {
             fireCount.Value = 4;
         }
+        textMeshProUGUI.text = "";
+        textMeshProUGUI.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -84,6 +88,8 @@ public class KitchenTimer : NetworkBehaviour
         {
             Debug.Log("Our Winner... Player " + winnerId);
             Debug.Log("Winning Score: " + highestScore);
+            textMeshProUGUI.gameObject.SetActive(true);
+            textMeshProUGUI.text = "Our Winner... Player " + winnerId + ". Their score was: " + highestScore;
         }
     }
 }
