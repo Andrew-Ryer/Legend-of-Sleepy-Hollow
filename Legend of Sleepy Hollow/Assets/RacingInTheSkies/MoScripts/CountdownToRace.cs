@@ -1,7 +1,8 @@
 using TMPro;
+using Unity.Netcode;
 using UnityEngine;
 
-public class CountdownToRace : MonoBehaviour
+public class CountdownToRace : NetworkBehaviour
 {
     [SerializeField] float timeLeft = 5;
     [SerializeField] bool timerIsRunning = true;
