@@ -7,8 +7,6 @@ public class RacingGameManager : NetworkBehaviour
 {
     [SerializeField] TextMeshProUGUI statusText;
     [SerializeField] CountdownToRace countdownToRace;
-    // [SerializeField] PlayerController plane;
-    // [SerializeField] private Rigidbody rb;
     
     public override void OnNetworkSpawn()
     {
