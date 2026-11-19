@@ -484,7 +484,7 @@ Transform:
   m_GameObject: {fileID: 5812966747555088641}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2, y: 1, z: 13}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -722,5 +722,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c0f7a3c8b2a74655b6e66271194343d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CountdownToRace
+  ShowTopMostFoldoutHeaderGroup: 1
   timeLeft: 5
   timerIsRunning: 1
