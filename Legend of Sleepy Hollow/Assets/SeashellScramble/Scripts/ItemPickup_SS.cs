@@ -29,13 +29,18 @@ public class ItemPickup_SS : Interactable_SS
 
     public override bool CanInteract(ObjectType_SS heldType)
     {
-        Debug.Log("can interact");
+        // Debug.Log("can interact");
         return true;
+    }
+
+    public ObjectType_SS ReturnObjectType()
+    {
+        return _objectType;
     }
 
     protected override void Interact(PlayerHeldItem_SS heldItem)
     {
-        Debug.Log("interacting");
+        // Debug.Log("interacting");
 
         // heldItem.DropItem();
         
@@ -48,7 +53,7 @@ public class ItemPickup_SS : Interactable_SS
 
     protected override void LetGo(PlayerHeldItem_SS heldItem)
     {
-        Debug.Log("let go");
+        // Debug.Log("let go");
 
         heldItem.DropItem();
         // _networkTransform.enabled = true;
