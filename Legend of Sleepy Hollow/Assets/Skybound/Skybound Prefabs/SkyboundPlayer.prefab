@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 2857316817
+  GlobalObjectIdHash: 2567488379
   InScenePlacedSourceGlobalObjectIdHash: 0
   m_InScenePlacedDisabledByDefault: 0
   DeferredDespawnTick: 0
@@ -86,7 +86,7 @@ MonoBehaviour:
   RotationMaxInterpolationTime: 0.1
   ScaleLerpSmoothing: 1
   ScaleMaxInterpolationTime: 0.1
-  AuthorityMode: 1
+  AuthorityMode: 0
   TickSyncChildren: 0
   UseUnreliableDeltas: 0
   SyncPositionX: 1
@@ -490,6 +490,7 @@ MonoBehaviour:
   _moveAction: {fileID: 11400000, guid: 94e90365ca67aab828febf939aa3e991, type: 2}
   _movementSpeed: 4
   _rotationSpeed: 10
+  _bounceDamping: 2
 --- !u!114 &2148890587232080235
 MonoBehaviour:
   m_ObjectHideFlags: 0

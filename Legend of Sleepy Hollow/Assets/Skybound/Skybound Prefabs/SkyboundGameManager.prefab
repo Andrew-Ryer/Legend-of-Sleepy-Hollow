@@ -9,7 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7763764734693116894}
+  - component: {fileID: 5006041051174043279}
   - component: {fileID: 7968913696024856206}
+  - component: {fileID: 8350538228442585452}
   m_Layer: 0
   m_Name: SkyboundGameManager
   m_TagString: Untagged
@@ -32,6 +34,33 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5006041051174043279
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1690072539539802620}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
+  GlobalObjectIdHash: 4273929538
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  m_InScenePlacedDisabledByDefault: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  m_InScenePlaced: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 0
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!114 &7968913696024856206
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44,4 +73,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f798197fe1488d4b9012feed5d0a32c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SkyboundGamemanager
-  SpawnPoints: {fileID: 0}
+  ShowTopMostFoldoutHeaderGroup: 1
+  _spawnPointsHandler: {fileID: 0}
+  SkyboundTimer: {fileID: 8350538228442585452}
+  IsGameStarted:
+    UpdateTraits:
+      MinSecondsBetweenUpdates: 0
+      MaxSecondsBetweenUpdates: 0
+    m_InternalValue: 0
+--- !u!114 &8350538228442585452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1690072539539802620}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41c8aba024e85cc499981d49287fc98e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SkyboundTimer
+  ShowTopMostFoldoutHeaderGroup: 1
+  timerSeconds: 120
+  firstFinishTimer: 35
