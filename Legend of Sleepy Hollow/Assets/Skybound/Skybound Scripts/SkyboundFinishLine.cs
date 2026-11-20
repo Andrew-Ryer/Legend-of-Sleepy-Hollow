@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
+using System.Text;
 
 public class SkyboundFinishLine : NetworkBehaviour
 {
@@ -8,6 +9,25 @@ public class SkyboundFinishLine : NetworkBehaviour
     private List<ulong> finishedPlayerIds = new List<ulong>();
     private List<ulong> dnfPlayerIds = new List<ulong>();
     private HashSet<ulong> processedPlayers = new HashSet<ulong>();
+
+    public override void OnNetworkSpawn()
+    {
+        if (IsServer)
+        {
+            SkyboundTimer.OnTimerEnded += EndGame;
+            SkyboundGamemanager.OnGameStarted += StartRaceServer;
+        }
+    }
+
+    public override void OnNetworkDespawn()
+    {
+        if (IsServer)
+        {
+            SkyboundTimer.OnTimerEnded -= EndGame;
+            SkyboundGamemanager.OnGameStarted -= StartRaceServer;
+        }
+    }
+
 
     public void StartRaceServer()
     {
@@ -21,9 +41,10 @@ public class SkyboundFinishLine : NetworkBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!IsServer) return;
-
-        SkyboundPlayerController player = other.GetComponent<SkyboundPlayerController>();
+        Debug.Log("Entered");
+        if (!IsServer || !IsSpawned) return;
+        
+        SkyboundPlayerController player = other.GetComponentInChildren<SkyboundPlayerController>();
 
         if (player != null)
         {
@@ -38,72 +59,62 @@ public class SkyboundFinishLine : NetworkBehaviour
 
                 if (finishedPlayerIds.Count == 1)
                 {
+                    SkyboundTimer timer = SkyboundTimer.Instance;
                     timer.firstFinish();
                 }
 
-                // CheckAllPlayersFinishedServer();
             }
         }
     }
 
-    // private void CheckAllPlayersFinishedServer()
-    // {
-    //     int totalConnectedPlayers = NetworkManager.Singleton.ConnectedClientsIds.Count;
+    private void EndGame(int reason)
+    {
+        if (!IsServer) return;
+        dnfPlayerIds.Clear();
+        if (reason == 1 && NetworkManager.Singleton != null)
+        {
+            foreach (ulong clientId in NetworkManager.Singleton.ConnectedClientsIds)
+            {
+                if (!processedPlayers.Contains(clientId))
+                {
+                    processedPlayers.Add(clientId);
+                    dnfPlayerIds.Add(clientId);
+                }
+            }
+        }
 
-    //     if (finishedPlayerIds.Count >= totalConnectedPlayers)
-    //     {
-    //         Debug.Log("Server: All players have crossed the finish line!");
-    //         EndGameServer();
-    //     }
-    // }
+        ulong[] finishedArray = finishedPlayerIds.ToArray();
+        ulong[] dnfArray = dnfPlayerIds.ToArray();
 
-    // private void TriggerTimeOutServer()
-    // {
-    //     if (raceEnded) return;
+        StringBuilder sb = new StringBuilder();
+        sb.AppendLine("Finish:");
 
-    //     Debug.Log("Server: Race timer expired! Collecting remaining players into DNF array.");
+        if (finishedArray.Length == 0)
+        {
+            sb.AppendLine("None");
+        }
+        else
+        {
+            for (int i = 0; i < finishedArray.Length; i++)
+            {
+                sb.AppendLine($"{i + 1}. Player {finishedArray[i]}");
+            }
+        }
 
-    //     // Find all connected clients who haven't finished yet and add them to DNF
-    //     foreach (ulong clientId in NetworkManager.Singleton.ConnectedClientsIds)
-    //     {
-    //         if (!processedPlayers.Contains(clientId))
-    //         {
-    //             processedPlayers.Add(clientId);
-    //             dnfPlayerIds.Add(clientId);
-    //             Debug.Log($"Server: Player {clientId} ran out of time (DNF).");
-    //         }
-    //     }
+        if (reason == 1)
+        {
+            sb.Append("DNF: ");
+            if (dnfArray.Length == 0)
+            {
+                sb.Append("None");
+            }
+            else
+            {
+                sb.Append(string.Join(", ", dnfArray));
+            }
+        }
 
-    //     EndGameServer();
-    // }
+        Debug.Log(sb.ToString());
+    }
 
-    // private void EndGameServer()
-    // {
-    //     if (raceEnded) return;
-    //     raceEnded = true;
-
-    //     // Distribute points based on finish order
-    //     DistributePoints();
-
-    //     // Call method for game end
-    //     CallGameEndMethod();
-    // }
-
-
-    // private void CallGameEndMethod()
-    // {
-    //     Debug.Log("Server: Triggering end of game sequence across clients.");
-
-    //     // Inform clients via ClientRpc that the match is over
-    //     TriggerGameEndClientRpc(finishedPlayerIds.ToArray(), dnfPlayerIds.ToArray());
-    // }
-
-    // [ClientRpc]
-    // private void TriggerGameEndClientRpc(ulong[] finalStandings, ulong[] dnfStandings)
-    // {
-    //     // Executed on all clients (and host). Use this to display UI leaderboards, play sounds, etc.
-    //     Debug.Log("Client: Match has ended. Displaying final scoreboard UI.");
-        
-    //     // Example: UIController.Instance.ShowScoreboard(finalStandings, dnfStandings);
-    // }
 }

@@ -19,7 +19,6 @@ public class SkyboundSpinnerBar : NetworkBehaviour
 
     void OnTriggerEnter(Collider other)
     {        
-        if (!IsServer) return;
         SkyboundPlayerController player = other.GetComponent<SkyboundPlayerController>();
 
         if (player != null)
