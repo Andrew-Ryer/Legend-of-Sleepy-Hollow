@@ -68,7 +68,7 @@ public class WagonHubs_SS : MonoBehaviour
 
             Vector3 totalForce = hub.SuspensionForce + hub.GripForce;
             carRigidBody.AddForceAtPosition(totalForce, hub.transform.position);
-            Debug.Log(Mathf.Floor(carRigidBody.velocity.magnitude) + " mph");
+            Debug.Log(Mathf.Floor(carRigidBody.linearVelocity.magnitude) + " mph");
         }
     }
 }
