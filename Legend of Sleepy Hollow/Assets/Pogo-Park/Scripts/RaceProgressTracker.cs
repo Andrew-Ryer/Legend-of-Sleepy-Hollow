@@ -21,6 +21,7 @@ public class RaceProgressTracker : MonoBehaviour
     readonly Dictionary<ulong, PlayerProgress> _players = new();
     readonly Dictionary<ulong, float> _finishTimes = new();
     readonly List<PlayerProgress> _rankedPlayers = new();
+    readonly List<PlayerProgress> _finalPlayers = new();
 
     public struct PlayerProgress
     {
@@ -28,9 +29,32 @@ public class RaceProgressTracker : MonoBehaviour
         public string PlayerName;
         public float Progress;
         public int Points;
+        public bool HasFinished;
+        public float FinishTime;
     }
 
     public IReadOnlyList<PlayerProgress> RankedPlayers => _rankedPlayers;
+    public bool RaceFinished => _raceFinished;
+
+    public IReadOnlyList<PlayerProgress> FinalPlayers
+    {
+        get
+        {
+            if (!_raceFinished)
+            {
+                _finalPlayers.Clear();
+                return _finalPlayers;
+            }
+
+            CaptureFinalProgress();
+            _finalPlayers.Clear();
+            foreach (PlayerProgress player in _players.Values)
+                _finalPlayers.Add(player);
+
+            _finalPlayers.Sort(CompareFinalResults);
+            return _finalPlayers;
+        }
+    }
 
     void Awake()
     {
@@ -40,7 +64,7 @@ public class RaceProgressTracker : MonoBehaviour
         if (_pointsEventScript == null)
             _pointsEventScript = GetComponent<PointsEventScript>();
         if (_pointsEventScript == null)
-            _pointsEventScript = gameObject.AddComponent<PointsEventScript>();
+            _pointsEventScript = FindFirstObjectByType<PointsEventScript>();
     }
 
     void OnEnable()
@@ -105,11 +129,14 @@ public class RaceProgressTracker : MonoBehaviour
         {
             ClientId = clientId,
             PlayerName = $"Player {clientId + 1}",
-            Progress = 100f
+            Progress = 100f,
+            HasFinished = true,
+            FinishTime = _timer.ElapsedTime
         };
 
         _players[clientId] = finishedPlayer;
         _finishTimes[clientId] = _timer.ElapsedTime;
+        player.SetFinishTime(_timer.ElapsedTime);
         RefreshRankedPlayers();
     }
 
@@ -139,7 +166,10 @@ public class RaceProgressTracker : MonoBehaviour
             {
                 ClientId = clientId,
                 PlayerName = $"Player {clientId + 1}",
-                Progress = progress
+                Progress = progress,
+                Points = player.FinalPoints,
+                HasFinished = player.HasFinished,
+                FinishTime = player.FinishTime
             };
         }
     }
@@ -207,8 +237,24 @@ public class RaceProgressTracker : MonoBehaviour
         foreach (ulong clientId in clientIds)
         {
             PlayerProgress player = _players[clientId];
-            player.Points = _pointsEventScript.CalculatePoints(player.Progress);
+            player.Points = _pointsEventScript != null
+                ? _pointsEventScript.CalculatePoints(player.Progress)
+                : Mathf.Clamp(Mathf.RoundToInt(player.Progress), 0, 100);
             _players[clientId] = player;
+
+            NetworkManager networkManager = NetworkManager.Singleton;
+            if (networkManager == null || networkManager.SpawnManager == null)
+                continue;
+
+            foreach (NetworkObject networkObject in networkManager.SpawnManager.SpawnedObjectsList)
+            {
+                if (networkObject == null || !networkObject.IsPlayerObject || networkObject.OwnerClientId != clientId)
+                    continue;
+
+                if (networkObject.TryGetComponent(out SpringPlayerMovementInput movement))
+                    movement.SetFinalPoints(player.Points);
+                break;
+            }
         }
     }
 
@@ -232,21 +278,7 @@ public class RaceProgressTracker : MonoBehaviour
     string BuildFinalResults()
     {
         List<PlayerProgress> players = new List<PlayerProgress>(_players.Values);
-        players.Sort((a, b) =>
-        {
-            bool aFinished = _finishTimes.TryGetValue(a.ClientId, out float aTime);
-            bool bFinished = _finishTimes.TryGetValue(b.ClientId, out float bTime);
-
-            if (aFinished && bFinished)
-                return aTime.CompareTo(bTime);
-            if (aFinished)
-                return -1;
-            if (bFinished)
-                return 1;
-
-            int progressOrder = b.Progress.CompareTo(a.Progress);
-            return progressOrder != 0 ? progressOrder : a.ClientId.CompareTo(b.ClientId);
-        });
+        players.Sort(CompareFinalResults);
 
         StringBuilder message = new StringBuilder();
         for (int i = 0; i < players.Count; i++)
@@ -266,6 +298,23 @@ public class RaceProgressTracker : MonoBehaviour
         }
 
         return message.ToString();
+    }
+
+    static int CompareFinalResults(PlayerProgress a, PlayerProgress b)
+    {
+        if (a.HasFinished && b.HasFinished)
+        {
+            int timeOrder = a.FinishTime.CompareTo(b.FinishTime);
+            return timeOrder != 0 ? timeOrder : a.ClientId.CompareTo(b.ClientId);
+        }
+
+        if (a.HasFinished)
+            return -1;
+        if (b.HasFinished)
+            return 1;
+
+        int progressOrder = b.Progress.CompareTo(a.Progress);
+        return progressOrder != 0 ? progressOrder : a.ClientId.CompareTo(b.ClientId);
     }
 
     static string GetPlaceSuffix(int place)
