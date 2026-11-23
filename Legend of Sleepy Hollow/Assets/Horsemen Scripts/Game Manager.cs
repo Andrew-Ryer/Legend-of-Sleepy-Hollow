@@ -8,6 +8,9 @@ public class HorsemenGameManager : NetworkBehaviour
     [SerializeField]
     private Horsemen horsemen;
 
+    List<ulong> playerID = new List<ulong>();
+  
+       
 
     public override void OnNetworkSpawn()
     {
@@ -27,11 +30,18 @@ public class HorsemenGameManager : NetworkBehaviour
 
     private void Awake()
     {
-        
+        playerID.Add(0);
+        playerID.Add(1);
+
     }
 
     void Start()
     {
+        if (horsemen == null)
+        {
+            Debug.LogError("HorsemenGameManager: horsemen is not assigned.", this);
+            return;
+        }
         horsemen.OnKillevent += Horsemen_OnKillevent;
         
     }
@@ -53,20 +63,21 @@ public class HorsemenGameManager : NetworkBehaviour
 
     private void FinishedMiniGame()
     {
-        IReadOnlyList<ulong> clientIds = NetworkManager.Singleton.ConnectedClientsIds;
-        foreach (ulong clientID in clientIds) 
+       
+        foreach (ulong playerid in playerID) 
         {
-            if (!vehicleIDs.Contains(clientID))
-            {
-                vehicleIDs.Push((ulong)clientID);
+            if (!vehicleIDs.Contains(playerid)) 
+            { 
+                vehicleIDs.Push(playerid);
             }
-        
         }
 
-        while (vehicleIDs.Count > 0)
+       for(int i = 0; i < vehicleIDs.Count; i++ )
         {
-            int i = 1;
-            Debug.Log(i + ": " + vehicleIDs.Peek());
+
+
+            int place = i + 1;
+            Debug.Log("Place: " + place + ": " + vehicleIDs.Peek());
             vehicleIDs.Pop();
 
         }
@@ -78,6 +89,7 @@ public class HorsemenGameManager : NetworkBehaviour
     void Update()
     {
         if (!IsServer) { return; }
+        Debug.Log(vehicleIDs.Count);
 
         if (vehicleIDs.Count == 1) 
         {
