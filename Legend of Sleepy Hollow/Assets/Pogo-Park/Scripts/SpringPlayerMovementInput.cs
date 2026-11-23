@@ -38,14 +38,15 @@ public class SpringPlayerMovementInput : NetworkBehaviour
     float _lastLaunchSpeed;
     float _lastLaunchTime;
     Vector3 _lastLaunchDirection;
-    NetworkVariable<bool> _hasFinished = new NetworkVariable<bool>(
-        false,
-        NetworkVariableReadPermission.Everyone,
-        NetworkVariableWritePermission.Server);
+    NetworkVariable<bool> _hasFinished = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    NetworkVariable<float> _finishTime = new NetworkVariable<float>(-1f, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    NetworkVariable<int> _finalPoints = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
 
     public Rigidbody Body => _body;
     public Collider SpringOriginCollider => _springOriginCollider;
     public bool HasFinished => _hasFinished.Value;
+    public float FinishTime => _finishTime.Value;
+    public int FinalPoints => _finalPoints.Value;
     public bool IsSpringOriginGrounded => _springOriginCollider != null && !_springOriginCollider.isTrigger && SpringOriginGrounded;
     public bool IsCharging => _spaceHeld && IsSpringOriginGrounded && _chargeTime > 0f;
     public float Charge01 => Mathf.Clamp01(_chargeTime / Mathf.Max(0.05f, _secondsToFullCharge));
@@ -67,6 +68,18 @@ public class SpringPlayerMovementInput : NetworkBehaviour
         _body.linearVelocity = Vector3.zero;
         _body.angularVelocity = Vector3.zero;
         return true;
+    }
+
+    public void SetFinishTime(float finishTime)
+    {
+        if (IsServer && IsSpawned && HasFinished)
+            _finishTime.Value = Mathf.Max(0f, finishTime);
+    }
+
+    public void SetFinalPoints(int points)
+    {
+        if (IsServer && IsSpawned)
+            _finalPoints.Value = Mathf.Clamp(points, 0, 100);
     }
 
     bool SpringOriginGrounded => Time.fixedTime >= _groundResponsePausedUntil &&
