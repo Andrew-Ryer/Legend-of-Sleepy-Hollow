@@ -38,16 +38,21 @@ public class SpringPlayerMovementInput : NetworkBehaviour
     float _lastLaunchSpeed;
     float _lastLaunchTime;
     Vector3 _lastLaunchDirection;
+    int _launchSequence;
     NetworkVariable<bool> _hasFinished = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     NetworkVariable<float> _finishTime = new NetworkVariable<float>(-1f, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     NetworkVariable<int> _finalPoints = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    NetworkVariable<float> _nextLaunchMultiplier = new NetworkVariable<float>( 1f, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
 
     public Rigidbody Body => _body;
     public Collider SpringOriginCollider => _springOriginCollider;
     public bool HasFinished => _hasFinished.Value;
     public float FinishTime => _finishTime.Value;
     public int FinalPoints => _finalPoints.Value;
+    public bool HasNextBounceBoost => _nextLaunchMultiplier.Value > 1f;
+    public int LaunchSequence => _launchSequence;
     public bool IsSpringOriginGrounded => _springOriginCollider != null && !_springOriginCollider.isTrigger && SpringOriginGrounded;
+    public bool IsSpringOriginInContact => _springOriginCollider != null && !_springOriginCollider.isTrigger && Time.fixedTime - _lastSupportTime <= Time.fixedDeltaTime * 2.5f;
     public bool IsCharging => _spaceHeld && IsSpringOriginGrounded && _chargeTime > 0f;
     public float Charge01 => Mathf.Clamp01(_chargeTime / Mathf.Max(0.05f, _secondsToFullCharge));
     public float CompressionMeters => _maximumCompressionMeters * Charge01;
@@ -80,6 +85,15 @@ public class SpringPlayerMovementInput : NetworkBehaviour
     {
         if (IsServer && IsSpawned)
             _finalPoints.Value = Mathf.Clamp(points, 0, 100);
+    }
+
+    // Grant user a 1.25x jump boost for their next jump
+    public void GrantNextBounceBoost(float multiplier)
+    {
+        if (!IsServer || !IsSpawned || HasFinished || HasNextBounceBoost)
+            return;
+
+        _nextLaunchMultiplier.Value = Mathf.Max(1f, multiplier);
     }
 
     bool SpringOriginGrounded => Time.fixedTime >= _groundResponsePausedUntil &&
@@ -295,14 +309,20 @@ public class SpringPlayerMovementInput : NetworkBehaviour
             }
         }
 
+        float launchMultiplier = _nextLaunchMultiplier.Value;
+        launchSpeed *= launchMultiplier;
         _lastLaunchSpeed = launchSpeed;
         // The player's Z tilt steers this launch left or right while retaining vertical lift. Z velocity is prevented by the Rigidbody constraint
         if (launchSpeed > 0f)
         {
             _lastLaunchDirection = _body.transform.up;
             _lastLaunchTime = Time.time;
+            _launchSequence++;
             _body.linearVelocity = _lastLaunchDirection * launchSpeed;
             _groundResponsePausedUntil = Time.fixedTime + _postLaunchGroundPause;
+
+            if (launchMultiplier > 1f)
+                _nextLaunchMultiplier.Value = 1f;
         }
 
         _lastSupportTime = float.NegativeInfinity;
