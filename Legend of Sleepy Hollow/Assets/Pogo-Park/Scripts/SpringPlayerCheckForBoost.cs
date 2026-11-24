@@ -6,7 +6,7 @@ using UnityEngine;
 public class SpringPlayerCheckForBoost : NetworkBehaviour
 {
     [SerializeField] Transform _springOrigin;
-    [SerializeField, Min(1f)] float _degreesForBoost = 360f;
+    [SerializeField, Min(1f)] float _degreesForBoost = 300f; // 300 is a good default value
     [SerializeField, Min(1f)] float _boostMultiplier = 1.25f;
 
     SpringPlayerMovementInput _movement;
