@@ -39,10 +39,25 @@ public class SpringPlayerMovementInput : NetworkBehaviour
     float _lastLaunchTime;
     Vector3 _lastLaunchDirection;
     int _launchSequence;
-    NetworkVariable<bool> _hasFinished = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
-    NetworkVariable<float> _finishTime = new NetworkVariable<float>(-1f, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
-    NetworkVariable<int> _finalPoints = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
-    NetworkVariable<float> _nextLaunchMultiplier = new NetworkVariable<float>( 1f, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    bool _chargeLoopAudioActive;
+    bool _groundedStateInitialized;
+    bool _wasGrounded;
+    NetworkVariable<bool> _hasFinished = new NetworkVariable<bool>(
+        false,
+        NetworkVariableReadPermission.Everyone,
+        NetworkVariableWritePermission.Server);
+    NetworkVariable<float> _finishTime = new NetworkVariable<float>(
+        -1f,
+        NetworkVariableReadPermission.Everyone,
+        NetworkVariableWritePermission.Server);
+    NetworkVariable<int> _finalPoints = new NetworkVariable<int>(
+        0,
+        NetworkVariableReadPermission.Everyone,
+        NetworkVariableWritePermission.Server);
+    NetworkVariable<float> _nextLaunchMultiplier = new NetworkVariable<float>(
+        1f,
+        NetworkVariableReadPermission.Everyone,
+        NetworkVariableWritePermission.Server);
 
     public Rigidbody Body => _body;
     public Collider SpringOriginCollider => _springOriginCollider;
@@ -52,13 +67,25 @@ public class SpringPlayerMovementInput : NetworkBehaviour
     public bool HasNextBounceBoost => _nextLaunchMultiplier.Value > 1f;
     public int LaunchSequence => _launchSequence;
     public bool IsSpringOriginGrounded => _springOriginCollider != null && !_springOriginCollider.isTrigger && SpringOriginGrounded;
-    public bool IsSpringOriginInContact => _springOriginCollider != null && !_springOriginCollider.isTrigger && Time.fixedTime - _lastSupportTime <= Time.fixedDeltaTime * 2.5f;
+    public bool IsSpringOriginInContact => _springOriginCollider != null && !_springOriginCollider.isTrigger &&
+        Time.fixedTime - _lastSupportTime <= Time.fixedDeltaTime * 2.5f;
     public bool IsCharging => _spaceHeld && IsSpringOriginGrounded && _chargeTime > 0f;
     public float Charge01 => Mathf.Clamp01(_chargeTime / Mathf.Max(0.05f, _secondsToFullCharge));
     public float CompressionMeters => _maximumCompressionMeters * Charge01;
     public float LastLaunchSpeed => _lastLaunchSpeed;
     public float LastLaunchTime => _lastLaunchTime;
     public Vector3 LastLaunchDirection => _lastLaunchDirection;
+
+    public override void OnNetworkSpawn()
+    {
+        _wasGrounded = IsSpringOriginGrounded;
+        _groundedStateInitialized = true;
+    }
+
+    public override void OnNetworkDespawn()
+    {
+        SpringAudioManager.Instance?.StopChargeLoop(NetworkObjectId);
+    }
 
     public bool MarkFinished()
     {
@@ -155,6 +182,54 @@ public class SpringPlayerMovementInput : NetworkBehaviour
         SetInput(turn, spaceHeld);
     }
 
+    [Rpc(SendTo.ClientsAndHost)]
+    void ChargeLoopAudioRpc(bool play)
+    {
+        SpringAudioManager.Instance?.SetChargeLoop(NetworkObjectId, transform, play);
+    }
+
+    [Rpc(SendTo.ClientsAndHost)]
+    void JumpAudioRpc(bool powered)
+    {
+        SpringAudioManager.Instance?.PlayJump(transform.position, powered);
+    }
+
+    [Rpc(SendTo.ClientsAndHost)]
+    void LandAudioRpc()
+    {
+        SpringAudioManager.Instance?.PlayLand(transform.position);
+    }
+
+    [Rpc(SendTo.ClientsAndHost)]
+    void CollisionAudioRpc()
+    {
+        SpringAudioManager.Instance?.PlayCollision(transform.position);
+    }
+
+    void SetChargeLoopAudio(bool play)
+    {
+        if (!IsServer || !IsSpawned || _chargeLoopAudioActive == play)
+            return;
+
+        _chargeLoopAudioActive = play;
+        ChargeLoopAudioRpc(play);
+    }
+
+    void UpdateLandingAudio(bool grounded)
+    {
+        if (!_groundedStateInitialized)
+        {
+            _wasGrounded = grounded;
+            _groundedStateInitialized = true;
+        }
+        else if (grounded && !_wasGrounded && _launchSequence > 0)
+        {
+            LandAudioRpc();
+        }
+
+        _wasGrounded = grounded;
+    }
+
     void SetInput(float turn, bool spaceHeld)
     {
         _turnInput = Mathf.Clamp(turn, -1f, 1f);
@@ -168,6 +243,7 @@ public class SpringPlayerMovementInput : NetworkBehaviour
 
         if (HasFinished)
         {
+            SetChargeLoopAudio(false);
             _turnInput = 0f;
             _spaceHeld = false;
             _spaceWasHeld = false;
@@ -184,6 +260,7 @@ public class SpringPlayerMovementInput : NetworkBehaviour
 
         if (IsWaitingForStart)
         {
+            SetChargeLoopAudio(false);
             _turnInput = 0f;
             _spaceHeld = false;
             _spaceWasHeld = false;
@@ -194,6 +271,7 @@ public class SpringPlayerMovementInput : NetworkBehaviour
         }
 
         bool grounded = _springOriginCollider != null && !_springOriginCollider.isTrigger && SpringOriginGrounded;
+        UpdateLandingAudio(grounded);
         float normalizedTilt = Mathf.DeltaAngle(0f, _tilt);
         bool outsideSpringTilt = Mathf.Abs(normalizedTilt) > _maximumTiltDegrees;
         bool groundResponsePaused = Time.fixedTime < _groundResponsePausedUntil;
@@ -243,6 +321,8 @@ public class SpringPlayerMovementInput : NetworkBehaviour
             // Charge only accumulates while the dedicated support collider is actually in contact with a floor-like surface
             _chargeTime = 0f;
         }
+
+        SetChargeLoopAudio(canSpring && _spaceHeld && _chargeTime > 0f);
 
         if (_spaceWasHeld && !_spaceHeld)
         {
@@ -320,6 +400,7 @@ public class SpringPlayerMovementInput : NetworkBehaviour
             _launchSequence++;
             _body.linearVelocity = _lastLaunchDirection * launchSpeed;
             _groundResponsePausedUntil = Time.fixedTime + _postLaunchGroundPause;
+            JumpAudioRpc(launchMultiplier > 1f);
 
             if (launchMultiplier > 1f)
                 _nextLaunchMultiplier.Value = 1f;
@@ -328,7 +409,30 @@ public class SpringPlayerMovementInput : NetworkBehaviour
         _lastSupportTime = float.NegativeInfinity;
     }
 
-    void OnCollisionEnter(Collision collision) => CheckSpringOriginContact(collision);
+    void OnCollisionEnter(Collision collision)
+    {
+        CheckSpringOriginContact(collision);
+
+        if (!IsServer || !IsSpawned || !SpringAudioManager.Instance)
+            return;
+
+        bool springSupportContact = false;
+        for (int i = 0; i < collision.contactCount; i++)
+        {
+            ContactPoint contact = collision.GetContact(i);
+            if (contact.thisCollider == _springOriginCollider && Vector3.Dot(contact.normal, Vector3.up) >= _minimumGroundNormalDot)
+            {
+                springSupportContact = true;
+                break;
+            }
+        }
+
+        if (!springSupportContact && !IsSpringOriginGrounded &&
+            SpringAudioManager.Instance.IsCollisionLoudEnough(collision.relativeVelocity.magnitude))
+        {
+            CollisionAudioRpc();
+        }
+    }
     void OnCollisionStay(Collision collision) => CheckSpringOriginContact(collision);
 
     void CheckSpringOriginContact(Collision collision)

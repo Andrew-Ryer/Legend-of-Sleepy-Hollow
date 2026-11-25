@@ -31,6 +31,12 @@ public class SpringPlayerCheckForBoost : NetworkBehaviour
         _lastLaunchSequence = _movement.LaunchSequence;
     }
 
+    [Rpc(SendTo.ClientsAndHost)]
+    void BoostReadyAudioRpc()
+    {
+        SpringAudioManager.Instance?.PlayBoostReady(transform.position);
+    }
+
     void FixedUpdate()
     {
         if (!IsSpawned || !IsServer || _movement == null || _springOrigin == null)
@@ -64,7 +70,10 @@ public class SpringPlayerCheckForBoost : NetworkBehaviour
             bool boostWasReady = _movement.HasNextBounceBoost;
             _movement.GrantNextBounceBoost(_boostMultiplier);
             if (!boostWasReady && _movement.HasNextBounceBoost)
+            {
                 Debug.Log("Player did full spin, jump boost granted", this);
+                BoostReadyAudioRpc();
+            }
 
             _trackingSpin = false;
             _spinDegrees = 0f;
