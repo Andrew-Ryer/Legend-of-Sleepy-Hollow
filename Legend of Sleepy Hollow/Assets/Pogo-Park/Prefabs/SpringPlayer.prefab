@@ -388,7 +388,7 @@ MonoBehaviour:
   _maximumOutlineSize: 0.1
   _secondsToMaxGlow: 0.5
   _fadeSeconds: 0.5
-  _maximumOpacity: 0.7
+  _maximumOpacity: 0.25
 --- !u!1 &7887826625316994843
 GameObject:
   m_ObjectHideFlags: 0

@@ -46,10 +46,17 @@ public class SpringPlayerGlow : MonoBehaviour
             _elapsedTime += deltaTime;
 
         float pulse = boostReady ? 0.5f - 0.5f * Mathf.Cos(Mathf.PI * _elapsedTime / _secondsToMaxGlow) : 0f;
-        float targetAlpha = boostReady ? _maximumOpacity : 0f;
-        _glowAlpha = Mathf.MoveTowards(_glowAlpha, targetAlpha, deltaTime / Mathf.Max(0.01f, _fadeSeconds));
+        if (boostReady)
+        {
+            _glowAlpha = _maximumOpacity * Mathf.Clamp01(pulse);
+        }
+        else
+        {
+            _glowAlpha = Mathf.MoveTowards(_glowAlpha, 0f, deltaTime / Mathf.Max(0.01f, _fadeSeconds));
+        }
 
-        ApplyGlow(_maximumOutlineSize * Mathf.Clamp01(pulse), _glowAlpha);
+        float outlinePulse = boostReady ? Mathf.Clamp01(pulse) : _maximumOpacity > 0f ? Mathf.Clamp01(_glowAlpha / _maximumOpacity) : 0f;
+        ApplyGlow(_maximumOutlineSize * outlinePulse, _glowAlpha);
     }
 
     void ApplyGlow(float outlineSize, float alpha)
