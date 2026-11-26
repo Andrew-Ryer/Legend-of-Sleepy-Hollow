@@ -7,6 +7,7 @@ public class SpringEndGameReturn : MonoBehaviour
 {
     [SerializeField] string _overworldSceneName = "OverworldJ";
     [SerializeField] GameObject _overworldPlayerPrefab; // Now includes this field to ensure the spawning of normal overworld players and not this scene's player prefab
+    [SerializeField] GameObject _gameSessionPrefab; // GameSession prefab from the overworld folder
 
     bool _returnStarted;
 
@@ -20,38 +21,57 @@ public class SpringEndGameReturn : MonoBehaviour
 
         NetworkManager networkManager = NetworkManager.Singleton;
 
-        if (networkManager != null && networkManager.IsServer)
+        if (networkManager == null || !networkManager.IsListening)
         {
-            if (_overworldPlayerPrefab == null)
-            {
-                Debug.LogError("Assign the regular Overworld Player Prefab.", this);
-            }
-            else
-            {
-                networkManager.NetworkConfig.PlayerPrefab = _overworldPlayerPrefab;
-            }
-        }
-
-        if (PlayerRoster.Local != null && PlayerRoster.Local.IsSpawned)
-        {
-            PlayerRoster.ReturnToOverworld();
+            SceneManager.LoadScene(_overworldSceneName, LoadSceneMode.Single);
             return;
         }
 
-        if (networkManager != null && networkManager.IsListening)
+        // A client can request the return through the shared roster
+        if (!networkManager.IsServer)
         {
-            if (!networkManager.IsServer)
+            if (PlayerRoster.Local != null && PlayerRoster.Local.IsSpawned)
+                PlayerRoster.ReturnToOverworld();
+
+            return;
+        }
+
+        // Use the regular overworld player for future connections
+        if (_overworldPlayerPrefab != null)
+            networkManager.NetworkConfig.PlayerPrefab = _overworldPlayerPrefab;
+        else
+            Debug.LogError("Assign the regular Overworld Player Prefab.", this);
+
+        // Recreate the shared roster if this Pogo session has no live one
+        if (PlayerRoster.Local == null || !PlayerRoster.Local.IsSpawned)
+        {
+            if (!TryCreateGameSession())
+            {
+                Debug.LogError(
+                    "Could not return to Overworld: no live PlayerRoster and no valid Game Session prefab.",
+                    this);
                 return;
-
-            SceneEventProgressStatus status =
-                networkManager.SceneManager.LoadScene(_overworldSceneName, LoadSceneMode.Single);
-
-            if (status != SceneEventProgressStatus.Started)
-                Debug.LogError($"Could not start the return to {_overworldSceneName}: {status}", this);
-
-            return;
+            }
         }
 
-        SceneManager.LoadScene(_overworldSceneName, LoadSceneMode.Single);
+        PlayerRoster.ReturnToOverworld();
+    }
+
+    bool TryCreateGameSession()
+    {
+        if (_gameSessionPrefab == null)
+            return false;
+
+        GameObject session = Instantiate(_gameSessionPrefab);
+
+        if (!session.TryGetComponent(out NetworkObject networkObject) ||
+            !session.TryGetComponent(out PlayerRoster _))
+        {
+            Destroy(session);
+            return false;
+        }
+
+        networkObject.Spawn(false);
+        return PlayerRoster.Local != null && PlayerRoster.Local.IsSpawned;
     }
 }
