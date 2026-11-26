@@ -11,7 +11,7 @@ public class RaceProgressTracker : MonoBehaviour
 {
     [SerializeField] Transform _spawnPoint;
     [SerializeField] Transform _finishPoint;
-    [SerializeField] Timer _timer;
+    [SerializeField] SpringTimer _springTimer;
     [SerializeField] PointsEventScript _pointsEventScript;
 
     const float PrintIntervalSeconds = 1f;
@@ -58,8 +58,8 @@ public class RaceProgressTracker : MonoBehaviour
 
     void Awake()
     {
-        if (_timer == null)
-            _timer = FindFirstObjectByType<Timer>();
+        if (_springTimer == null)
+            _springTimer = FindFirstObjectByType<SpringTimer>();
 
         if (_pointsEventScript == null)
             _pointsEventScript = GetComponent<PointsEventScript>();
@@ -69,19 +69,19 @@ public class RaceProgressTracker : MonoBehaviour
 
     void OnEnable()
     {
-        if (_timer != null)
-            _timer.TimerExpired += HandleTimerExpired;
+        if (_springTimer != null)
+            _springTimer.TimerExpired += HandleTimerExpired;
     }
 
     void OnDisable()
     {
-        if (_timer != null)
-            _timer.TimerExpired -= HandleTimerExpired;
+        if (_springTimer != null)
+            _springTimer.TimerExpired -= HandleTimerExpired;
     }
 
     void Update()
     {
-        if (_raceFinished || _spawnPoint == null || _finishPoint == null || _timer == null)
+        if (_raceFinished || _spawnPoint == null || _finishPoint == null || _springTimer == null)
             return;
 
         NetworkManager networkManager = NetworkManager.Singleton;
@@ -116,7 +116,7 @@ public class RaceProgressTracker : MonoBehaviour
     public void RegisterPlayerFinished(SpringPlayerMovementInput player)
     {
         NetworkManager networkManager = NetworkManager.Singleton;
-        if (_raceFinished || _timer == null || !_timer.GameplayStarted ||
+        if (_raceFinished || _springTimer == null || !_springTimer.GameplayStarted ||
             networkManager == null || !networkManager.IsServer || player == null)
             return;
 
@@ -131,12 +131,12 @@ public class RaceProgressTracker : MonoBehaviour
             PlayerName = $"Player {clientId + 1}",
             Progress = 100f,
             HasFinished = true,
-            FinishTime = _timer.ElapsedTime
+            FinishTime = _springTimer.ElapsedTime
         };
 
         _players[clientId] = finishedPlayer;
-        _finishTimes[clientId] = _timer.ElapsedTime;
-        player.SetFinishTime(_timer.ElapsedTime);
+        _finishTimes[clientId] = _springTimer.ElapsedTime;
+        player.SetFinishTime(_springTimer.ElapsedTime);
         RefreshRankedPlayers();
     }
 
@@ -203,7 +203,7 @@ public class RaceProgressTracker : MonoBehaviour
         AssignFinalPoints();
         RefreshRankedPlayers();
         _raceFinished = true;
-        _timer.StopTimer();
+        _springTimer.StopTimer();
 
         if (!shouldLog)
             return;
