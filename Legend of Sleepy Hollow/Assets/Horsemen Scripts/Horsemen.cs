@@ -2,7 +2,7 @@ using UnityEngine;
 using Unity.Netcode;
 using System;
 
-public class Horsemen : MonoBehaviour
+public class Horsemen : NetworkBehaviour
 {
 
     [SerializeField]
@@ -14,8 +14,10 @@ public class Horsemen : MonoBehaviour
     public event EventDelegate OnKillevent;
     public delegate void EventDelegate(ulong clientID);
 
+
     private void OnTriggerEnter(Collider other)
     {
+        if (!IsServer) {return; }
         if (other.gameObject.TryGetComponent<Vehicle>(out Vehicle vehicle))
         {
             print("got hit");
