@@ -8,7 +8,7 @@ public class SpringPlayerMovementInput : NetworkBehaviour
 {
     [SerializeField] Rigidbody _body;
     [SerializeField] Collider _springOriginCollider;
-    Timer _timer;
+    SpringTimer _springTimer;
 
     [Header("Tilt")]
     [SerializeField] float _turnSpeedDegreesPerSecond = 270; // 270 is the default
@@ -145,7 +145,7 @@ public class SpringPlayerMovementInput : NetworkBehaviour
                 _springOriginCollider = origin.GetComponent<Collider>();
         }
 
-        _timer = FindFirstObjectByType<Timer>();
+        _springTimer = FindFirstObjectByType<SpringTimer>();
 
         // This is a side-view movement plane: preserve only world X/Y movement and allow the player to tilt around world Z
         _body.constraints &= ~RigidbodyConstraints.FreezeRotationZ;
@@ -337,7 +337,7 @@ public class SpringPlayerMovementInput : NetworkBehaviour
         _spaceWasHeld = _spaceHeld;
     }
 
-    bool IsWaitingForStart => _timer != null && !_timer.GameplayStarted;
+    bool IsWaitingForStart => _springTimer != null && !_springTimer.GameplayStarted;
 
     bool IsNearGround()
     {

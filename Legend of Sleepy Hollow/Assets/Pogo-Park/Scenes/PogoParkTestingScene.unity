@@ -1757,6 +1757,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpringEndGameReturn
   _overworldSceneName: OverworldJ
+  _overworldPlayerPrefab: {fileID: 1119141711471557126, guid: a6cc1ea04205643bfb7f1932fe3e419d, type: 3}
 --- !u!1 &1135999345
 GameObject:
   m_ObjectHideFlags: 0

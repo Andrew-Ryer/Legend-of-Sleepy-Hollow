@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class SpringEndGameReturn : MonoBehaviour
 {
     [SerializeField] string _overworldSceneName = "OverworldJ";
+    [SerializeField] GameObject _overworldPlayerPrefab; // Now includes this field to ensure the spawning of normal overworld players and not this scene's player prefab
 
     bool _returnStarted;
 
@@ -17,23 +18,30 @@ public class SpringEndGameReturn : MonoBehaviour
         _returnStarted = true;
         Time.timeScale = 1f;
 
+        NetworkManager networkManager = NetworkManager.Singleton;
+
+        if (networkManager != null && networkManager.IsServer)
+        {
+            if (_overworldPlayerPrefab == null)
+            {
+                Debug.LogError("Assign the regular Overworld Player Prefab.", this);
+            }
+            else
+            {
+                networkManager.NetworkConfig.PlayerPrefab = _overworldPlayerPrefab;
+            }
+        }
+
         if (PlayerRoster.Local != null && PlayerRoster.Local.IsSpawned)
         {
             PlayerRoster.ReturnToOverworld();
             return;
         }
 
-        NetworkManager networkManager = NetworkManager.Singleton;
-
         if (networkManager != null && networkManager.IsListening)
         {
             if (!networkManager.IsServer)
-            {
-                Debug.LogError(
-                    "Cannot return all players: PlayerRoster is unavailable and this client is not the server.",
-                    this);
                 return;
-            }
 
             SceneEventProgressStatus status =
                 networkManager.SceneManager.LoadScene(_overworldSceneName, LoadSceneMode.Single);
