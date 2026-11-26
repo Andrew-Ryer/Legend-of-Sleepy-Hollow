@@ -27,7 +27,6 @@ public class SpringEndGameReturn : MonoBehaviour
             return;
         }
 
-        // A client can request the return through the shared roster
         if (!networkManager.IsServer)
         {
             if (PlayerRoster.Local != null && PlayerRoster.Local.IsSpawned)
@@ -36,23 +35,29 @@ public class SpringEndGameReturn : MonoBehaviour
             return;
         }
 
-        // Use the regular overworld player for future connections
-        if (_overworldPlayerPrefab != null)
-            networkManager.NetworkConfig.PlayerPrefab = _overworldPlayerPrefab;
-        else
+        if (_overworldPlayerPrefab == null)
+        {
             Debug.LogError("Assign the regular Overworld Player Prefab.", this);
+            return;
+        }
+
+        networkManager.NetworkConfig.PlayerPrefab = _overworldPlayerPrefab;
 
         // Recreate the shared roster if this Pogo session has no live one
         if (PlayerRoster.Local == null || !PlayerRoster.Local.IsSpawned)
         {
             if (!TryCreateGameSession())
             {
-                Debug.LogError(
-                    "Could not return to Overworld: no live PlayerRoster and no valid Game Session prefab.",
-                    this);
+                Debug.LogError("Could not return to Overworld: no live PlayerRoster and no valid Game Session prefab.", this);
                 return;
             }
         }
+
+        foreach (ulong clientId in networkManager.ConnectedClientsIds)
+            PlayerRoster.Local.ServerEnsureEntry(clientId);
+
+        if (!ReplaceSpringPlayers(networkManager))
+            return;
 
         PlayerRoster.ReturnToOverworld();
     }
@@ -64,8 +69,7 @@ public class SpringEndGameReturn : MonoBehaviour
 
         GameObject session = Instantiate(_gameSessionPrefab);
 
-        if (!session.TryGetComponent(out NetworkObject networkObject) ||
-            !session.TryGetComponent(out PlayerRoster _))
+        if (!session.TryGetComponent(out NetworkObject networkObject) || session.GetComponent<PlayerRoster>() == null)
         {
             Destroy(session);
             return false;
@@ -73,5 +77,36 @@ public class SpringEndGameReturn : MonoBehaviour
 
         networkObject.Spawn(false);
         return PlayerRoster.Local != null && PlayerRoster.Local.IsSpawned;
+    }
+
+    bool ReplaceSpringPlayers(NetworkManager networkManager)
+    {
+        foreach (NetworkClient client in networkManager.ConnectedClientsList)
+        {
+            NetworkObject oldPlayer = client.PlayerObject;
+
+            if (oldPlayer == null ||
+                oldPlayer.GetComponent<SpringPlayerMovementInput>() == null)
+                continue;
+
+            ulong clientId = client.ClientId;
+            Vector3 position = oldPlayer.transform.position;
+            Quaternion rotation = oldPlayer.transform.rotation;
+
+            oldPlayer.Despawn(true);
+
+            GameObject newPlayer = Instantiate(_overworldPlayerPrefab, position, rotation);
+
+            if (!newPlayer.TryGetComponent(out NetworkObject newNetworkObject))
+            {
+                Destroy(newPlayer);
+                Debug.LogError("The Overworld Player prefab needs a NetworkObject.", this);
+                return false;
+            }
+
+            newNetworkObject.SpawnAsPlayerObject(clientId, false);
+        }
+
+        return true;
     }
 }
