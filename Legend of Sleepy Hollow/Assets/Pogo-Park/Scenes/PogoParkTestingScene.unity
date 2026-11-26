@@ -1607,6 +1607,7 @@ GameObject:
   - component: {fileID: 1122356682}
   - component: {fileID: 1122356683}
   - component: {fileID: 1122356684}
+  - component: {fileID: 1122356685}
   m_Layer: 5
   m_Name: Scoreboard
   m_TagString: Untagged
@@ -1711,6 +1712,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11391d5efd2098249bf4f17d4d84ce80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpringReturnTimer
+  _scoreboardCanvasGroup: {fileID: 1122356682}
+  _returnTimerText: {fileID: 1934219594}
+  _endGameReturn: {fileID: 1122356685}
+  _countdownSeconds: 10
+  _delayAfterZero: 1
 --- !u!114 &1122356684
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1738,6 +1744,19 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
+--- !u!114 &1122356685
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1122356677}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de25aa49a794f864dbc9a117bdd7ad09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpringEndGameReturn
+  _overworldSceneName: OverworldJ
 --- !u!1 &1135999345
 GameObject:
   m_ObjectHideFlags: 0
