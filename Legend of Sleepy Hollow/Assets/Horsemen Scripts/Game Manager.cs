@@ -4,13 +4,17 @@ using UnityEngine;
 
 public class HorsemenGameManager : NetworkBehaviour
 {
-    private Stack<ulong> vehicleIDs = new Stack<ulong>();
+    private List<ulong> vehicleIDs = new List<ulong>();
     [SerializeField]
     private Horsemen horsemen;
 
     List<ulong> playerID = new List<ulong>();
-  
-       
+
+    [SerializeField] private GameObject playerPrefab;
+    [SerializeField] private Transform[] spawnPoints;
+
+    int spawnIndex = 0;
+
 
     public override void OnNetworkSpawn()
     {
@@ -18,6 +22,7 @@ public class HorsemenGameManager : NetworkBehaviour
 
         if (!IsServer) {  return; }
         NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
+        
     }
 
     private enum Gamestate
@@ -30,8 +35,6 @@ public class HorsemenGameManager : NetworkBehaviour
 
     private void Awake()
     {
-        playerID.Add(0);
-        playerID.Add(1);
 
     }
 
@@ -48,17 +51,19 @@ public class HorsemenGameManager : NetworkBehaviour
 
     private void OnClientConnected(ulong clientID)
     {
-        if(NetworkManager.Singleton.ConnectedClientsIds.Count < 2)
+        if(NetworkManager.Singleton.ConnectedClientsIds.Count >= 2)
         {
             print("Game start");
         }
-        
+        playerID.Add(clientID);
+        SpawnPlayerForClient(clientID);
+
     }
 
     private void Horsemen_OnKillevent(ulong clientID)
     {
         Debug.Log("Player " + clientID);
-        vehicleIDs.Push(clientID);
+        vehicleIDs.Add(clientID);
     }
 
     private void FinishedMiniGame()
@@ -68,7 +73,7 @@ public class HorsemenGameManager : NetworkBehaviour
         {
             if (!vehicleIDs.Contains(playerid)) 
             { 
-                vehicleIDs.Push(playerid);
+                vehicleIDs.Add(playerid);
             }
         }
 
@@ -77,23 +82,39 @@ public class HorsemenGameManager : NetworkBehaviour
 
 
             int place = i + 1;
-            Debug.Log("Place: " + place + ": " + vehicleIDs.Peek());
-            vehicleIDs.Pop();
+            Debug.Log("Place: " + place + ": " + vehicleIDs[i]);
+           
 
         }
-        Time.timeScale = 0;
+        //Time.timeScale = 0;
 
     }
+
+
+    private void SpawnPlayerForClient(ulong clientId)
+    {
+        if (!IsServer) { return; }
+        Transform spawnPoint = spawnPoints[spawnIndex];
+        spawnIndex++;
+
+        GameObject playerInstance = Instantiate(playerPrefab, spawnPoint.position, spawnPoint.rotation);
+
+        NetworkObject netObj = playerInstance.GetComponent<NetworkObject>();
+        netObj.SpawnAsPlayerObject(clientId, destroyWithScene: true);
+    }
+
 
     // Update is called once per frame
     void Update()
     {
         if (!IsServer) { return; }
-        Debug.Log(vehicleIDs.Count);
+        
 
-        if (vehicleIDs.Count == 1) 
+        if (vehicleIDs.Count == playerID.Count - 1) 
         {
+            Debug.Log("Game finished");
             FinishedMiniGame();
+
         }
 
         
