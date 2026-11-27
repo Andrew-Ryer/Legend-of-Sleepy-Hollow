@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using Unity.Cinemachine;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -5,53 +7,101 @@ using UnityEngine;
  * FollowCamera holds the camera at a fixed offset from a target. The offset is
  * set in the inspector; only the owning player moves its local camera.
  *
- * Updated to now be able to zoom in the camera, will be updated even later
+ * Updated to now be able to zoom in the camera, will be updated even later.
+ * Updated to now instead be hooked to a cinemachine camera that keeps all players in view.
  */
-public class SpringCameraFollow : NetworkBehaviour
+public class SpringCameraFollow : MonoBehaviour
 {
-    [SerializeField, Range(0f, 100f)]
-    float _zoom = 61f;
-    [SerializeField, Range(0f, 360f)]
-    float _orbitYawDegrees;
+    [SerializeField] CinemachineCamera _cinemachineCamera;
+    [SerializeField] CinemachineTargetGroup _targetGroup;
+    [SerializeField] Transform _finishLine;
+    [SerializeField] float _playerWeight = 1f;
+    [SerializeField] float _playerRadius = 1f;
+    [SerializeField] float _finishLineWeight = 1f;
+    [SerializeField] float _finishLineRadius = 1f;
 
-    const float FarthestDistance = 10f;
-    const float ClosestDistance = 2f;
+    readonly HashSet<Transform> _trackedPlayers = new();
+    readonly HashSet<Transform> _playersThisFrame = new();
+    readonly List<Transform> _playersToRemove = new();
 
-    Camera _camera;
-    Vector3 _planePosition;
-    Vector3 _cameraPosition;
-
-    public override void OnNetworkSpawn()
+    void Awake()
     {
-        base.OnNetworkSpawn();
-        if (!IsOwner)
-            return;
+        if (_cinemachineCamera == null)
+            _cinemachineCamera = GetComponent<CinemachineCamera>();
 
-        _camera = Camera.main;
-    }
+        if (_targetGroup == null)
+            _targetGroup = GetComponent<CinemachineTargetGroup>();
 
-    public override void OnNetworkDespawn()
-    {
-        if (IsOwner && _camera != null)
+        if (_targetGroup == null)
         {
-            // camera.transform.position = originPosition;
+            Debug.LogError("SpringCameraFollow needs a Cinemachine Target Group.", this);
+            enabled = false;
+            return;
         }
 
-        base.OnNetworkDespawn();
+        if (_cinemachineCamera == null)
+        {
+            Debug.LogError("SpringCameraFollow needs a Cinemachine Camera.", this);
+            enabled = false;
+            return;
+        }
+
+        _cinemachineCamera.Follow = _targetGroup.transform;
+        _cinemachineCamera.LookAt = _targetGroup.transform;
+
+        if (_finishLine != null && _targetGroup.FindMember(_finishLine) < 0)
+            _targetGroup.AddMember(_finishLine, _finishLineWeight, _finishLineRadius);
     }
 
-    void LateUpdate()
+    void Update()
     {
-        if (!IsOwner || _camera == null)
-            return;
+        _playersThisFrame.Clear();
 
-        _planePosition = transform.position;
-        float distance = Mathf.Lerp(FarthestDistance, ClosestDistance, Mathf.Clamp01(_zoom / 100f));
-        Vector3 defaultOffsetDirection = new Vector3(-5f, 1f, 0f).normalized;
-        Vector3 offsetDirection = Quaternion.AngleAxis(_orbitYawDegrees, Vector3.up) * defaultOffsetDirection;
-        _cameraPosition = _planePosition + offsetDirection * distance;
-        _camera.transform.position = _cameraPosition;
-        Vector3 lookDirection = _planePosition - _cameraPosition;
-        _camera.transform.rotation = Quaternion.LookRotation(lookDirection);
+        NetworkManager networkManager = NetworkManager.Singleton;
+
+        if (networkManager != null && networkManager.IsListening)
+        {
+            foreach (NetworkObject networkObject in networkManager.SpawnManager.SpawnedObjectsList)
+            {
+                if (networkObject == null ||
+                    !networkObject.IsPlayerObject ||
+                    !networkObject.TryGetComponent(out SpringPlayerMovementInput player) ||
+                    player.HasFinished)
+                {
+                    continue;
+                }
+
+                Transform playerTransform = networkObject.transform;
+                _playersThisFrame.Add(playerTransform);
+
+                if (_trackedPlayers.Add(playerTransform) &&
+                    _targetGroup.FindMember(playerTransform) < 0)
+                {
+                    _targetGroup.AddMember(
+                        playerTransform,
+                        _playerWeight,
+                        _playerRadius);
+                }
+            }
+        }
+
+        _playersToRemove.Clear();
+
+        foreach (Transform playerTransform in _trackedPlayers)
+        {
+            if (playerTransform == null ||
+                !_playersThisFrame.Contains(playerTransform))
+            {
+                _playersToRemove.Add(playerTransform);
+            }
+        }
+
+        foreach (Transform playerTransform in _playersToRemove)
+        {
+            if (playerTransform != null)
+                _targetGroup.RemoveMember(playerTransform);
+
+            _trackedPlayers.Remove(playerTransform);
+        }
     }
 }
