@@ -1,6 +1,6 @@
 using UnityEngine;
 
-// Script to handle spawning in objects from a list along the roads spilnePath
+// Places prefabs at regular distances along a SplinePath. Each road station can have one or more rows extending outward from the road edge
 public class RoadObjectInstantiator : MonoBehaviour
 {
     [SerializeField] SplinePath _splinePath;
@@ -12,15 +12,18 @@ public class RoadObjectInstantiator : MonoBehaviour
     [SerializeField, Min(0f)] float _spacing = 5f;
     [SerializeField, Min(0f)] float _startDistance;
     [SerializeField] bool _alignToRoad = true;
-    [SerializeField, Tooltip("When enabled, placement settings and spline point changes refresh the generated copies while playing.")]
-    bool _rebuildEveryFrame;
+    [SerializeField] bool _rebuildEveryFrame;
 
     [Header("Road Offset")]
     [SerializeField] bool _alignToRoadEdge = true;
     [SerializeField] bool _useLeftEdge;
     [SerializeField] bool _spawnOnBothSides;
-    [SerializeField, Min(0f)] float _edgeInset = 0.5f;
-    [SerializeField] float _distanceFromCenter;
+    [SerializeField] float _edgeInset = -1f; // Positive values move objects inward from the road edge, negative values place them outside the edge
+    [SerializeField] float _distanceFromCenter; // Used when Align To Road Edge is off
+
+    [Header("Outward Rows")]
+    [SerializeField, Min(1)] int _outwardRowCount = 1;
+    [SerializeField] float _outwardRowSpacing = 2f;
 
     [Header("Generated Objects")]
     [SerializeField] Transform _objectsParent;
@@ -44,7 +47,10 @@ public class RoadObjectInstantiator : MonoBehaviour
 
     void Update()
     {
-        if (_rebuildEveryFrame && SettingsHash() != _lastSettingsHash)
+        // The road's own checkbox should keep its roadside objects in sync too
+        bool refreshWhileEditing = _rebuildEveryFrame || (_roadMesh != null && _roadMesh.rebuildEveryFrame);
+
+        if (refreshWhileEditing && SettingsHash() != _lastSettingsHash)
             _needsRefresh = true;
 
         RefreshIfNeeded();
@@ -97,10 +103,12 @@ public class RoadObjectInstantiator : MonoBehaviour
             return;
         }
 
+        // The distance lookup must be rebuilt after control points move so the
+        // placement distances continue to match the current curve
         _splinePath.BuildDistanceTable();
         float pathLength = _splinePath.TotalLength;
-        float edgeOffset = Mathf.Abs(_distanceFromCenter);
 
+        float baseOffset = Mathf.Abs(_distanceFromCenter);
         if (_alignToRoadEdge)
         {
             if (_roadMesh == null)
@@ -109,12 +117,13 @@ public class RoadObjectInstantiator : MonoBehaviour
                 return;
             }
 
-            edgeOffset = Mathf.Max(0f, _roadMesh.width * 0.5f - _edgeInset);
-            if (!_spawnOnBothSides && _useLeftEdge)
-                edgeOffset = -edgeOffset;
+            // A negative inset puts the first row beyond the road edge
+            baseOffset = Mathf.Max(0f, _roadMesh.width * 0.5f - _edgeInset);
         }
 
+        int rowCount = Mathf.Max(1, _outwardRowCount);
         int spawnedCount = 0;
+
         for (int i = 0; i < _objectCount; i++)
         {
             float distance = _startDistance + i * _spacing;
@@ -138,26 +147,32 @@ public class RoadObjectInstantiator : MonoBehaviour
             if (side.sqrMagnitude < 0.001f)
                 side = Vector3.right;
 
-            Quaternion rotation = _alignToRoad && tangent.sqrMagnitude > 0.001f
-                ? Quaternion.LookRotation(tangent, Vector3.up)
-                : prefab.transform.rotation;
+            Quaternion rotation = _alignToRoad && tangent.sqrMagnitude > 0.001f ? Quaternion.LookRotation(tangent, Vector3.up) : prefab.transform.rotation;
 
-            if (_spawnOnBothSides)
+            for (int row = 0; row < rowCount; row++)
             {
-                Instantiate(prefab, center + side * edgeOffset, rotation, _generatedObjects);
-                Instantiate(prefab, center - side * edgeOffset, rotation, _generatedObjects);
-                spawnedCount += 2;
-            }
-            else
-            {
-                Instantiate(prefab, center + side * edgeOffset, rotation, _generatedObjects);
-                spawnedCount++;
+                float offset = baseOffset + row * _outwardRowSpacing;
+
+                if (_spawnOnBothSides)
+                {
+                    Instantiate(prefab, center + side * offset, rotation, _generatedObjects);
+                    Instantiate(prefab, center - side * offset, rotation, _generatedObjects);
+                    spawnedCount += 2;
+                }
+                else
+                {
+                    float signedOffset = _useLeftEdge ? -offset : offset;
+                    Instantiate(prefab, center + side * signedOffset, rotation, _generatedObjects);
+                    spawnedCount++;
+                }
             }
         }
     }
 
     void EnsureGeneratedObjectsParent()
     {
+        // Keeping generated copies under this road object makes them follow it
+        // when the road GameObject itself is moved
         Transform targetParent = _objectsParent != null ? _objectsParent : transform;
         if (_generatedObjects == null)
         {
@@ -203,6 +218,8 @@ public class RoadObjectInstantiator : MonoBehaviour
             hash = hash * 31 + _spawnOnBothSides.GetHashCode();
             hash = hash * 31 + _edgeInset.GetHashCode();
             hash = hash * 31 + _distanceFromCenter.GetHashCode();
+            hash = hash * 31 + _outwardRowCount;
+            hash = hash * 31 + _outwardRowSpacing.GetHashCode();
             hash = hash * 31 + (_objectsParent != null ? _objectsParent.GetInstanceID() : 0);
 
             if (objectsToInstantiate != null)
@@ -212,7 +229,10 @@ public class RoadObjectInstantiator : MonoBehaviour
             }
 
             if (_roadMesh != null)
+            {
                 hash = hash * 31 + _roadMesh.width.GetHashCode();
+                hash = hash * 31 + _roadMesh.rebuildEveryFrame.GetHashCode();
+            }
 
             if (_splinePath != null)
             {

@@ -643,7 +643,7 @@ Transform:
   m_GameObject: {fileID: 4239168823710919178}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 80}
+  m_LocalPosition: {x: 0, y: 0, z: 160}
   m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -676,7 +676,7 @@ Transform:
   m_GameObject: {fileID: 6794429716996375456}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 40}
+  m_LocalPosition: {x: 0, y: 0, z: 80}
   m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -715,7 +715,7 @@ MonoBehaviour:
   width: 20
   roadThickness: 0.05
   material: {fileID: 2100000, guid: 4f1bbfcd759c3c042b4b9ecdf7977be5, type: 2}
-  textureRepeatLength: 2
+  textureRepeatLength: 10
   rebuildEveryFrame: 1
   bankAngles: []
 --- !u!23 &1835442606755775751
@@ -880,7 +880,7 @@ Transform:
   m_GameObject: {fileID: 8486201756615520414}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 200}
+  m_LocalPosition: {x: 0, y: 0, z: 400}
   m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -962,7 +962,7 @@ Transform:
   m_GameObject: {fileID: 6527158772244117447}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 160}
+  m_LocalPosition: {x: 0, y: 0, z: 320}
   m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -1057,7 +1057,7 @@ Transform:
   m_GameObject: {fileID: 7187531988171081694}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 220}
+  m_LocalPosition: {x: 0, y: 0, z: 440}
   m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -1139,7 +1139,7 @@ Transform:
   m_GameObject: {fileID: 7229058466266247448}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 120}
+  m_LocalPosition: {x: 0, y: 0, z: 240}
   m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -1200,8 +1200,8 @@ MonoBehaviour:
   _rebuildEveryFrame: 0
   _alignToRoadEdge: 1
   _useLeftEdge: 0
-  _spawnOnBothSides: 0
-  _edgeInset: 0.5
+  _spawnOnBothSides: 1
+  _edgeInset: -1
   _distanceFromCenter: 0
   _objectsParent: {fileID: 0}
   _generatedObjects: {fileID: 0}
